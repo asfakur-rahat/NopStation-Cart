@@ -6,27 +6,39 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.nopstation_cart.R
 import com.test.nopstation_cart.adapter.BestSellingAdapter
+import com.test.nopstation_cart.adapter.FeaturedProductAdapter
+import com.test.nopstation_cart.adapter.FurnitureCollectionAdapter
 import com.test.nopstation_cart.adapter.OurCategoryAdapter
 import com.test.nopstation_cart.databinding.FragmentHomepageBinding
+import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.ProductItem
-import com.test.nopstation_cart.models.OurCategoryItem
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class HomepageFragment : Fragment(R.layout.fragment_homepage) {
 
     private lateinit var binding: FragmentHomepageBinding
-    private lateinit var adaptar: BestSellingAdapter
+    private lateinit var bestsellAdaptar: BestSellingAdapter
     private lateinit var ourcategoryadaptar: OurCategoryAdapter
+    private lateinit var featuredAdaptar: FeaturedProductAdapter
+    private lateinit var furnitureCollectionAdapter: FurnitureCollectionAdapter
+    private lateinit var dataProvider: ProvideDemoData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        adaptar = BestSellingAdapter{
+        bestsellAdaptar = BestSellingAdapter{
 
         }
         ourcategoryadaptar = OurCategoryAdapter{
 
         }
+        featuredAdaptar = FeaturedProductAdapter{
+
+        }
+        furnitureCollectionAdapter = FurnitureCollectionAdapter{
+
+        }
+        dataProvider = ProvideDemoData()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,96 +69,42 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
 
         populateCategory()
         populateBestSale()
+        populateFeaturedProduct()
+        populateWomenHeel()
+        populateFurnitureCollection()
 
     }
 
 
     fun populateCategory() {
-        val categoryList = mutableListOf<OurCategoryItem>()
-        categoryList.add(
-            OurCategoryItem(
-                0,
-                "Foods",
-                R.drawable.food
-            )
-        )
-        categoryList.add(
-            OurCategoryItem(
-                1,
-                "Watch",
-                R.drawable.item_sample
-            )
-        )
-        categoryList.add(
-            OurCategoryItem(
-                2,
-                "Phones",
-                R.drawable.phone
-            )
-        )
-        categoryList.add(
-            OurCategoryItem(
-                3,
-                "Furniture",
-                R.drawable.chair
-            )
-        )
-        categoryList.add(
-            OurCategoryItem(
-                4,
-                "Fashion",
-                R.drawable.fashion
-            )
-        )
-
+        val categoryList = dataProvider.provideCategoryitems()
         binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvCategoryList.adapter = ourcategoryadaptar
         ourcategoryadaptar.submitList(categoryList)
 
     }
     fun populateBestSale() {
-        val productList = mutableListOf<ProductItem>()
-
-        productList.add(
-            ProductItem(
-                0,
-                "Black Sofa",
-                R.drawable.furniture2,
-                20.50,
-                4.0f
-            )
-        )
-        productList.add(
-            ProductItem(
-                2,
-                "Blue Sofa",
-                R.drawable.furniture3,
-                25.50,
-                3.0f
-            )
-        )
-        productList.add(
-            ProductItem(
-                3,
-                "Brown Sofa",
-                R.drawable.furniture1,
-                30.50,
-                5.0f
-            )
-        )
-        productList.add(
-            ProductItem(
-                4,
-                "California Orange",
-                R.drawable.example_item2,
-                15.00,
-                3.0f
-            )
-        )
-
+        val productList = dataProvider.provideBestSellingItems()
         binding.rvBestSellingProduct.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvBestSellingProduct.adapter = adaptar
-        adaptar.submitList(productList)
+        binding.rvBestSellingProduct.adapter = bestsellAdaptar
+        bestsellAdaptar.submitList(productList)
+    }
+    fun populateFeaturedProduct() {
+        val productList = dataProvider.provideFeaturedItems()
+        binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvFeaturedProducts.adapter = featuredAdaptar
+        featuredAdaptar.submitList(productList)
+    }
+
+    fun populateWomenHeel() {
+
+    }
+
+    fun populateFurnitureCollection() {
+        val productList = dataProvider.provideFurnitureCollection()
+        binding.rvFurnitureCollection.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvFurnitureCollection.adapter = furnitureCollectionAdapter
+        furnitureCollectionAdapter.submitList(productList)
     }
 
     private fun onItemClick(item: ProductItem) {

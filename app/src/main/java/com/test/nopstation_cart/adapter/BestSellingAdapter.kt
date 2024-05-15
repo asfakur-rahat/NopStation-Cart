@@ -16,6 +16,8 @@ class BestSellingAdapter(
         private val onClick: (ProductItem) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
             fun bind(item: ProductItem){
+
+                println(item.toString())
                 binding.ivProductImage.setImageResource(item.productImage)
                 binding.tvProductName.text = item.productName
                 binding.rbProductRating.rating = item.productRating
