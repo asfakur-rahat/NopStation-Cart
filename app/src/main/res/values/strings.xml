@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">NopStation-Cart</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="product_image">product image</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_price_placeholder">$15.00</string>
+    <string name="navbar_logo">navbar logo</string>
+    <string name="checkout_button">checkout button</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="best_selling">BEST SELLING</string>
+    <string name="our_category">OUR CATEGORY</string>
+</resources>
