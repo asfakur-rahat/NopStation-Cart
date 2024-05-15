@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.test.nopstation_cart.databinding.ItemProductBinding
 import com.test.nopstation_cart.models.ProductItem
 
-class FeaturedProductAdaptar(
+class WomenHeelAdaptar(
     private val onClick: (ProductItem) -> Unit
-): ListAdapter<ProductItem, FeaturedProductAdaptar.ViewHolder>(DIFF_CALLBACK) {
+): ListAdapter<ProductItem, WomenHeelAdaptar.ViewHolder>(DIFF_CALLBACK) {
     class ViewHolder(
         private val binding : ItemProductBinding,
         private val onClick: (ProductItem) -> Unit
@@ -41,7 +41,7 @@ class FeaturedProductAdaptar(
         return ViewHolder.from(parent,onClick)
     }
 
-    override fun onBindViewHolder(holder: FeaturedProductAdaptar.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WomenHeelAdaptar.ViewHolder, position: Int) {
         val item = getItem(position)
         return holder.bind(item)
     }
