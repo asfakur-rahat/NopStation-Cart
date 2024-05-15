@@ -2,15 +2,13 @@ package com.test.nopstation_cart.screens.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.nopstation_cart.R
 import com.test.nopstation_cart.adapter.BestSellingAdapter
 import com.test.nopstation_cart.adapter.OurCategoryAdapter
 import com.test.nopstation_cart.databinding.FragmentHomepageBinding
-import com.test.nopstation_cart.models.BestSellingItem
+import com.test.nopstation_cart.models.ProductItem
 import com.test.nopstation_cart.models.OurCategoryItem
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
@@ -107,10 +105,10 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
 
     }
     fun populateBestSale() {
-        val productList = mutableListOf<BestSellingItem>()
+        val productList = mutableListOf<ProductItem>()
 
         productList.add(
-            BestSellingItem(
+            ProductItem(
                 0,
                 "Black Sofa",
                 R.drawable.furniture2,
@@ -119,7 +117,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
             )
         )
         productList.add(
-            BestSellingItem(
+            ProductItem(
                 2,
                 "Blue Sofa",
                 R.drawable.furniture3,
@@ -128,7 +126,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
             )
         )
         productList.add(
-            BestSellingItem(
+            ProductItem(
                 3,
                 "Brown Sofa",
                 R.drawable.furniture1,
@@ -137,7 +135,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
             )
         )
         productList.add(
-            BestSellingItem(
+            ProductItem(
                 4,
                 "California Orange",
                 R.drawable.example_item2,
@@ -151,7 +149,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         adaptar.submitList(productList)
     }
 
-    private fun onItemClick(item: BestSellingItem) {
+    private fun onItemClick(item: ProductItem) {
         // Handle item click here
     }
 

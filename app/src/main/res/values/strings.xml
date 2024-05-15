@@ -19,4 +19,8 @@
     <string name="login_failed">"Login failed"</string>
     <string name="best_selling">BEST SELLING</string>
     <string name="our_category">OUR CATEGORY</string>
+    <string name="featured_products">FEATURED PRODUCTS</string>
+    <string name="womens_heel">WOMENS HEEL</string>
+    <string name="salmon_fish">SALMON FISH</string>
+    <string name="furniture_collection">FURNITURE COLLECTION</string>
 </resources>

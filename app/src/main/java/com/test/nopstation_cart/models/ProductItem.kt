@@ -1,6 +1,6 @@
 package com.test.nopstation_cart.models
 
-data class BestSellingItem(
+data class ProductItem(
     val id: Int,
     val productName: String,
     val productImage: Int,

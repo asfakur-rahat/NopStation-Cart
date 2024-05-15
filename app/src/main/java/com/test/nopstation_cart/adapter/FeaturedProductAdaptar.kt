@@ -8,19 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.test.nopstation_cart.databinding.ItemProductBinding
 import com.test.nopstation_cart.models.ProductItem
 
-class BestSellingAdapter(
-    private val onClick: (ProductItem) -> Unit
-): ListAdapter<ProductItem, BestSellingAdapter.ViewHolder>(DIFF_CALLBACK) {
+class FeaturedProductAdaptar(private val onClick: (ProductItem) -> Unit
+): ListAdapter<ProductItem, FeaturedProductAdaptar.ViewHolder>(DIFF_CALLBACK) {
     class ViewHolder(
         private val binding : ItemProductBinding,
         private val onClick: (ProductItem) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-            fun bind(item: ProductItem){
-                binding.ivProductImage.setImageResource(item.productImage)
-                binding.tvProductName.text = item.productName
-                binding.rbProductRating.rating = item.productRating
-                binding.tvProductPrice.text = "$${item.productPrice}"
-            }
+        fun bind(item: ProductItem){
+            binding.ivProductImage.setImageResource(item.productImage)
+            binding.tvProductName.text = item.productName
+            binding.rbProductRating.rating = item.productRating
+            binding.tvProductPrice.text = "$${item.productPrice}"
+        }
 
         companion object {
             fun from(
@@ -41,7 +40,7 @@ class BestSellingAdapter(
         return ViewHolder.from(parent,onClick)
     }
 
-    override fun onBindViewHolder(holder: BestSellingAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FeaturedProductAdaptar.ViewHolder, position: Int) {
         val item = getItem(position)
         return holder.bind(item)
     }
