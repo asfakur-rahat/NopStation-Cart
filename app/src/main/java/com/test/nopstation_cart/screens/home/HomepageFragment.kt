@@ -9,6 +9,8 @@ import com.test.nopstation_cart.adapter.BestSellingAdapter
 import com.test.nopstation_cart.adapter.FeaturedProductAdapter
 import com.test.nopstation_cart.adapter.FurnitureCollectionAdapter
 import com.test.nopstation_cart.adapter.OurCategoryAdapter
+import com.test.nopstation_cart.adapter.SalmonAdapter
+import com.test.nopstation_cart.adapter.WomenHeelAdaptar
 import com.test.nopstation_cart.databinding.FragmentHomepageBinding
 import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.ProductItem
@@ -20,6 +22,8 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
     private lateinit var bestsellAdaptar: BestSellingAdapter
     private lateinit var ourcategoryadaptar: OurCategoryAdapter
     private lateinit var featuredAdaptar: FeaturedProductAdapter
+    private lateinit var womenHeelAdapter: WomenHeelAdaptar
+    private lateinit var salmonAdapter: SalmonAdapter
     private lateinit var furnitureCollectionAdapter: FurnitureCollectionAdapter
     private lateinit var dataProvider: ProvideDemoData
 
@@ -33,6 +37,12 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
 
         }
         featuredAdaptar = FeaturedProductAdapter{
+
+        }
+        womenHeelAdapter = WomenHeelAdaptar{
+
+        }
+        salmonAdapter = SalmonAdapter{
 
         }
         furnitureCollectionAdapter = FurnitureCollectionAdapter{
@@ -71,6 +81,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         populateBestSale()
         populateFeaturedProduct()
         populateWomenHeel()
+        populateSalmon()
         populateFurnitureCollection()
 
     }
@@ -97,9 +108,18 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
     }
 
     fun populateWomenHeel() {
-
+        val productList = dataProvider.provideWomenHeel()
+        binding.rvWomensHeelProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvWomensHeelProducts.adapter = womenHeelAdapter
+        womenHeelAdapter.submitList(productList)
     }
 
+    fun populateSalmon() {
+        val productList = dataProvider.provideSalmon()
+        binding.rvSalmonFishProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvSalmonFishProducts.adapter = salmonAdapter
+        salmonAdapter.submitList(productList)
+    }
     fun populateFurnitureCollection() {
         val productList = dataProvider.provideFurnitureCollection()
         binding.rvFurnitureCollection.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
