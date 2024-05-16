@@ -23,4 +23,9 @@
     <string name="womens_heel">WOMENS HEEL</string>
     <string name="salmon_fish">SALMON FISH</string>
     <string name="furniture_collection">FURNITURE COLLECTION</string>
+    <string name="home">Home</string>
+    <string name="categories">Categories</string>
+    <string name="search">Search</string>
+    <string name="account">Account</string>
+    <string name="more">More</string>
 </resources>
