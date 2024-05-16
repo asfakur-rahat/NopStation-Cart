@@ -1,8 +1,11 @@
 package com.test.nopstation_cart
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.test.nopstation_cart.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,25 +17,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.mainNavbar.setOnItemSelectedListener { navitem ->
-            when(navitem.itemId){
-                R.id.home -> {
-                    true
-                }
-                R.id.category -> {
-                    true
-                }
-                R.id.search -> {
-                    true
-                }
-                R.id.account -> {
-                    true
-                }
-                R.id.more -> {
-                    true
-                }
-                else -> false
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.mainNavbar.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            when (destination.id) {
+                R.id.loginFragment -> binding.mainNavbar.visibility = View.GONE
+                else -> binding.mainNavbar.visibility = View.VISIBLE
             }
         }
     }
+
 }

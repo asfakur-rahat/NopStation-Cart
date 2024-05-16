@@ -28,4 +28,9 @@
     <string name="search">Search</string>
     <string name="account">Account</string>
     <string name="more">More</string>
+    <string name="username_or_email">Username or Email</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="new_customer">New Customer?</string>
+    <string name="forget_password">Forget Password</string>
 </resources>
