@@ -11,4 +11,6 @@
     <color name="category_item">#2B2E43</color>
     <color name="golden">#FFBA49</color>
     <color name="activecolor">#10CB3C</color>
+    <color name="hint_color">#83868C</color>
+    <color name="stroke">#D4D3DA</color>
 </resources>

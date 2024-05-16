@@ -40,12 +40,13 @@
                     android:id="@+id/ib_checkout"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
+                    android:layout_marginEnd="24dp"
                     android:contentDescription="@string/checkout_button"
+                    android:onClick="login"
                     android:src="@drawable/checkout"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="24dp"/>
+                    app:layout_constraintTop_toTopOf="parent" />
                 <TextView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
