@@ -13,4 +13,6 @@
     <color name="activecolor">#10CB3C</color>
     <color name="hint_color">#83868C</color>
     <color name="stroke">#D4D3DA</color>
+    <color name="category_color">#2B2E43</color>
+    <color name="category_bg_color">#ECEDF4</color>
 </resources>
