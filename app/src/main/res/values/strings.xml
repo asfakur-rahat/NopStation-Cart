@@ -33,4 +33,9 @@
     <string name="login">LOGIN</string>
     <string name="new_customer">New Customer?</string>
     <string name="forget_password">Forget Password</string>
+    <string name="food">Food</string>
+    <string name="category_description_goes_here">Category description goes here</string>
+    <string name="supporting_text">Other Supporting text goes here</string>
+    <string name="check_more">Check More</string>
+    <string name="category">Category</string>
 </resources>
