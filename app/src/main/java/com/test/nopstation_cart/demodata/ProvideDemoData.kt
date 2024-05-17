@@ -147,4 +147,91 @@ class ProvideDemoData {
 
     }
 
+    fun getCategoryList(): List<OurCategoryItem> {
+        val categoryList = mutableListOf<OurCategoryItem>()
+        categoryList.add(
+            OurCategoryItem(
+                0, "Foods", categoryImage = R.drawable.food
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                1, "Watch", categoryImage = R.drawable.item_sample
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                2, "Phones", categoryImage = R.drawable.phone
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                3, "Furniture", categoryImage = R.drawable.chair
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                4, "Fashion", categoryImage = R.drawable.fashion
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                5, "Electronics", categoryImage = R.drawable.phone
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                6, "heels", categoryImage = R.drawable.womens_heel_1
+            )
+        )
+        categoryList.add(
+            OurCategoryItem(
+                0, "Foods", categoryImage = R.drawable.food
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                1, "Watch", categoryImage = R.drawable.item_sample
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                2, "Phones", categoryImage = R.drawable.phone
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                3, "Furniture", categoryImage = R.drawable.chair
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                4, "Fashion", categoryImage = R.drawable.fashion
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                5, "Electronics", categoryImage = R.drawable.phone
+            )
+        )
+
+        categoryList.add(
+            OurCategoryItem(
+                6, "heels", categoryImage = R.drawable.womens_heel_1
+            )
+        )
+        return categoryList
+    }
+
 }
