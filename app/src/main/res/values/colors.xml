@@ -18,4 +18,5 @@
     <color name="product_price">#10CB3C</color>
     <color name="actual_price">#A9AABF</color>
     <color name="available_color">#313131</color>
+    <color name="Product_bg">#E9EDF2</color>
 </resources>

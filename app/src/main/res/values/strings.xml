@@ -52,4 +52,15 @@
     <string name="minus">--</string>
     <string name="product_description_tag">Description</string>
     <string name="product_description">"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. "</string>
+    <string name="shopping_cart">Shopping Cart</string>
+    <string name="products">PRODUCTS</string>
+    <string name="cart_items">5 ITEM(S)</string>
+    <string name="subtotal">Sub-Total</string>
+    <string name="Shipping">Shipping</string>
+    <string name="total">Total:</string>
+    <string name="subtotal_amount">$550.02</string>
+    <string name="shipping_amount">$5.00</string>
+    <string name="total_amount">$555.02</string>
+    <string name="place_order">PROCEED TO CHECKOUT</string>
+    <string name="cancle_order">cancle order</string>
 </resources>
