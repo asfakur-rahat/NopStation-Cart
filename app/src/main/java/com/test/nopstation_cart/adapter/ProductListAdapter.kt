@@ -20,6 +20,10 @@ class ProductListAdapter(
             binding.ivProductImage.setImageResource(product.productImage)
             binding.rbProductRating.rating = product.productRating
             binding.tvProductPrice.text = "$${product.productPrice}"
+
+            binding.root.setOnClickListener {
+                onClick(product)
+            }
         }
     }
 
