@@ -13,6 +13,7 @@ import com.test.nopstation_cart.R
 import com.test.nopstation_cart.adapter.ProductListAdapter
 import com.test.nopstation_cart.databinding.FragmentProductBinding
 import com.test.nopstation_cart.demodata.ProvideDemoData
+import com.test.nopstation_cart.models.ProductItem
 
 class ProductFragment : Fragment(R.layout.fragment_product) {
 
@@ -27,7 +28,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         demoData = ProvideDemoData()
         categoryName = args.categoryName
         productListAdapter = ProductListAdapter{
-
+                onItemClick(it)
         }
     }
 
@@ -47,7 +48,12 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         var productList = demoData.getDemoProducts(categoryName)
         binding.rvProductList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvProductList.adapter = productListAdapter
+        binding.rvProductList.setHasFixedSize(true)
         productListAdapter.submitList(productList)
+    }
 
+    private fun onItemClick(item: ProductItem){
+        val action = ProductFragmentDirections.actionProductFragmentToProductDetailFragment(item.productImage,item.productName)
+        findNavController().navigate(action)
     }
 }

@@ -15,4 +15,7 @@
     <color name="stroke">#D4D3DA</color>
     <color name="category_color">#2B2E43</color>
     <color name="category_bg_color">#ECEDF4</color>
+    <color name="product_price">#10CB3C</color>
+    <color name="actual_price">#A9AABF</color>
+    <color name="available_color">#313131</color>
 </resources>

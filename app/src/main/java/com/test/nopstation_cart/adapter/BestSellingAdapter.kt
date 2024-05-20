@@ -22,6 +22,10 @@ class BestSellingAdapter(
                 binding.tvProductName.text = item.productName
                 binding.rbProductRating.rating = item.productRating
                 binding.tvProductPrice.text = "$${item.productPrice}"
+
+                binding.root.setOnClickListener {
+                    onClick(item)
+                }
             }
 
         companion object {
