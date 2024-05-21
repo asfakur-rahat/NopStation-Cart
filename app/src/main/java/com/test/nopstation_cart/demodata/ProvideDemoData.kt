@@ -239,8 +239,8 @@ class ProvideDemoData {
                 productImage = R.drawable.phone,
                 productName = "Iphone 12",
                 productQuantity = 1,
-                originalPrice = 599.0,
-                discountPrice = 699.0
+                discountPrice = 599.0,
+                originalPrice = 699.0
             )
         )
 
@@ -250,8 +250,8 @@ class ProvideDemoData {
                 productImage = R.drawable.example_item,
                 productName = "Beef Rib Steak",
                 productQuantity = 1,
-                originalPrice = 599.0,
-                discountPrice = 699.0
+                discountPrice = 599.0,
+                originalPrice = 699.0
             )
         )
         list.add(
@@ -260,8 +260,8 @@ class ProvideDemoData {
                 productImage = R.drawable.furniture2,
                 productName = "Iphone 12",
                 productQuantity = 1,
-                originalPrice = 599.0,
-                discountPrice = 699.0
+                discountPrice = 599.0,
+                originalPrice = 699.0
             )
         )
 
@@ -271,8 +271,8 @@ class ProvideDemoData {
                 productImage = R.drawable.salmon_fish_0,
                 productName = "Fresh Salmon Fish",
                 productQuantity = 1,
-                originalPrice = 599.0,
-                discountPrice = 699.0
+                discountPrice = 599.0,
+                originalPrice = 699.0
             )
         )
         list.add(
@@ -281,8 +281,8 @@ class ProvideDemoData {
                 productImage = R.drawable.chair,
                 productName = "White Chair",
                 productQuantity = 1,
-                originalPrice = 599.0,
-                discountPrice = 699.0
+                discountPrice = 599.0,
+                originalPrice = 699.0
             )
         )
 
@@ -292,8 +292,8 @@ class ProvideDemoData {
                 productImage = R.drawable.furniture2,
                 productName = "Black Comfortable Sofa",
                 productQuantity = 1,
-                originalPrice = 599.0,
-                discountPrice = 699.0
+                discountPrice = 599.0,
+                originalPrice = 699.0
             )
         )
         return list

@@ -34,6 +34,10 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         binding.cartItems.layoutManager = LinearLayoutManager(requireContext())
         binding.cartItems.adapter = adapter
         adapter.submitList(data)
+        var subtotal: Double = data.sumOf { it.discountPrice }
+        binding.tvSubtotalAmount.text = "$%.2f".format(subtotal)
+        subtotal += 5.00
+        binding.tvTotalAmount.text = "$%.2f".format(subtotal)
         binding.totalItems.text = "${data.size} ITEM"+(if(data.size>1) "(S)" else "")
 
         binding.toolbar.setNavigationOnClickListener {

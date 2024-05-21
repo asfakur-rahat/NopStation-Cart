@@ -19,7 +19,10 @@ class CartAdapter(
         fun bind(item: CartItem) {
             binding.ivProductImage.setImageResource(item.productImage)
             binding.tvProductName.text = item.productName
+            binding.tvProductDiscountedPrice.text = "$${item.discountPrice}"
+            binding.tvProductActualPrice.text = "$${item.originalPrice}"
             binding.tvProductActualPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            binding.tvProductQuantity.text = item.productQuantity.toString()
 //            binding.root.setOnClickListener {
 //                onClick(item)
 //            }
