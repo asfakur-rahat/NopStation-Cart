@@ -19,4 +19,18 @@
     <color name="actual_price">#A9AABF</color>
     <color name="available_color">#313131</color>
     <color name="Product_bg">#E9EDF2</color>
+
+    <!--    Colors for theme-->
+    <color name="colorPrimary">#0BF7EB</color>
+    <color name="colorPrimaryVariant">#1BCFC6</color>
+    <color name="colorSecondary">#03DAC5</color>
+    <color name="colorBackground">@color/white</color>
+    <color name="colorSurface">@color/white</color>
+    <color name="colorError">@color/red</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="colorOnBackground">#2B2E43</color>
+    <color name="colorOnSurface">#2B2E43</color>
+    <color name="colorOnError">#FFFFFF</color>
+    <color name="windowBackground">#F5F5F8</color>
 </resources>
