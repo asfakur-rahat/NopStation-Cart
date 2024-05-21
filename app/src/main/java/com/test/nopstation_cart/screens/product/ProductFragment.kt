@@ -39,6 +39,9 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         binding.ivBanner.setImageResource(args.categoryImage)
         super.onViewCreated(view, savedInstanceState)
         initproduct()
+        binding.ibCheckout.setOnClickListener {
+            goToCart()
+        }
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
@@ -54,6 +57,11 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
 
     private fun onItemClick(item: ProductItem){
         val action = ProductFragmentDirections.actionProductFragmentToProductDetailFragment(item.productImage,item.productName)
+        findNavController().navigate(action)
+    }
+
+    private fun goToCart(){
+        val action = ProductFragmentDirections.actionProductFragmentToCartFragment()
         findNavController().navigate(action)
     }
 }

@@ -79,6 +79,11 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         )
         binding.carouselBanner.setData(bannerProduct)
 
+        binding.ibCheckout.setOnClickListener {
+            val action = HomepageFragmentDirections.actionHomepageFragmentToCartFragment()
+            findNavController().navigate(action)
+        }
+
         populateCategory()
         populateBestSale()
         populateFeaturedProduct()
