@@ -1,6 +1,7 @@
 package com.test.nopstation_cart.demodata
 
 import com.test.nopstation_cart.R
+import com.test.nopstation_cart.models.CartItem
 import com.test.nopstation_cart.models.OurCategoryItem
 import com.test.nopstation_cart.models.ProductItem
 
@@ -227,6 +228,75 @@ class ProvideDemoData {
 
         }
         return productList
+    }
+
+    fun getCartData(): List<CartItem> {
+        val list = mutableListOf<CartItem>()
+
+        list.add(
+            CartItem(
+                id = 0,
+                productImage = R.drawable.phone,
+                productName = "Iphone 12",
+                productQuantity = 1,
+                originalPrice = 599.0,
+                discountPrice = 699.0
+            )
+        )
+
+        list.add(
+            CartItem(
+                id = 1,
+                productImage = R.drawable.example_item,
+                productName = "Beef Rib Steak",
+                productQuantity = 1,
+                originalPrice = 599.0,
+                discountPrice = 699.0
+            )
+        )
+        list.add(
+            CartItem(
+                id = 0,
+                productImage = R.drawable.furniture2,
+                productName = "Iphone 12",
+                productQuantity = 1,
+                originalPrice = 599.0,
+                discountPrice = 699.0
+            )
+        )
+
+        list.add(
+            CartItem(
+                id = 0,
+                productImage = R.drawable.salmon_fish_0,
+                productName = "Fresh Salmon Fish",
+                productQuantity = 1,
+                originalPrice = 599.0,
+                discountPrice = 699.0
+            )
+        )
+        list.add(
+            CartItem(
+                id = 0,
+                productImage = R.drawable.chair,
+                productName = "White Chair",
+                productQuantity = 1,
+                originalPrice = 599.0,
+                discountPrice = 699.0
+            )
+        )
+
+        list.add(
+            CartItem(
+                id = 0,
+                productImage = R.drawable.furniture2,
+                productName = "Black Comfortable Sofa",
+                productQuantity = 1,
+                originalPrice = 599.0,
+                discountPrice = 699.0
+            )
+        )
+        return list
     }
 
 }

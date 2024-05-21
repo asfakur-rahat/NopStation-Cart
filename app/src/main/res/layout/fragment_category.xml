@@ -45,7 +45,7 @@
                     android:layout_height="28dp"
                     android:layout_marginEnd="24dp"
                     android:contentDescription="@string/checkout_button"
-                    android:onClick="login"
+                    android:onClick="goToCheckout"
                     android:src="@drawable/checkout"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

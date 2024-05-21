@@ -48,7 +48,7 @@
                     android:layout_height="28dp"
                     android:layout_marginEnd="24dp"
                     android:contentDescription="@string/checkout_button"
-                    android:onClick="login"
+                    android:onClick="goToCheckout"
                     android:src="@drawable/checkout"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -89,6 +89,7 @@
             android:layout_marginVertical="16dp"
             android:layout_marginStart="8dp"/>
         <TextView
+            android:id="@+id/total_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/cart_total_item"
@@ -117,6 +118,9 @@
                 android:id="@+id/cart_items"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:paddingVertical="8dp"
+                android:clipToPadding="false"
                 app:layout_constraintTop_toTopOf="@id/third"
                 app:layout_constraintStart_toStartOf="@id/third"
                 app:layout_constraintEnd_toEndOf="@id/third"/>
@@ -126,7 +130,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@color/stroke"
-                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="@id/third"
                 app:layout_constraintEnd_toEndOf="@id/third"
                 app:layout_constraintTop_toBottomOf="@+id/cart_items"/>
@@ -143,6 +146,20 @@
                 app:layout_constraintStart_toStartOf="@id/third"
                 app:layout_constraintTop_toBottomOf="@+id/dv_one"
                 app:layout_constraintBottom_toTopOf="@+id/dv_two"/>
+            <TextView
+                android:id="@+id/tv_subtotal_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/subtotal_amount"
+                android:textColor="@color/activecolor"
+                android:fontFamily="@font/lato_bold"
+                android:textSize="16sp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toEndOf="@id/tv_subtotal_tag"
+                app:layout_constraintTop_toTopOf="@id/tv_subtotal_tag"
+                app:layout_constraintBottom_toBottomOf="@id/tv_subtotal_tag"
+                app:layout_constraintEnd_toEndOf="@id/third"
+                android:gravity="end"/>
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/dv_two"
                 android:layout_width="wrap_content"
@@ -166,6 +183,20 @@
                 app:layout_constraintStart_toStartOf="@id/third"
                 app:layout_constraintTop_toBottomOf="@+id/dv_two"
                 app:layout_constraintBottom_toTopOf="@+id/dv_three"/>
+            <TextView
+                android:id="@+id/tv_shipping_amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/shipping_amount"
+                android:textColor="@color/activecolor"
+                android:fontFamily="@font/lato_bold"
+                android:textSize="16sp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toEndOf="@id/tv_shipping_tag"
+                app:layout_constraintTop_toTopOf="@id/tv_shipping_tag"
+                app:layout_constraintBottom_toBottomOf="@id/tv_shipping_tag"
+                app:layout_constraintEnd_toEndOf="@id/third"
+                android:gravity="end"/>
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/dv_three"
                 android:layout_width="wrap_content"
@@ -189,47 +220,8 @@
                 app:layout_constraintStart_toStartOf="@id/third"
                 app:layout_constraintTop_toBottomOf="@+id/dv_three"
                 app:layout_constraintBottom_toTopOf="@+id/dv_four"/>
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/dv_four"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/stroke"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="@id/third"
-                app:layout_constraintEnd_toEndOf="@id/third"
-                app:layout_constraintTop_toBottomOf="@+id/tv_total_tag"/>
-
-
-
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/subtotal_amount"
-                android:textColor="@color/activecolor"
-                android:fontFamily="@font/lato_bold"
-                android:textSize="16sp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintStart_toEndOf="@id/tv_subtotal_tag"
-                app:layout_constraintTop_toTopOf="@id/tv_subtotal_tag"
-                app:layout_constraintBottom_toBottomOf="@id/tv_subtotal_tag"
-                app:layout_constraintEnd_toEndOf="@id/third"
-                android:gravity="end"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/shipping_amount"
-                android:textColor="@color/activecolor"
-                android:fontFamily="@font/lato_bold"
-                android:textSize="16sp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintStart_toEndOf="@id/tv_shipping_tag"
-                app:layout_constraintTop_toTopOf="@id/tv_shipping_tag"
-                app:layout_constraintBottom_toBottomOf="@id/tv_shipping_tag"
-                app:layout_constraintEnd_toEndOf="@id/third"
-                android:gravity="end"/>
-
-            <TextView
+                android:id="@+id/tv_total_amount"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/total_amount"
@@ -242,6 +234,17 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_total_tag"
                 app:layout_constraintEnd_toEndOf="@id/third"
                 android:gravity="end"/>
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dv_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/stroke"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintStart_toStartOf="@id/third"
+                app:layout_constraintEnd_toEndOf="@id/third"
+                app:layout_constraintTop_toBottomOf="@+id/tv_total_tag"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
