@@ -32,4 +32,5 @@
     <color name="colorOnBackground">#2B2E43</color>
     <color name="colorOnSurface">#2B2E43</color>
     <color name="colorOnError">#FFFFFF</color>
+    <color name="windowBackground">#F5F5F8</color>
 </resources>

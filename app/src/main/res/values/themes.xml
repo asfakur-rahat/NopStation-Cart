@@ -21,8 +21,10 @@
         <item name="android:colorSecondary">@color/hint_color</item>
 
         <!-- Status bar and navigation bar colors. -->
-        <item name="android:statusBarColor">@color/colorPrimaryVariant</item>
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/white</item>
+
+        <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
     <style name="Theme.NopStationCart" parent="Base.Theme.NopStationCart" />
