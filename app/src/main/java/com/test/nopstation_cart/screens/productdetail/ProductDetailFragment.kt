@@ -29,5 +29,9 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+        binding.ibCheckout.setOnClickListener {
+            val action = ProductDetailFragmentDirections.actionProductDetailFragmentToCartFragment()
+            findNavController().navigate(action)
+        }
     }
 }

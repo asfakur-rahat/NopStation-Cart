@@ -31,8 +31,11 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentCategoryBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
-
         populateCategories()
+        binding.ibCheckout.setOnClickListener {
+            val action = CategoryFragmentDirections.actionCategoryFragmentToCartFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun populateCategories() {
