@@ -35,6 +35,7 @@
                 app:endIconMode="custom"
                 app:endIconDrawable="@drawable/ic_account">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_bold"
@@ -55,6 +56,7 @@
                 app:endIconDrawable="@drawable/eye_toogle">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_bold"
@@ -64,6 +66,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
