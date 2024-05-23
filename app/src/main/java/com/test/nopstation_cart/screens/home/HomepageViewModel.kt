@@ -3,14 +3,14 @@ package com.test.nopstation_cart.screens.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.test.nopstation_cart.models.banner.BannerResponse
+import com.test.nopstation_cart.models.ProductItems
 import com.test.nopstation_cart.models.banner.Data
 import com.test.nopstation_cart.network.ApiClient
 import com.test.nopstation_cart.network.api.BannerApi
+import com.test.nopstation_cart.network.api.FeaturedProductApi
 import com.test.nopstation_cart.repository.BannerRepository
+import com.test.nopstation_cart.repository.FeaturedProductRepository
 import kotlinx.coroutines.launch
-import retrofit2.http.Header
-
 class HomepageViewModel: ViewModel() {
     private val _banner : MutableLiveData<Data> by lazy {
         MutableLiveData<Data>()
@@ -18,6 +18,11 @@ class HomepageViewModel: ViewModel() {
     val banner : MutableLiveData<Data>
         get() = _banner
 
+    private val _featuredProducts: MutableLiveData<List<ProductItems>> by lazy {
+        MutableLiveData<List<ProductItems>>()
+    }
+    val featuredProducts: MutableLiveData<List<ProductItems>>
+        get() = _featuredProducts
 
 
     private val apiClient = ApiClient.getClient().create(BannerApi::class.java)
@@ -28,6 +33,36 @@ class HomepageViewModel: ViewModel() {
         val response = repository.getBanner()
         if(response.isSuccessful){
             _banner.value = response.body()?.data
+        }
+    }
+
+    private val apiClient2 = ApiClient.getClient().create(FeaturedProductApi::class.java)
+    private val repository2 = FeaturedProductRepository(apiClient2)
+
+    fun getFeaturedProducts() = viewModelScope.launch {
+        val response = repository2.getFeaturedProducts()
+        if (response.isSuccessful) {
+            val data = response.body()?.data
+            var list = mutableListOf<ProductItems>()
+            for (item in data!!){
+                println(item)
+                list.add(
+                    ProductItems(
+                        id = item.reviewOverviewModel.productId,
+                        productName = item.name,
+                        productImage = item.pictureModels[0].imageUrl,
+                        productPrice = item.productPrice.priceValue,
+                        productRating =
+                            if(item.reviewOverviewModel.totalReviews == 0) {
+                                0.0f
+                            }
+                            else {
+                                item.reviewOverviewModel.ratingSum.toFloat() /item.reviewOverviewModel.totalReviews.toFloat()
+                            }
+                    )
+                )
+            }
+            _featuredProducts.value = list
         }
     }
 

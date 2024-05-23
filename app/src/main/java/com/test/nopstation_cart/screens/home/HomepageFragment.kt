@@ -36,22 +36,22 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         super.onCreate(savedInstanceState)
 
         bestsellAdaptar = BestSellingAdapter{
-                onItemClick(it)
+                //onItemClick(it)
         }
         ourcategoryadaptar = OurCategoryAdapter{
                 onCategoryClick(it)
         }
         featuredAdaptar = FeaturedProductAdapter{
-                onItemClick(it)
+                //onItemClick(it)
         }
         womenHeelAdapter = WomenHeelAdaptar{
-                onItemClick(it)
+                //onItemClick(it)
         }
         salmonAdapter = SalmonAdapter{
-                onItemClick(it)
+                //onItemClick(it)
         }
         furnitureCollectionAdapter = FurnitureCollectionAdapter{
-                onItemClick(it)
+                //onItemClick(it)
         }
         dataProvider = ProvideDemoData()
     }
@@ -61,6 +61,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         binding = FragmentHomepageBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
         viewModel.getBannerFromApi()
+        viewModel.getFeaturedProducts()
         initObserver()
 
 
@@ -71,7 +72,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
 
         populateCategory()
         populateBestSale()
-        populateFeaturedProduct()
+        //populateFeaturedProduct()
         populateWomenHeel()
         populateSalmon()
         populateFurnitureCollection()
@@ -87,6 +88,11 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
                 binding.carouselBanner.addData(carouselItem)
             }
         }
+        viewModel.featuredProducts.observe(viewLifecycleOwner){
+            binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            binding.rvFeaturedProducts.adapter = featuredAdaptar
+            featuredAdaptar.submitList(it)
+        }
     }
 
     fun populateCategory() {
@@ -101,12 +107,6 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         binding.rvBestSellingProduct.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvBestSellingProduct.adapter = bestsellAdaptar
         bestsellAdaptar.submitList(productList)
-    }
-    fun populateFeaturedProduct() {
-        val productList = dataProvider.provideFeaturedItems()
-        binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvFeaturedProducts.adapter = featuredAdaptar
-        featuredAdaptar.submitList(productList)
     }
 
     fun populateWomenHeel() {
@@ -129,11 +129,11 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         furnitureCollectionAdapter.submitList(productList)
     }
 
-    private fun onItemClick(item: ProductItem) {
-        // Handle item click here
-        val action = HomepageFragmentDirections.actionHomepageFragmentToProductDetailFragment(productImage = item.productImage, productName =  item.productName)
-        findNavController().navigate(action)
-    }
+//    private fun onItemClick(item: ProductItems) {
+////        // Handle item click here
+////        val action = HomepageFragmentDirections.actionHomepageFragmentToProductDetailFragment(productImage = item.productImage, productName =  item.productName)
+////        findNavController().navigate(action)
+//    }
     private fun onCategoryClick(item: OurCategoryItem) {
         // Handle item click here
         val action = HomepageFragmentDirections.actionHomepageFragmentToProductFragment(categoryName = item.categoryName, categoryImage =  item.categoryImage)

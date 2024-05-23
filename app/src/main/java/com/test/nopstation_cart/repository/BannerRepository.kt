@@ -12,5 +12,4 @@ class BannerRepository(
     suspend fun getBanner() : Response<BannerResponse> = withContext(Dispatchers.IO){
         return@withContext bannerApi.getBanner()
     }
-
 }
