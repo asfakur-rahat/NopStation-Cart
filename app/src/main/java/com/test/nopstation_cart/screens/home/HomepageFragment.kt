@@ -3,6 +3,7 @@ package com.test.nopstation_cart.screens.home
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.nopstation_cart.R
@@ -28,6 +29,8 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
     private lateinit var salmonAdapter: SalmonAdapter
     private lateinit var furnitureCollectionAdapter: FurnitureCollectionAdapter
     private lateinit var dataProvider: ProvideDemoData
+
+    private val viewModel: HomepageViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,27 +60,9 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
 
         binding = FragmentHomepageBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getBannerFromApi()
+        initObserver()
 
-        binding.carouselBanner.registerLifecycle(viewLifecycleOwner)
-
-        val bannerProduct = mutableListOf<CarouselItem>()
-
-        bannerProduct.add(
-            CarouselItem(
-                imageDrawable = R.drawable.furniture1
-            )
-        )
-        bannerProduct.add(
-            CarouselItem(
-                imageDrawable = R.drawable.furniture2
-            )
-        )
-        bannerProduct.add(
-            CarouselItem(
-                imageDrawable = R.drawable.furniture3
-            )
-        )
-        binding.carouselBanner.setData(bannerProduct)
 
         binding.ibCheckout.setOnClickListener {
             val action = HomepageFragmentDirections.actionHomepageFragmentToCartFragment()
@@ -93,6 +78,16 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
 
     }
 
+
+    private fun initObserver() {
+        viewModel.banner.observe(viewLifecycleOwner) { data ->
+            binding.carouselBanner.registerLifecycle(viewLifecycleOwner)
+            for (item in data.sliders) {
+                val carouselItem = CarouselItem(imageUrl = item.imageUrl)
+                binding.carouselBanner.addData(carouselItem)
+            }
+        }
+    }
 
     fun populateCategory() {
         val categoryList = dataProvider.provideCategoryitems()

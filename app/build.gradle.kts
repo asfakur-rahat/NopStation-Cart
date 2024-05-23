@@ -61,4 +61,11 @@ dependencies {
     // why not image carousel
     implementation("me.relex:circleindicator:2.1.6")
     implementation("org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    // Gson
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    //OkHttp
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 }
