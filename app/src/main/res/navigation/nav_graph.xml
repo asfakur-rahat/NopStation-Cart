@@ -59,9 +59,6 @@
             android:name="categoryImage"
             app:argType="integer" />
         <action
-            android:id="@+id/action_productFragment_to_productDetailFragment"
-            app:destination="@id/productDetailFragment" />
-        <action
             android:id="@+id/action_productFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
     </fragment>
@@ -70,15 +67,11 @@
         android:name="com.test.nopstation_cart.screens.productdetail.ProductDetailFragment"
         android:label="fragment_product_detail"
         tools:layout="@layout/fragment_product_detail" >
-        <argument
-            android:name="productImage"
-            app:argType="integer" />
-        <argument
-            android:name="productName"
-            app:argType="string" />
         <action
             android:id="@+id/action_productDetailFragment_to_cartFragment"
             app:destination="@id/cartFragment" />
+        <argument android:name="productID"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"

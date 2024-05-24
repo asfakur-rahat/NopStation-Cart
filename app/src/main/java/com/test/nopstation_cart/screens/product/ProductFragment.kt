@@ -28,7 +28,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         demoData = ProvideDemoData()
         categoryName = args.categoryName
         productListAdapter = ProductListAdapter{
-                onItemClick(it)
+                //onItemClick(it)
         }
     }
 
@@ -55,10 +55,10 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         productListAdapter.submitList(productList)
     }
 
-    private fun onItemClick(item: ProductItem){
-        val action = ProductFragmentDirections.actionProductFragmentToProductDetailFragment(item.productImage,item.productName)
-        findNavController().navigate(action)
-    }
+//    private fun onItemClick(item: ProductItem){
+//        val action = ProductFragmentDirections.actionProductFragmentToProductDetailFragment(item.productImage,item.productName)
+//        findNavController().navigate(action)
+//    }
 
     private fun goToCart(){
         val action = ProductFragmentDirections.actionProductFragmentToCartFragment()

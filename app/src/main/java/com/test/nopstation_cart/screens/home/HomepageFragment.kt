@@ -17,6 +17,7 @@ import com.test.nopstation_cart.databinding.FragmentHomepageBinding
 import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.OurCategoryItem
 import com.test.nopstation_cart.models.ProductItem
+import com.test.nopstation_cart.models.ProductItems
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class HomepageFragment : Fragment(R.layout.fragment_homepage) {
@@ -42,7 +43,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
                 //onCategoryClick(it)
         }
         featuredAdaptar = FeaturedProductAdapter{
-                //onItemClick(it)
+                onItemClick(it)
         }
         womenHeelAdapter = WomenHeelAdaptar{
                 //onItemClick(it)
@@ -135,11 +136,11 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         furnitureCollectionAdapter.submitList(productList)
     }
 
-//    private fun onItemClick(item: ProductItems) {
-////        // Handle item click here
-////        val action = HomepageFragmentDirections.actionHomepageFragmentToProductDetailFragment(productImage = item.productImage, productName =  item.productName)
-////        findNavController().navigate(action)
-//    }
+    private fun onItemClick(item: ProductItems) {
+        val action = HomepageFragmentDirections.actionHomepageFragmentToProductDetailFragment(item.id)
+        findNavController().navigate(action)
+    }
+
     private fun onCategoryClick(item: OurCategoryItem) {
         // Handle item click here
         val action = HomepageFragmentDirections.actionHomepageFragmentToProductFragment(categoryName = item.categoryName, categoryImage =  item.categoryImage)
