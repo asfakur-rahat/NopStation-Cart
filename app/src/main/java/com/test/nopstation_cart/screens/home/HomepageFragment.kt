@@ -39,7 +39,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
                 //onItemClick(it)
         }
         ourcategoryadaptar = OurCategoryAdapter{
-                onCategoryClick(it)
+                //onCategoryClick(it)
         }
         featuredAdaptar = FeaturedProductAdapter{
                 //onItemClick(it)
@@ -61,6 +61,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         binding = FragmentHomepageBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
         viewModel.getBannerFromApi()
+        viewModel.getCategories()
         viewModel.getFeaturedProducts()
         initObserver()
 
@@ -70,7 +71,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
             findNavController().navigate(action)
         }
 
-        populateCategory()
+        //populateCategory()
         populateBestSale()
         //populateFeaturedProduct()
         populateWomenHeel()
@@ -83,25 +84,30 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
     private fun initObserver() {
         viewModel.banner.observe(viewLifecycleOwner) { data ->
             binding.carouselBanner.registerLifecycle(viewLifecycleOwner)
+            val list = mutableListOf<CarouselItem>()
             for (item in data.sliders) {
-                val carouselItem = CarouselItem(imageUrl = item.imageUrl)
-                binding.carouselBanner.addData(carouselItem)
+                list.add(CarouselItem(imageUrl = item.imageUrl))
             }
+            binding.carouselBanner.setData(list)
         }
         viewModel.featuredProducts.observe(viewLifecycleOwner){
             binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             binding.rvFeaturedProducts.adapter = featuredAdaptar
             featuredAdaptar.submitList(it)
         }
+        viewModel.categories.observe(viewLifecycleOwner) {
+            binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            binding.rvCategoryList.adapter = ourcategoryadaptar
+            ourcategoryadaptar.submitList(it)
+        }
     }
 
-    fun populateCategory() {
-        val categoryList = dataProvider.provideCategoryitems()
-        binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvCategoryList.adapter = ourcategoryadaptar
-        ourcategoryadaptar.submitList(categoryList)
-
-    }
+//    fun populateCategory() {
+//        val categoryList = dataProvider.provideCategoryitems()
+//        binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//        binding.rvCategoryList.adapter = ourcategoryadaptar
+//        ourcategoryadaptar.submitList(categoryList)
+//    }
     fun populateBestSale() {
         val productList = dataProvider.provideBestSellingItems()
         binding.rvBestSellingProduct.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
