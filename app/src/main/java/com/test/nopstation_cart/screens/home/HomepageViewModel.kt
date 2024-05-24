@@ -3,6 +3,7 @@ package com.test.nopstation_cart.screens.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.test.nopstation_cart.models.CategoryItem
 import com.test.nopstation_cart.models.ProductItems
 import com.test.nopstation_cart.models.banner.Data
 import com.test.nopstation_cart.network.ApiClient
@@ -63,6 +64,33 @@ class HomepageViewModel: ViewModel() {
                 )
             }
             _featuredProducts.value = list
+        }
+    }
+
+
+    private val _categories: MutableLiveData<List<CategoryItem>> by lazy {
+        MutableLiveData<List<CategoryItem>>()
+    }
+    val categories: MutableLiveData<List<CategoryItem>>
+        get() = _categories
+
+    fun getCategories() = viewModelScope.launch {
+        val response = repository2.getCategoryWithProducts()
+        if (response.isSuccessful) {
+            val data = response.body()?.data
+            var list = mutableListOf<CategoryItem>()
+
+            for (item in data!!) {
+                list.add(
+                    CategoryItem(
+                        id = item.id,
+                        categoryName = item.name,
+                        categoryImage = item.products[0].pictureModels[0].imageUrl,
+                        categoryList = item.products
+                    )
+                )
+            }
+            _categories.value = list
         }
     }
 
