@@ -69,7 +69,7 @@ data class Data(
     @SerializedName("PictureModels")
     val pictureModels: List<PictureModel>,
     @SerializedName("ProductAttributes")
-    val productAttributes: List<Any>,
+    val productAttributes: List<ProductAttribute>,
     @SerializedName("ProductEstimateShipping")
     val productEstimateShipping: ProductEstimateShipping,
     @SerializedName("ProductManufacturers")
@@ -81,7 +81,7 @@ data class Data(
     @SerializedName("ProductSpecificationModel")
     val productSpecificationModel: ProductSpecificationModel,
     @SerializedName("ProductTags")
-    val productTags: List<Any>,
+    val productTags: List<ProductTag>,
     @SerializedName("ProductType")
     val productType: Int,
     @SerializedName("RentalEndDate")
@@ -109,7 +109,7 @@ data class Data(
     @SerializedName("VendorModel")
     val vendorModel: VendorModel,
     @SerializedName("VideoModels")
-    val videoModels: List<Any>,
+    val videoModels: List<VideoModel>,
     @SerializedName("VisibleIndividually")
     val visibleIndividually: Boolean
 )

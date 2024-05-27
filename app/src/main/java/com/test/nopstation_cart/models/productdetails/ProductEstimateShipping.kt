@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class ProductEstimateShipping(
     @SerializedName("AvailableCountries")
-    val availableCountries: List<AvailableCountry>,
+    val availableCountries: List<Any>,
     @SerializedName("AvailableStates")
-    val availableStates: List<AvailableState>,
+    val availableStates: List<Any>,
     @SerializedName("City")
     val city: Any,
     @SerializedName("CountryId")
@@ -25,5 +25,5 @@ data class ProductEstimateShipping(
     @SerializedName("UseCity")
     val useCity: Boolean,
     @SerializedName("ZipPostalCode")
-    val zipPostalCode: String
+    val zipPostalCode: Any
 )

@@ -27,7 +27,7 @@ class LoginViewModel : ViewModel() {
     val showMessage: LiveData<String>
         get() = _showMessage
 
-    private val apiClient = ApiClient.getClient().create(AuthenticationApi::class.java)
+    private val apiClient = ApiClient.getClient(null).create(AuthenticationApi::class.java)
     private val repository = LoginRepository(apiClient)
 
 

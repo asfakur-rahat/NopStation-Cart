@@ -2,16 +2,20 @@ package com.test.nopstation_cart.models.category
 
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
+import kotlinx.parcelize.RawValue
 
+@Parcelize
 data class ProductPrice(
     @SerializedName("AvailableForPreOrder")
     val availableForPreOrder: Boolean,
     @SerializedName("BasePricePAngV")
-    val basePricePAngV: Any,
+    val basePricePAngV: @RawValue Any?,
     @SerializedName("BasePricePAngVValue")
-    val basePricePAngVValue: Double,
+    val basePricePAngVValue: Double?,
     @SerializedName("CustomProperties")
-    val customProperties: CustomProperties,
+    val customProperties: CustomProperties?,
     @SerializedName("DisableAddToCompareListButton")
     val disableAddToCompareListButton: Boolean,
     @SerializedName("DisableBuyButton")
@@ -25,13 +29,13 @@ data class ProductPrice(
     @SerializedName("IsRental")
     val isRental: Boolean,
     @SerializedName("OldPrice")
-    val oldPrice: String,
+    val oldPrice: String?,
     @SerializedName("OldPriceValue")
-    val oldPriceValue: Any,
+    val oldPriceValue: @RawValue Any?,
     @SerializedName("PreOrderAvailabilityStartDateTimeUtc")
-    val preOrderAvailabilityStartDateTimeUtc: Any,
+    val preOrderAvailabilityStartDateTimeUtc: @RawValue Any?,
     @SerializedName("Price")
-    val price: String,
+    val price: String?,
     @SerializedName("PriceValue")
-    val priceValue: Double
-)
+    val priceValue: Double?
+) : Parcelable

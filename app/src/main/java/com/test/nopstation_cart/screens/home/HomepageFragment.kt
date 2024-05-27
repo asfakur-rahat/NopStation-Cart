@@ -18,6 +18,7 @@ import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.OurCategoryItem
 import com.test.nopstation_cart.models.ProductItem
 import com.test.nopstation_cart.models.ProductItems
+import com.test.nopstation_cart.models.category.Data
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
 class HomepageFragment : Fragment(R.layout.fragment_homepage) {
@@ -39,8 +40,8 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         bestsellAdaptar = BestSellingAdapter{
                 //onItemClick(it)
         }
-        ourcategoryadaptar = OurCategoryAdapter{
-                //onCategoryClick(it)
+        ourcategoryadaptar = OurCategoryAdapter{ data, name ->
+            onCategoryClick(data,name)
         }
         featuredAdaptar = FeaturedProductAdapter{
                 onItemClick(it)
@@ -83,6 +84,11 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
 
 
     private fun initObserver() {
+        binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvFeaturedProducts.adapter = featuredAdaptar
+        binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvCategoryList.adapter = ourcategoryadaptar
+
         viewModel.banner.observe(viewLifecycleOwner) { data ->
             binding.carouselBanner.registerLifecycle(viewLifecycleOwner)
             val list = mutableListOf<CarouselItem>()
@@ -92,14 +98,11 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
             binding.carouselBanner.setData(list)
         }
         viewModel.featuredProducts.observe(viewLifecycleOwner){
-            binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            binding.rvFeaturedProducts.adapter = featuredAdaptar
             featuredAdaptar.submitList(it)
         }
+
         viewModel.categories.observe(viewLifecycleOwner) {
-            binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            binding.rvCategoryList.adapter = ourcategoryadaptar
-            ourcategoryadaptar.submitList(it)
+            ourcategoryadaptar.submitList(it.data)
         }
     }
 
@@ -141,9 +144,10 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         findNavController().navigate(action)
     }
 
-    private fun onCategoryClick(item: OurCategoryItem) {
+    private fun onCategoryClick(data: Data, name: String) {
+        val categorylist = data.products.toTypedArray()
         // Handle item click here
-        val action = HomepageFragmentDirections.actionHomepageFragmentToProductFragment(categoryName = item.categoryName, categoryImage =  item.categoryImage)
+        val action = HomepageFragmentDirections.actionHomepageFragmentToProductFragment(categorylist,name)
         findNavController().navigate(action)
     }
 

@@ -30,15 +30,17 @@
 
                 <TextView
                     android:id="@+id/nav_logo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/navbar_logo"
                     android:fontFamily="@font/lato_bold"
                     android:textColor="@color/white"
                     android:textFontWeight="700"
                     android:textSize="24sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/ib_checkout"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -216,7 +218,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/quantity_bg"
                 android:gravity="center"
-                tools:text="0"
+                android:text="1"
                 android:fontFamily="@font/lato"
                 android:textFontWeight="400"
                 android:textColor="@color/black"
@@ -332,6 +334,7 @@
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/tv_add_to_cart"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@drawable/add_to_cart_custom_button"
@@ -348,6 +351,7 @@
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/tv_buy_now"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="@drawable/buy_now_custom_button"
