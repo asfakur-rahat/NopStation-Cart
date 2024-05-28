@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -71,4 +72,7 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil:2.6.0")
+
+    //Shimmer Effect
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

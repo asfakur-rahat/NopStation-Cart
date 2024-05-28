@@ -9,11 +9,13 @@ import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.load
 import com.test.nopstation_cart.R
 import com.test.nopstation_cart.adapter.ProductListAdapter
 import com.test.nopstation_cart.databinding.FragmentProductBinding
 import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.ProductItem
+import com.test.nopstation_cart.models.category.Product
 
 class ProductFragment : Fragment(R.layout.fragment_product) {
 
@@ -26,7 +28,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         demoData = ProvideDemoData()
-        categoryName = args.categoryName
+        categoryName = args.CategoryName
         productListAdapter = ProductListAdapter{
                 onItemClick(it)
         }
@@ -36,7 +38,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         binding = FragmentProductBinding.bind(view)
         binding.navLogo.text = categoryName
         binding.tvCategoryName.text = categoryName
-        binding.ivBanner.setImageResource(args.categoryImage)
+        binding.ivBanner.load(args.Product[0].pictureModels[0].imageUrl)
         super.onViewCreated(view, savedInstanceState)
         initproduct()
         binding.ibCheckout.setOnClickListener {
@@ -48,15 +50,15 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
     }
 
     private fun initproduct(){
-        var productList = demoData.getDemoProducts(categoryName)
+        //var productList = demoData.getDemoProducts(categoryName)
         binding.rvProductList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvProductList.adapter = productListAdapter
         binding.rvProductList.setHasFixedSize(true)
-        productListAdapter.submitList(productList)
+        productListAdapter.submitList(args.Product.toMutableList())
     }
 
-    private fun onItemClick(item: ProductItem){
-        val action = ProductFragmentDirections.actionProductFragmentToProductDetailFragment(item.productImage,item.productName)
+    private fun onItemClick(item: Product){
+        val action = ProductFragmentDirections.actionProductFragmentToProductDetailFragment(item.id)
         findNavController().navigate(action)
     }
 

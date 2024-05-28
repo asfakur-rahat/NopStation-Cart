@@ -13,11 +13,13 @@ import com.test.nopstation_cart.models.ProductItem
 import com.test.nopstation_cart.models.ProductItems
 
 class FeaturedProductAdapter(
-    private val onClick: (ProductItems) -> Unit
+    private val onClick: (ProductItems) -> Unit,
+    private val onAddToCart: (ProductItems) -> Unit
 ): ListAdapter<ProductItems, FeaturedProductAdapter.ViewHolder>(DIFF_CALLBACK) {
     class ViewHolder(
         private val binding : ItemProductBinding,
-        private val onClick: (ProductItems) -> Unit
+        private val onClick: (ProductItems) -> Unit,
+        private val onAddToCart: (ProductItems) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ProductItems){
             binding.tvProductName.text = item.productName
@@ -28,16 +30,22 @@ class FeaturedProductAdapter(
             binding.root.setOnClickListener {
                 onClick(item)
             }
+
+            binding.ibAddToCart.setOnClickListener {
+                onAddToCart(item)
+            }
+
         }
 
         companion object {
             fun from(
                 parent: ViewGroup,
-                onClick: (ProductItems) -> Unit
+                onClick: (ProductItems) -> Unit,
+                onAddToCart: (ProductItems) -> Unit
             ): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ItemProductBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding, onClick)
+                return ViewHolder(binding, onClick, onAddToCart)
             }
         }
     }
@@ -46,7 +54,7 @@ class FeaturedProductAdapter(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        return ViewHolder.from(parent,onClick)
+        return ViewHolder.from(parent,onClick, onAddToCart)
     }
 
     override fun onBindViewHolder(holder: FeaturedProductAdapter.ViewHolder, position: Int) {

@@ -2,12 +2,15 @@ package com.test.nopstation_cart.models.category
 
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import android.os.Parcelable
 
+@Parcelize
 data class Product(
     @SerializedName("CustomProperties")
-    val customProperties: CustomProperties,
+    val customProperties: CustomProperties?,
     @SerializedName("FullDescription")
-    val fullDescription: String,
+    val fullDescription: String?,
     @SerializedName("Id")
     val id: Int,
     @SerializedName("MarkAsNew")
@@ -27,7 +30,7 @@ data class Product(
     @SerializedName("SeName")
     val seName: String,
     @SerializedName("ShortDescription")
-    val shortDescription: String,
+    val shortDescription: String?,
     @SerializedName("Sku")
     val sku: String
-)
+) : Parcelable

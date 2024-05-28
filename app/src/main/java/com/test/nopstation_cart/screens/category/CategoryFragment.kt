@@ -46,7 +46,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     }
 
     private fun onItemClick(item: OurCategoryItem){
-        val action = CategoryFragmentDirections.actionCategoryFragmentToProductFragment(item.categoryName,item.categoryImage)
-        findNavController().navigate(action)
+//        val action = CategoryFragmentDirections.actionCategoryFragmentToProductFragment(item.categoryName,item.categoryImage)
+//        findNavController().navigate(action)
     }
 }
