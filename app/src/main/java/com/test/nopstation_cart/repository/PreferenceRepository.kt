@@ -13,6 +13,6 @@ class PreferenceRepository(private val sharedPreferences: SharedPreferences) {
     }
 
     fun getToken(): String? {
-        return sharedPreferences.getString(TOKEN_KEY, "")
+        return sharedPreferences.getString(TOKEN_KEY, null)
     }
 }

@@ -33,12 +33,12 @@ class ApiClient {
                         this.level = HttpLoggingInterceptor.Level.BODY
                     }).addInterceptor { chain ->
                         val newRequest = chain.request().newBuilder()
+                            .addHeader("Token", token)
                             .addHeader("Content-Type", Constants.CONTENT_TYPE)
                             .addHeader("DeviceId", Constants.DEVICE_ID)
                             .addHeader("NST", Constants.NST)
                             .addHeader("User-Agent", Constants.USER_AGENT)
                             .build()
-
                         chain.proceed(newRequest)
                     }.build()
             }

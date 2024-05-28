@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
         val token: String? = sharedPreferences.getString("Token", null)
-        println("TOKEN " + token)
+        //println("TOKEN " + token)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController

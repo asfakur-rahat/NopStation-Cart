@@ -19,6 +19,7 @@ import com.test.nopstation_cart.R
 import com.test.nopstation_cart.databinding.FragmentProductDetailBinding
 import com.test.nopstation_cart.repository.PreferenceRepository
 import com.test.nopstation_cart.screens.product.ProductFragmentArgs
+import com.test.nopstation_cart.utils.Constants
 
 class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
 
@@ -63,19 +64,31 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
     //@SuppressLint("ResourceAsColor")
     private fun initObserver() {
         viewModel.product.observe(viewLifecycleOwner){
+            println(it)
+            var sub = it.shortDescription
+            var des = it.fullDescription
+
+            if(it.shortDescription.isNullOrEmpty()){
+                sub = Constants.subtitle
+            }
+            if(it.fullDescription.isNullOrEmpty()){
+                des = Constants.title
+            }
+
             binding.ivProductImage.load(it.pictureModels[0].imageUrl)
             binding.navLogo.text = it.name
             binding.tvProductName.text = it.name
-            binding.tvProductSubtitle.text = Html.fromHtml(it.shortDescription, Html.FROM_HTML_MODE_COMPACT)
+            binding.tvProductSubtitle.text = Html.fromHtml(sub, Html.FROM_HTML_MODE_LEGACY)
             binding.tvProductDiscountedPrice.text = "$%.2f".format(it.productPrice.basePricePAngVValue)
             binding.tvProductActualPrice.text = it.productPrice.price
             binding.tvProductActualPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             binding.tvProductStockStatus.text = it.stockAvailability
             binding.tvQuantity.text = "1"
-            binding.tvProductDescription.text = Html.fromHtml(it.fullDescription, Html.FROM_HTML_MODE_LEGACY)
+            binding.tvProductDescription.text = Html.fromHtml(des, Html.FROM_HTML_MODE_LEGACY)
         }
         viewModel.cartProducts.observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(), it.message , Toast.LENGTH_SHORT).show()
+            val item = it.getContentIfNotHandled()
+            Toast.makeText(requireContext(), item?.message , Toast.LENGTH_SHORT).show()
         }
     }
 }

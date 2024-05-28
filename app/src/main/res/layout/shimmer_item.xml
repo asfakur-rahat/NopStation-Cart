@@ -24,7 +24,7 @@
                 android:layout_width="180dp"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/product_image"
-                tools:src="@drawable/salmon_fish_0"
+                android:background="@color/shimmercolor"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="@id/first"
                 app:layout_constraintTop_toTopOf="@id/first"
@@ -34,6 +34,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 tools:text="California orange 8 pcs"
+                android:background="@color/shimmercolor"
                 android:fontFamily="@font/lato_bold"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -52,6 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="$500.00"
+                android:background="@color/shimmercolor"
                 android:fontFamily="@font/lato_bold"
                 android:textFontWeight="400"
                 android:textColor="@color/activecolor"
@@ -66,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="$699.00"
+                android:background="@color/shimmercolor"
                 android:fontFamily="@font/lato_bold"
                 android:textFontWeight="400"
                 android:textColor="@color/stroke"
@@ -79,14 +82,13 @@
                 android:id="@+id/iv_cancle_order"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:background="@null"
+                android:background="@color/shimmercolor"
                 android:contentDescription="@string/cancle_order"
-                android:src="@drawable/ic_close"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="@id/first"
                 app:layout_constraintTop_toTopOf="@id/first"/>
-            
+
             <TextView
                 android:id="@+id/tv_product_quantity"
                 android:layout_width="110dp"
@@ -99,38 +101,10 @@
                 android:textSize="14sp"
                 android:layout_marginTop="24dp"
                 app:layout_constraintHorizontal_bias="0.2"
-                android:background="@drawable/product_quantity_bg"
+                android:background="@color/shimmercolor"
                 app:layout_constraintStart_toEndOf="@id/iv_product_image"
                 app:layout_constraintEnd_toEndOf="@id/first"
                 app:layout_constraintTop_toBottomOf="@id/tv_product_discounted_price"/>
-
-            <TextView
-                android:id="@+id/tv_quantity_minus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/quantity_plus"
-                android:contentDescription="@string/quantity_plus"
-                android:paddingStart="8dp"
-                android:elevation="8dp"
-                app:drawableStartCompat="@drawable/ic_minus"
-                app:layout_constraintBottom_toBottomOf="@id/tv_product_quantity"
-                app:layout_constraintStart_toStartOf="@id/tv_product_quantity"
-                app:layout_constraintTop_toTopOf="@id/tv_product_quantity"
-                tools:ignore="RtlSymmetry"/>
-
-            <TextView
-                android:id="@+id/tv_quantity_plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/quantity_plus"
-                android:contentDescription="@string/quantity_plus"
-                android:paddingStart="8dp"
-                android:elevation="8dp"
-                app:drawableStartCompat="@drawable/ic_plus"
-                app:layout_constraintBottom_toBottomOf="@id/tv_product_quantity"
-                app:layout_constraintEnd_toEndOf="@id/tv_product_quantity"
-                app:layout_constraintTop_toTopOf="@id/tv_product_quantity"
-                tools:ignore="RtlSymmetry" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

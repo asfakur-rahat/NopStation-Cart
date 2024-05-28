@@ -72,4 +72,7 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil:2.6.0")
+
+    //Shimmer Effect
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

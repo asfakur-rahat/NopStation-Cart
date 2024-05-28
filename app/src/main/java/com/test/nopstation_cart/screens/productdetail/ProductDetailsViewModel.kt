@@ -1,5 +1,6 @@
 package com.test.nopstation_cart.screens.productdetail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,13 +14,14 @@ import com.test.nopstation_cart.network.api.ProductApi
 import com.test.nopstation_cart.repository.CartRepository
 import com.test.nopstation_cart.repository.PreferenceRepository
 import com.test.nopstation_cart.repository.ProductDetailsRepository
+import com.test.nopstation_cart.utils.Event
 import kotlinx.coroutines.launch
 
 class ProductDetailsViewModel(private val preferenceRepository: PreferenceRepository): ViewModel() {
     private val _product : MutableLiveData<Data> by lazy {
         MutableLiveData<Data>()
     }
-    val product : MutableLiveData<Data>
+    val product : LiveData<Data>
         get() = _product
 
 
@@ -37,10 +39,10 @@ class ProductDetailsViewModel(private val preferenceRepository: PreferenceReposi
         }
     }
 
-    private val _cartProducts: MutableLiveData<AddToCartResponse> by lazy {
-        MutableLiveData<AddToCartResponse>()
+    private val _cartProducts: MutableLiveData<Event<AddToCartResponse>> by lazy {
+        MutableLiveData<Event<AddToCartResponse>>()
     }
-    val cartProducts: MutableLiveData<AddToCartResponse>
+    val cartProducts: LiveData<Event<AddToCartResponse>>
         get() = _cartProducts
 
     private var token: String? = preferenceRepository.getToken()
@@ -54,15 +56,12 @@ class ProductDetailsViewModel(private val preferenceRepository: PreferenceReposi
         println(token)
         val request = AddToCartRequest(listOf(
             FormValue(
-            key = "addtocart_12020.EnteredQuantity",
+            key = "addtocart_${productID}.EnteredQuantity",
             value = "$quantity"
-        ),FormValue(
-            key = "addtocart_12020.EnteredGender",
-            value = "male"
         )))
         val response = cartRepository.AddToCart(productID, request)
         if (response.isSuccessful) {
-            _cartProducts.value = response.body()
+            _cartProducts.value = Event(response.body()!!)
         }
     }
 }

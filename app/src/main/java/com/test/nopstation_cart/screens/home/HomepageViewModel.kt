@@ -1,5 +1,6 @@
 package com.test.nopstation_cart.screens.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,13 +18,13 @@ class HomepageViewModel: ViewModel() {
     private val _banner : MutableLiveData<Data> by lazy {
         MutableLiveData<Data>()
     }
-    val banner : MutableLiveData<Data>
+    val banner : LiveData<Data>
         get() = _banner
 
     private val _featuredProducts: MutableLiveData<List<ProductItems>> by lazy {
         MutableLiveData<List<ProductItems>>()
     }
-    val featuredProducts: MutableLiveData<List<ProductItems>>
+    val featuredProducts: LiveData<List<ProductItems>>
         get() = _featuredProducts
 
 
@@ -72,7 +73,7 @@ class HomepageViewModel: ViewModel() {
     private val _categories: MutableLiveData<CategoryResponse> by lazy {
         MutableLiveData<CategoryResponse>()
     }
-    val categories: MutableLiveData<CategoryResponse>
+    val categories: LiveData<CategoryResponse>
         get() = _categories
 
     fun getCategories() = viewModelScope.launch {
