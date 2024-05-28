@@ -38,6 +38,10 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentProductDetailBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+
+        binding.nestedScrollView.visibility = View.INVISIBLE
+        binding.shimmerLayout.startShimmer()
+
         viewModel.getProductDetails(args.productID)
         initObserver()
         binding.toolbar.setNavigationOnClickListener {
@@ -82,9 +86,12 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             binding.tvProductDiscountedPrice.text = "$%.2f".format(it.productPrice.basePricePAngVValue)
             binding.tvProductActualPrice.text = it.productPrice.price
             binding.tvProductActualPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            binding.tvProductStockStatus.text = it.stockAvailability
+            binding.tvStockStatus.text = it.stockAvailability
             binding.tvQuantity.text = "1"
             binding.tvProductDescription.text = Html.fromHtml(des, Html.FROM_HTML_MODE_LEGACY)
+            binding.shimmerLayout.stopShimmer()
+            binding.nestedScrollView.visibility = View.VISIBLE
+            binding.shimmerLayout.visibility = View.GONE
         }
         viewModel.cartProducts.observe(viewLifecycleOwner){
             val item = it.getContentIfNotHandled()
