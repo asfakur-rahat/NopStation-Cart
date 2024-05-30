@@ -1,19 +1,19 @@
-package com.test.nopstation_cart.models.productdetails
+package com.test.nopstation_cart.models.product_details
 
 
 import com.google.gson.annotations.SerializedName
 
-data class ImageSquaresPictureModel(
+data class DefaultPictureModel(
     @SerializedName("AlternateText")
-    val alternateText: Any,
+    val alternateText: String,
     @SerializedName("CustomProperties")
     val customProperties: CustomPropertiesXXX,
     @SerializedName("FullSizeImageUrl")
-    val fullSizeImageUrl: Any,
+    val fullSizeImageUrl: String,
     @SerializedName("ImageUrl")
-    val imageUrl: Any,
+    val imageUrl: String,
     @SerializedName("ThumbImageUrl")
     val thumbImageUrl: Any,
     @SerializedName("Title")
-    val title: Any
+    val title: String
 )
