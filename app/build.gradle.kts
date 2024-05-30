@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -80,6 +82,10 @@ dependencies {
     //Shimmer Effect
     implementation("com.facebook.shimmer:shimmer:0.5.0")
 
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+
 
     // for jetpackCompose
     val composeBom = platform("androidx.compose:compose-bom:2024.05.00")
@@ -108,4 +114,8 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata")
     // Optional - Integration with RxJava
     implementation("androidx.compose.runtime:runtime-rxjava2")
+}
+
+kapt {
+    correctErrorTypes = true
 }
