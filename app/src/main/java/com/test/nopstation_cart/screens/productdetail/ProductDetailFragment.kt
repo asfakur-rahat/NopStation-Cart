@@ -29,6 +29,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
     private val viewModel: ProductDetailsViewModel by viewModels {
         ProductDetailsViewModelFactory(PreferenceRepository(sharedPreferences))
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
@@ -49,29 +50,33 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
         }
         binding.tvQuantityMinus.setOnClickListener {
             if (binding.tvQuantity.text.toString().toInt() > 1) {
-                binding.tvQuantity.text = (binding.tvQuantity.text.toString().toInt() - 1).toString()
+                binding.tvQuantity.text =
+                    (binding.tvQuantity.text.toString().toInt() - 1).toString()
             }
         }
         binding.tvQuantityPlus.setOnClickListener {
             binding.tvQuantity.text = (binding.tvQuantity.text.toString().toInt() + 1).toString()
         }
         binding.tvAddToCart.setOnClickListener {
-            viewModel.addToCart(productID = args.productID, quantity = binding.tvQuantity.text.toString().toInt())
+            viewModel.addToCart(
+                productID = args.productID,
+                quantity = binding.tvQuantity.text.toString().toInt()
+            )
         }
     }
 
 
     //@SuppressLint("ResourceAsColor")
     private fun initObserver() {
-        viewModel.product.observe(viewLifecycleOwner){
+        viewModel.product.observe(viewLifecycleOwner) {
             println(it)
             var sub = it.shortDescription
             var des = it.fullDescription
 
-            if(it.shortDescription.isNullOrEmpty()){
+            if (it.shortDescription.isNullOrEmpty()) {
                 sub = Constants.subtitle
             }
-            if(it.fullDescription.isNullOrEmpty()){
+            if (it.fullDescription.isNullOrEmpty()) {
                 des = Constants.title
             }
 
@@ -79,16 +84,17 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             binding.navLogo.text = it.name
             binding.tvProductName.text = it.name
             binding.tvProductSubtitle.text = Html.fromHtml(sub, Html.FROM_HTML_MODE_LEGACY)
-            binding.tvProductDiscountedPrice.text = "$%.2f".format(it.productPrice.basePricePAngVValue)
+            binding.tvProductDiscountedPrice.text =
+                "$%.2f".format(it.productPrice.basePricePAngVValue)
             binding.tvProductActualPrice.text = it.productPrice.price
             binding.tvProductActualPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             binding.tvProductStockStatus.text = it.stockAvailability
             binding.tvQuantity.text = "1"
             binding.tvProductDescription.text = Html.fromHtml(des, Html.FROM_HTML_MODE_LEGACY)
         }
-        viewModel.cartProducts.observe(viewLifecycleOwner){
+        viewModel.cartProducts.observe(viewLifecycleOwner) {
             val item = it.getContentIfNotHandled()
-            Toast.makeText(requireContext(), item?.message , Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), item?.message, Toast.LENGTH_SHORT).show()
         }
     }
 }

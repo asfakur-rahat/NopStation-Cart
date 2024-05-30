@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.test.nopstation_cart.models.cart.AddToCartRequest
 import com.test.nopstation_cart.models.cart.AddToCartResponse
 import com.test.nopstation_cart.models.cart.FormValue
-import com.test.nopstation_cart.models.productdetails.Data
+import com.test.nopstation_cart.models.product_details.Data
 import com.test.nopstation_cart.network.ApiClient
 import com.test.nopstation_cart.network.api.CartApi
 import com.test.nopstation_cart.network.api.ProductApi

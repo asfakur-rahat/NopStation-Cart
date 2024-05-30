@@ -1,6 +1,6 @@
 package com.test.nopstation_cart.repository
 
-import com.test.nopstation_cart.models.productdetails.ProductDetailsResponse
+import com.test.nopstation_cart.models.product_details.ProductDetailsResponse
 import com.test.nopstation_cart.network.api.ProductApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -1,4 +1,4 @@
-package com.test.nopstation_cart.models.productdetails
+package com.test.nopstation_cart.models.product_details
 
 
 import com.google.gson.annotations.SerializedName

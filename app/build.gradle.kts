@@ -37,6 +37,10 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.0"
     }
 }
 
@@ -75,4 +79,33 @@ dependencies {
 
     //Shimmer Effect
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+
+    // for jetpackCompose
+    val composeBom = platform("androidx.compose:compose-bom:2024.05.00")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+
+    implementation("androidx.compose.material3:material3")
+
+    // Android Studio Preview support
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // UI Tests
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    implementation("androidx.compose.material:material-icons-core")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.compose.material3:material3-window-size-class")
+
+    // Optional - Integration with activities
+    implementation("androidx.activity:activity-compose:1.5.2")
+    // Optional - Integration with ViewModels
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    // Optional - Integration with LiveData
+    implementation("androidx.compose.runtime:runtime-livedata")
+    // Optional - Integration with RxJava
+    implementation("androidx.compose.runtime:runtime-rxjava2")
 }

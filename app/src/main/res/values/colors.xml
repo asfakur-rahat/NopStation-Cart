@@ -19,6 +19,12 @@
     <color name="actual_price">#A9AABF</color>
     <color name="available_color">#313131</color>
     <color name="Product_bg">#E9EDF2</color>
+    <color name="badge_stroke">#079DD9</color>
+
+    <!-- color for gradient -->
+    <color name="start_color">#0BF7EB</color>
+    <color name="middle_color">#07C5FB</color>
+    <color name="end_color">#088DF9</color>
 
     <!--    Colors for theme-->
     <color name="colorPrimary">#0BF7EB</color>

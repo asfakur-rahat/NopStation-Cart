@@ -4,6 +4,6 @@
         <item name ="android:windowSplashScreenBackground">@color/cyan</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/avd_nopstation</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
-        <item name ="postSplashScreenTheme">@style/Base.Theme.NopStationCart</item>
+        <item name ="postSplashScreenTheme">@style/Theme.NopStationCart</item>
     </style>
 </resources>
