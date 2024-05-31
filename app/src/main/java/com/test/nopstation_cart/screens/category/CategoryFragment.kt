@@ -12,7 +12,9 @@ import com.test.nopstation_cart.adapter.CategoryListAdapter
 import com.test.nopstation_cart.databinding.FragmentCategoryBinding
 import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.OurCategoryItem
+import com.test.nopstation_cart.utils.CartItemCountViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -21,11 +23,14 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     private lateinit var binding : FragmentCategoryBinding
     private lateinit var demoData: ProvideDemoData
     private lateinit var adapter: CategoryListAdapter
+
+    @Inject
+    lateinit var viewModel: CartItemCountViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         adapter = CategoryListAdapter{
-                onItemClick(it)
+               // onItemClick(it)
         }
         demoData = ProvideDemoData()
     }
@@ -34,6 +39,8 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         binding = FragmentCategoryBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
         populateCategories()
+        viewModel.updateItemCount()
+        initObserver()
         binding.ibCheckout.setOnClickListener {
             val action = CategoryFragmentDirections.actionCategoryFragmentToCartFragment()
             findNavController().navigate(action)
@@ -47,8 +54,9 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         adapter.submitList(category)
     }
 
-    private fun onItemClick(item: OurCategoryItem){
-//        val action = CategoryFragmentDirections.actionCategoryFragmentToProductFragment(item.categoryName,item.categoryImage)
-//        findNavController().navigate(action)
+    private fun initObserver(){
+        viewModel.itemCount.observe(viewLifecycleOwner){
+            binding.tvCartCount.text = it.toString()
+        }
     }
 }

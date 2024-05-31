@@ -14,8 +14,10 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.test.nopstation_cart.R
 import com.test.nopstation_cart.databinding.FragmentProductDetailBinding
+import com.test.nopstation_cart.utils.CartItemCountViewModel
 import com.test.nopstation_cart.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
@@ -24,6 +26,9 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
     private lateinit var binding: FragmentProductDetailBinding
     private lateinit var sharedPreferences: SharedPreferences
     private val viewModel: ProductDetailsViewModel by viewModels ()
+
+    @Inject
+    lateinit var cartCountViewModel: CartItemCountViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
@@ -39,6 +44,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
         binding.shimmerLayout.startShimmer()
 
         viewModel.getProductDetails(args.productID)
+        cartCountViewModel.updateItemCount()
         initObserver()
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -96,7 +102,17 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
         }
         viewModel.cartProducts.observe(viewLifecycleOwner) {
             val item = it.getContentIfNotHandled()
-            Toast.makeText(requireContext(), item?.message, Toast.LENGTH_SHORT).show()
+            item?.message?.let {message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.trigger.observe(viewLifecycleOwner){
+            if(it){
+                cartCountViewModel.updateItemCount()
+            }
+        }
+        cartCountViewModel.itemCount.observe(viewLifecycleOwner){
+            binding.tvCartCount.text = it.toString()
         }
     }
 }

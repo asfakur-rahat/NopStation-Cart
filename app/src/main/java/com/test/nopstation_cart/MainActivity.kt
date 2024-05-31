@@ -72,20 +72,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        val navBarItem = binding.mainNavbar.menu.findItem(R.id.loginFragment)
-//
-//        println(token)
-//
-//        navBarItem.setOnMenuItemClickListener {
-//            if(token == null) {
-//                navController.navigate(R.id.loginFragment)
-//                true
-//            }
-//            else{
-//                navController.navigate(R.id.accountFragment)
-//                true
-//            }
-//        }
     }
 
 }
