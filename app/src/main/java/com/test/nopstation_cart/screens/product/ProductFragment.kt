@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,7 +17,12 @@ import com.test.nopstation_cart.databinding.FragmentProductBinding
 import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.ProductItem
 import com.test.nopstation_cart.models.category.Product
+import com.test.nopstation_cart.utils.CartItemCountViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+
+@AndroidEntryPoint
 class ProductFragment : Fragment(R.layout.fragment_product) {
 
     private val args: ProductFragmentArgs by navArgs()
@@ -25,13 +31,23 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
     private lateinit var productListAdapter: ProductListAdapter
     private lateinit var demoData: ProvideDemoData
 
+    @Inject
+    lateinit var cartItemCountViewModel: CartItemCountViewModel
+
+    private val viewModel: ProductViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         demoData = ProvideDemoData()
         categoryName = args.CategoryName
-        productListAdapter = ProductListAdapter{
+        productListAdapter = ProductListAdapter(
+            {
                 onItemClick(it)
-        }
+            },
+            {
+                viewModel.addToCart(it.id)
+            }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,12 +57,21 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         binding.ivBanner.load(args.Product[0].pictureModels[0].imageUrl)
         super.onViewCreated(view, savedInstanceState)
         initproduct()
+        cartItemCountViewModel.updateItemCount()
+        initObserver()
         binding.ibCheckout.setOnClickListener {
             goToCart()
         }
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    private fun initObserver() {
+        cartItemCountViewModel.itemCount.observe(viewLifecycleOwner) {
+            binding.tvCartCount.text = it.toString()
+        }
+
     }
 
     private fun initproduct(){

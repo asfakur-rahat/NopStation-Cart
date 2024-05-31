@@ -8,6 +8,10 @@ import com.test.nopstation_cart.network.api.BannerApi
 import com.test.nopstation_cart.network.api.CartApi
 import com.test.nopstation_cart.network.api.FeaturedProductApi
 import com.test.nopstation_cart.network.api.ProductApi
+import com.test.nopstation_cart.repository.CartRepository
+import com.test.nopstation_cart.repository.ProductDetailsRepository
+import com.test.nopstation_cart.screens.productdetail.ProductDetailsViewModel
+import com.test.nopstation_cart.utils.CartItemCountViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -69,5 +73,11 @@ class AppModule {
     @Singleton
     fun provideCartApi(retrofit: Retrofit): CartApi{
         return retrofit.create(CartApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartItemCountViewModel(repository: CartRepository): CartItemCountViewModel {
+        return CartItemCountViewModel(repository)
     }
 }

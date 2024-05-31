@@ -40,6 +40,11 @@ class ProductDetailsViewModel @Inject constructor(
     val cartProducts: LiveData<Event<AddToCartResponse>>
         get() = _cartProducts
 
+    private val _trigger: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+    val trigger: LiveData<Boolean>
+        get() = _trigger
 
     fun addToCart(productID: Int, quantity: Int = 1) = viewModelScope.launch {
         val request = AddToCartRequest(listOf(
@@ -50,6 +55,7 @@ class ProductDetailsViewModel @Inject constructor(
         val response = cartRepository.AddToCart(productID, request)
         if (response.isSuccessful) {
             _cartProducts.value = Event(response.body()!!)
+            _trigger.value = true
         }
     }
 }

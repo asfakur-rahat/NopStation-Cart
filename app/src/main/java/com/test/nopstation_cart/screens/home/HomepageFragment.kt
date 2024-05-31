@@ -3,8 +3,10 @@ package com.test.nopstation_cart.screens.home
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,12 +18,14 @@ import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.ProductItems
 import com.test.nopstation_cart.models.category.Data
 import com.test.nopstation_cart.screens.productdetail.ProductDetailsViewModel
+import com.test.nopstation_cart.utils.CartItemCountViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class HomepageFragment : Fragment(R.layout.fragment_homepage) {
+class HomepageFragment : Fragment() {
 
     private lateinit var binding: FragmentHomepageBinding
     private lateinit var bestsellAdaptar: BestSellingAdapter
@@ -36,6 +40,9 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
     private val viewModel: HomepageViewModel by viewModels()
     private val viewModel2: ProductDetailsViewModel by viewModels ()
 
+    @Inject
+    lateinit var cartItemViewModel: CartItemCountViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
@@ -49,6 +56,13 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
         dataProvider = ProvideDemoData()
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(R.layout.fragment_homepage, container, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentHomepageBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
@@ -58,6 +72,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
             onAddToCart = { addToCart(it) }
         )
 
+        cartItemViewModel.updateItemCount()
         initObservers()
         viewModel.getBannerFromApi()
         viewModel.getCategories()
@@ -91,9 +106,17 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
 
         viewModel2.cartProducts.observe(viewLifecycleOwner) {
             val item = it.getContentIfNotHandled()
-            if(item?.message != null){
-                Toast.makeText(requireContext(), item.message, Toast.LENGTH_SHORT).show()
+            item?.message?.let { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             }
+        }
+        viewModel2.trigger.observe(viewLifecycleOwner){
+            if(it){
+                cartItemViewModel.updateItemCount()
+            }
+        }
+        cartItemViewModel.itemCount.observe(viewLifecycleOwner){
+            binding.tvCartCount.text = it.toString()
         }
 
         binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

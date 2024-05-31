@@ -11,11 +11,13 @@ import com.test.nopstation_cart.models.ProductItem
 import com.test.nopstation_cart.models.category.Product
 
 class ProductListAdapter(
-    private val onClick: (Product) -> Unit
+    private val onClick: (Product) -> Unit,
+    private val onAddtoCart: (Product) -> Unit
 ): ListAdapter<Product, ProductListAdapter.ViewHolder>(DIFF_CALLBACK) {
     class ViewHolder(
         private val binding: ItemProductBinding,
-        private val onClick: (Product) -> Unit
+        private val onClick: (Product) -> Unit,
+        private val onAddtoCart: (Product) -> Unit
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             binding.tvProductName.text = product.name
@@ -27,13 +29,16 @@ class ProductListAdapter(
             binding.root.setOnClickListener {
                 onClick(product)
             }
+            binding.ibAddToCart.setOnClickListener {
+                onAddtoCart(product)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemProductBinding.inflate(layoutInflater, parent, false)
-        return ViewHolder(binding, onClick)
+        return ViewHolder(binding, onClick, onAddtoCart)
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
