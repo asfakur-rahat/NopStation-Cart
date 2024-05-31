@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.test.nopstation_cart.R
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class AccountFragment : Fragment(R.layout.fragment_account) {
 
 

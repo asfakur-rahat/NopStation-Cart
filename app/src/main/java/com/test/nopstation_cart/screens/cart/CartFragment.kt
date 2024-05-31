@@ -4,9 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,19 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.nopstation_cart.R
 import com.test.nopstation_cart.adapter.CartAdapter
 import com.test.nopstation_cart.databinding.FragmentCartBinding
-import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.cart.FetchCartResponse
 import com.test.nopstation_cart.models.cart.Item
-import com.test.nopstation_cart.repository.PreferenceRepository
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private lateinit var binding: FragmentCartBinding
     private lateinit var adapter: CartAdapter
     private lateinit var sharedPreferences: SharedPreferences
-    private val viewModel: CartViewModel by viewModels {
-        CartViewModelFactory(PreferenceRepository(sharedPreferences))
-    }
+    private val viewModel: CartViewModel by viewModels ()
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)

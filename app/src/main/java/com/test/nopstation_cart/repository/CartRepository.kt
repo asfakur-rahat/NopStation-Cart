@@ -7,8 +7,9 @@ import com.test.nopstation_cart.network.api.CartApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
+import javax.inject.Inject
 
-class CartRepository(
+class CartRepository @Inject constructor(
     private val api: CartApi
 ) {
     suspend fun AddToCart(productID: Int, request: AddToCartRequest): Response<AddToCartResponse> = withContext(Dispatchers.IO){

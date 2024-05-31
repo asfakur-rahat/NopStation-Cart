@@ -15,11 +15,12 @@ import com.test.nopstation_cart.databinding.FragmentHomepageBinding
 import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.ProductItems
 import com.test.nopstation_cart.models.category.Data
-import com.test.nopstation_cart.repository.PreferenceRepository
 import com.test.nopstation_cart.screens.productdetail.ProductDetailsViewModel
-import com.test.nopstation_cart.screens.productdetail.ProductDetailsViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
 
+
+@AndroidEntryPoint
 class HomepageFragment : Fragment(R.layout.fragment_homepage) {
 
     private lateinit var binding: FragmentHomepageBinding
@@ -33,9 +34,7 @@ class HomepageFragment : Fragment(R.layout.fragment_homepage) {
     private lateinit var sharedPreferences: SharedPreferences
 
     private val viewModel: HomepageViewModel by viewModels()
-    private val viewModel2: ProductDetailsViewModel by viewModels {
-        ProductDetailsViewModelFactory(PreferenceRepository(sharedPreferences))
-    }
+    private val viewModel2: ProductDetailsViewModel by viewModels ()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

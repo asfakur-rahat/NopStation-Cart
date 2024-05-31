@@ -11,9 +11,14 @@ import com.test.nopstation_cart.models.Auth.LoginResponse
 import com.test.nopstation_cart.network.ApiClient
 import com.test.nopstation_cart.network.api.AuthenticationApi
 import com.test.nopstation_cart.repository.LoginRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repository: LoginRepository
+): ViewModel() {
     private val _response : MutableLiveData<LoginResponse> by lazy {
         MutableLiveData<LoginResponse>()
     }
@@ -26,10 +31,6 @@ class LoginViewModel : ViewModel() {
 
     val showMessage: LiveData<String>
         get() = _showMessage
-
-    private val apiClient = ApiClient.getClient(null).create(AuthenticationApi::class.java)
-    private val repository = LoginRepository(apiClient)
-
 
     private fun isValid(email: String, password: String): Boolean {
         if(email.isEmpty() || password.isEmpty()){

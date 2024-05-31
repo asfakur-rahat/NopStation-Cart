@@ -1,15 +1,12 @@
 package com.test.nopstation_cart.screens.productdetail
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Paint
 import android.os.Bundle
 import android.text.Html
-import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,18 +14,16 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.test.nopstation_cart.R
 import com.test.nopstation_cart.databinding.FragmentProductDetailBinding
-import com.test.nopstation_cart.repository.PreferenceRepository
-import com.test.nopstation_cart.screens.product.ProductFragmentArgs
 import com.test.nopstation_cart.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
 
     private val args: ProductDetailFragmentArgs by navArgs()
     private lateinit var binding: FragmentProductDetailBinding
     private lateinit var sharedPreferences: SharedPreferences
-    private val viewModel: ProductDetailsViewModel by viewModels {
-        ProductDetailsViewModelFactory(PreferenceRepository(sharedPreferences))
-    }
+    private val viewModel: ProductDetailsViewModel by viewModels ()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)

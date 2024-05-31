@@ -13,8 +13,15 @@ import com.test.nopstation_cart.network.api.BannerApi
 import com.test.nopstation_cart.network.api.FeaturedProductApi
 import com.test.nopstation_cart.repository.BannerRepository
 import com.test.nopstation_cart.repository.FeaturedProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-class HomepageViewModel: ViewModel() {
+import javax.inject.Inject
+
+@HiltViewModel
+class HomepageViewModel @Inject constructor(
+    private val repository: BannerRepository,
+    private val repository2: FeaturedProductRepository
+): ViewModel() {
     private val _banner : MutableLiveData<Data> by lazy {
         MutableLiveData<Data>()
     }
@@ -27,20 +34,12 @@ class HomepageViewModel: ViewModel() {
     val featuredProducts: LiveData<List<ProductItems>>
         get() = _featuredProducts
 
-
-    private val apiClient = ApiClient.getClient(null).create(BannerApi::class.java)
-    private val repository = BannerRepository(apiClient)
-
-
     fun getBannerFromApi() = viewModelScope.launch{
         val response = repository.getBanner()
         if(response.isSuccessful){
             _banner.value = response.body()?.data
         }
     }
-
-    private val apiClient2 = ApiClient.getClient(null).create(FeaturedProductApi::class.java)
-    private val repository2 = FeaturedProductRepository(apiClient2)
 
     fun getFeaturedProducts() = viewModelScope.launch {
         val response = repository2.getFeaturedProducts()
@@ -68,7 +67,6 @@ class HomepageViewModel: ViewModel() {
             _featuredProducts.value = list
         }
     }
-
 
     private val _categories: MutableLiveData<CategoryResponse> by lazy {
         MutableLiveData<CategoryResponse>()

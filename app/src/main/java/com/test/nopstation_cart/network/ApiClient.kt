@@ -8,48 +8,56 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiClient {
     companion object {
-        private fun buildClient(token: String?): OkHttpClient {
+        private fun buildClient(token: String): OkHttpClient {
+            println("This ONE")
+            println(token)
+            return OkHttpClient.Builder()
+                .addInterceptor(HttpLoggingInterceptor().apply {
+                    this.level = HttpLoggingInterceptor.Level.BODY
+                }).addInterceptor { chain ->
+                    val newRequest = chain.request().newBuilder()
+                        .addHeader("Token", token)
+                        .addHeader("Content-Type", Constants.CONTENT_TYPE)
+                        .addHeader("DeviceId", Constants.DEVICE_ID)
+                        .addHeader("NST", Constants.NST)
+                        .addHeader("User-Agent", Constants.USER_AGENT)
+                        .build()
+                    chain.proceed(newRequest)
+                }.build()
 
-            if(token == null){
-                return OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply {
-                        this.level = HttpLoggingInterceptor.Level.BODY
-                    }).addInterceptor { chain ->
-                        val newRequest = chain.request().newBuilder()
-                            .addHeader("Content-Type", Constants.CONTENT_TYPE)
-                            .addHeader("DeviceId", Constants.DEVICE_ID)
-                            .addHeader("NST", Constants.NST)
-                            .addHeader("User-Agent", Constants.USER_AGENT)
-                            .build()
-
-                        chain.proceed(newRequest)
-                    }.build()
-            }
-            else{
-                println("This ONE")
-                println(token)
-                return OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply {
-                        this.level = HttpLoggingInterceptor.Level.BODY
-                    }).addInterceptor { chain ->
-                        val newRequest = chain.request().newBuilder()
-                            .addHeader("Token", token)
-                            .addHeader("Content-Type", Constants.CONTENT_TYPE)
-                            .addHeader("DeviceId", Constants.DEVICE_ID)
-                            .addHeader("NST", Constants.NST)
-                            .addHeader("User-Agent", Constants.USER_AGENT)
-                            .build()
-                        chain.proceed(newRequest)
-                    }.build()
-            }
 
         }
 
-        fun getClient(token: String?): Retrofit {
+        private fun buildClient2(): OkHttpClient {
+            return OkHttpClient.Builder()
+                .addInterceptor(HttpLoggingInterceptor().apply {
+                    this.level = HttpLoggingInterceptor.Level.BODY
+                }).addInterceptor { chain ->
+                    val newRequest = chain.request().newBuilder()
+                        .addHeader("Content-Type", Constants.CONTENT_TYPE)
+                        .addHeader("DeviceId", Constants.DEVICE_ID)
+                        .addHeader("NST", Constants.NST)
+                        .addHeader("User-Agent", Constants.USER_AGENT)
+                        .build()
+
+                    chain.proceed(newRequest)
+                }.build()
+
+        }
+
+        fun getClient(token: String): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .client(buildClient(token))
                 .addConverterFactory(GsonConverterFactory.create()).build()
         }
+
+        fun getClient2(): Retrofit {
+            return Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .client(buildClient2())
+                .addConverterFactory(GsonConverterFactory.create()).build()
+        }
+
     }
 }
