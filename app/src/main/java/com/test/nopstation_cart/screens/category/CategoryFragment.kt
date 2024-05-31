@@ -12,8 +12,10 @@ import com.test.nopstation_cart.adapter.CategoryListAdapter
 import com.test.nopstation_cart.databinding.FragmentCategoryBinding
 import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.OurCategoryItem
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class CategoryFragment : Fragment(R.layout.fragment_category) {
 
     private lateinit var binding : FragmentCategoryBinding

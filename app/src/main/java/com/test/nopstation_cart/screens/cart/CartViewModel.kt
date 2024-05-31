@@ -8,23 +8,20 @@ import com.test.nopstation_cart.models.cart.AddToCartRequest
 import com.test.nopstation_cart.models.cart.FetchCartResponse
 import com.test.nopstation_cart.models.cart.FormValue
 import com.test.nopstation_cart.models.cart.Item
-import com.test.nopstation_cart.network.ApiClient
-import com.test.nopstation_cart.network.api.CartApi
 import com.test.nopstation_cart.repository.CartRepository
-import com.test.nopstation_cart.repository.PreferenceRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CartViewModel(
-    private val preferenceRepository: PreferenceRepository
+@HiltViewModel
+class CartViewModel @Inject constructor(
+    private val repository: CartRepository
 ): ViewModel() {
     private val _cartList: MutableLiveData<FetchCartResponse> by lazy {
         MutableLiveData<FetchCartResponse>()
     }
     val cartList: LiveData<FetchCartResponse>
         get() = _cartList
-
-    private val apiClient = ApiClient.getClient(preferenceRepository.getToken()).create(CartApi::class.java)
-    private val repository = CartRepository(apiClient)
 
     fun fetchCart() =  viewModelScope.launch{
         val response = repository.FetchCartItems()

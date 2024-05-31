@@ -52,8 +52,9 @@ import com.test.nopstation_cart.ui.custom.FinalAmountBox
 import com.test.nopstation_cart.ui.custom.PaymentMethod
 import com.test.nopstation_cart.ui.custom.Titles
 import com.test.nopstation_cart.ui.custom.getCheckBox
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 @OptIn(ExperimentalMaterial3Api::class)
 class CheckOutFragment : Fragment(layout.fragment_check_out) {
 

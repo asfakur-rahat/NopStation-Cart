@@ -6,8 +6,9 @@ import com.test.nopstation_cart.network.api.FeaturedProductApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
+import javax.inject.Inject
 
-class FeaturedProductRepository(
+class FeaturedProductRepository @Inject constructor(
     private val api: FeaturedProductApi
 ){
     suspend fun getFeaturedProducts(): Response<FeaturedProductsResponse> = withContext(Dispatchers.IO){

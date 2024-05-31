@@ -7,8 +7,9 @@ import com.test.nopstation_cart.network.api.AuthenticationApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
+import javax.inject.Inject
 
-class LoginRepository(
+class LoginRepository @Inject constructor(
     private val api: AuthenticationApi
 )
 {
