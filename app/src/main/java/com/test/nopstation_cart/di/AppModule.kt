@@ -91,7 +91,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideCartItemCountViewModel(repository: CartRepository): CartItemCountViewModel {
-        return CartItemCountViewModel(repository)
+    fun provideCartItemCountViewModel(repository: CartRepository, isOnline: Boolean): CartItemCountViewModel {
+        return CartItemCountViewModel(repository,isOnline)
     }
 }

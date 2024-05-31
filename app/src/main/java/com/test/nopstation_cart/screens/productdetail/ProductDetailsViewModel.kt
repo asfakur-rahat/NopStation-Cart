@@ -18,12 +18,23 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductDetailsViewModel @Inject constructor(
     private val repository: ProductDetailsRepository,
-    private val cartRepository: CartRepository
-    ): ViewModel() {
-    private val _product : MutableLiveData<Data> by lazy {
+    private val cartRepository: CartRepository,
+    private val isOnline: Boolean
+) : ViewModel() {
+    private val _onlineStatus: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+    val onlineStatus: LiveData<Boolean>
+        get() = _onlineStatus
+
+    fun checkOnlineStatus() {
+        _onlineStatus.value = isOnline
+    }
+
+    private val _product: MutableLiveData<Data> by lazy {
         MutableLiveData<Data>()
     }
-    val product : LiveData<Data>
+    val product: LiveData<Data>
         get() = _product
 
     fun getProductDetails(productID: Int) = viewModelScope.launch {
@@ -47,11 +58,14 @@ class ProductDetailsViewModel @Inject constructor(
         get() = _trigger
 
     fun addToCart(productID: Int, quantity: Int = 1) = viewModelScope.launch {
-        val request = AddToCartRequest(listOf(
-            FormValue(
-            key = "addtocart_${productID}.EnteredQuantity",
-            value = "$quantity"
-        )))
+        val request = AddToCartRequest(
+            listOf(
+                FormValue(
+                    key = "addtocart_${productID}.EnteredQuantity",
+                    value = "$quantity"
+                )
+            )
+        )
         val response = cartRepository.AddToCart(productID, request)
         if (response.isSuccessful) {
             _cartProducts.value = Event(response.body()!!)

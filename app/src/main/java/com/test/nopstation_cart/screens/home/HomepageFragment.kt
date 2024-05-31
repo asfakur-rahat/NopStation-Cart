@@ -72,6 +72,11 @@ class HomepageFragment : Fragment() {
         populateWomenHeel()
         populateSalmon()
         populateFurnitureCollection()
+
+        binding.ibCheckout.setOnClickListener {
+            val action = HomepageFragmentDirections.actionHomepageFragmentToCartFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun initView(){
@@ -84,10 +89,7 @@ class HomepageFragment : Fragment() {
         viewModel.getCategories()
         viewModel.getFeaturedProducts()
 
-        binding.ibCheckout.setOnClickListener {
-            val action = HomepageFragmentDirections.actionHomepageFragmentToCartFragment()
-            findNavController().navigate(action)
-        }
+
 
         binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvFeaturedProducts.adapter = featuredAdaptar
@@ -98,12 +100,9 @@ class HomepageFragment : Fragment() {
     private fun initObservers() {
         viewModel.onlineStatus.observe(viewLifecycleOwner){
             if(it == false){
-                println("Net nai")
-                Toast.makeText(requireContext(), "No Internet Connection", Toast.LENGTH_SHORT).show()
+                return@observe
             }
             else{
-                println("Net ache")
-                Toast.makeText(requireContext(), "Internet Connection Available", Toast.LENGTH_SHORT).show()
                 initView()
             }
         }

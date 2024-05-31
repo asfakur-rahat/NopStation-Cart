@@ -39,7 +39,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         binding = FragmentCategoryBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
         populateCategories()
-        viewModel.updateItemCount()
+        viewModel.checkOnlineStatus()
         initObserver()
         binding.ibCheckout.setOnClickListener {
             val action = CategoryFragmentDirections.actionCategoryFragmentToCartFragment()
@@ -57,6 +57,11 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     private fun initObserver(){
         viewModel.itemCount.observe(viewLifecycleOwner){
             binding.tvCartCount.text = it.toString()
+        }
+        viewModel.onlineStatus.observe(viewLifecycleOwner){
+            if(it == true){
+                viewModel.updateItemCount()
+            }
         }
     }
 }

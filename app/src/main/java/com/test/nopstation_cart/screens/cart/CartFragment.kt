@@ -42,7 +42,6 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         binding = FragmentCartBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
         binding.shimmerLayout.startShimmer()
-        viewModel.fetchCart()
         initObservers()
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -74,6 +73,11 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         viewModel.quantityUpdated.observe(viewLifecycleOwner){
             Toast.makeText(requireContext(), "Quantity updated", Toast.LENGTH_SHORT).show()
             initView(it)
+        }
+        viewModel.onlineStatus.observe(viewLifecycleOwner){
+            if(it){
+                viewModel.fetchCart()
+            }
         }
     }
 
