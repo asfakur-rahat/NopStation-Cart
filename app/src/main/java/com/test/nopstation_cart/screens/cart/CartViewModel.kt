@@ -34,7 +34,7 @@ class CartViewModel @Inject constructor(
         get() = _cartList
 
     fun fetchCart() =  viewModelScope.launch{
-        val response = repository.FetchCartItems()
+        val response = repository.fetchCartItems()
         if (response.isSuccessful) {
             _cartList.value = response.body()
         }

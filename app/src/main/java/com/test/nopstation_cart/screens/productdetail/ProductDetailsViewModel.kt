@@ -66,7 +66,7 @@ class ProductDetailsViewModel @Inject constructor(
                 )
             )
         )
-        val response = cartRepository.AddToCart(productID, request)
+        val response = cartRepository.addToCart(productID, request)
         if (response.isSuccessful) {
             _cartProducts.value = Event(response.body()!!)
             _trigger.value = true

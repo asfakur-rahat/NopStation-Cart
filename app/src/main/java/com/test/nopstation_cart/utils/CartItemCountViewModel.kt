@@ -33,7 +33,7 @@ class CartItemCountViewModel @Inject constructor(
             get() = _itemCount
 
     fun updateItemCount() = viewModelScope.launch {
-        val response = repository.FetchCartItems()
+        val response = repository.fetchCartItems()
         if(response.isSuccessful){
             _itemCount.value = response.body()?.data?.cart?.items?.size
         }

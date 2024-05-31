@@ -31,7 +31,7 @@ class ProductViewModel @Inject constructor(
     }
 
     fun addToCart(id: Int) =  viewModelScope.launch {
-        repository.AddToCart(id, AddToCartRequest(listOf(
+        repository.addToCart(id, AddToCartRequest(listOf(
             FormValue(
                 key = "addtocart_${id}.EnteredQuantity",
                 value = "1"
