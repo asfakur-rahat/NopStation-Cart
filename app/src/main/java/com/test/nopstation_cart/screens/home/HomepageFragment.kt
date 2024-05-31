@@ -66,14 +66,20 @@ class HomepageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentHomepageBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+        viewModel.checkOnlineStatus()
+        initObservers()
+        populateBestSale()
+        populateWomenHeel()
+        populateSalmon()
+        populateFurnitureCollection()
+    }
 
+    private fun initView(){
         featuredAdaptar = FeaturedProductAdapter(
             onClick = { onItemClick(it) },
             onAddToCart = { addToCart(it) }
         )
-
         cartItemViewModel.updateItemCount()
-        initObservers()
         viewModel.getBannerFromApi()
         viewModel.getCategories()
         viewModel.getFeaturedProducts()
@@ -83,13 +89,26 @@ class HomepageFragment : Fragment() {
             findNavController().navigate(action)
         }
 
-        populateBestSale()
-        populateWomenHeel()
-        populateSalmon()
-        populateFurnitureCollection()
+        binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvFeaturedProducts.adapter = featuredAdaptar
+        binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvCategoryList.adapter = ourcategoryadaptar
     }
 
     private fun initObservers() {
+        viewModel.onlineStatus.observe(viewLifecycleOwner){
+            if(it == false){
+                println("Net nai")
+                Toast.makeText(requireContext(), "No Internet Connection", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                println("Net ache")
+                Toast.makeText(requireContext(), "Internet Connection Available", Toast.LENGTH_SHORT).show()
+                initView()
+            }
+        }
+
+
         viewModel.banner.observe(viewLifecycleOwner) { data ->
             binding.carouselBanner.registerLifecycle(viewLifecycleOwner)
             val list = data.sliders.map { CarouselItem(imageUrl = it.imageUrl) }
@@ -118,12 +137,6 @@ class HomepageFragment : Fragment() {
         cartItemViewModel.itemCount.observe(viewLifecycleOwner){
             binding.tvCartCount.text = it.toString()
         }
-
-        binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvFeaturedProducts.adapter = featuredAdaptar
-
-        binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvCategoryList.adapter = ourcategoryadaptar
     }
 
     private fun addToCart(item: ProductItems) {
@@ -162,7 +175,6 @@ class HomepageFragment : Fragment() {
         val action = HomepageFragmentDirections.actionHomepageFragmentToProductDetailFragment(item.id)
         findNavController().navigate(action)
     }
-
     private fun onCategoryClick(data: Data, name: String) {
         val categoryList = data.products.toTypedArray()
         val action = HomepageFragmentDirections.actionHomepageFragmentToProductFragment(categoryList, name)

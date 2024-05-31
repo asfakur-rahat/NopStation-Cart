@@ -20,8 +20,19 @@ import javax.inject.Inject
 @HiltViewModel
 class HomepageViewModel @Inject constructor(
     private val repository: BannerRepository,
-    private val repository2: FeaturedProductRepository
+    private val repository2: FeaturedProductRepository,
+    private val isOnline: Boolean
 ): ViewModel() {
+
+    private val _onlineStatus : MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+    val onlineStatus : LiveData<Boolean>
+        get() = _onlineStatus
+    fun checkOnlineStatus() {
+        _onlineStatus.value = isOnline
+    }
+
     private val _banner : MutableLiveData<Data> by lazy {
         MutableLiveData<Data>()
     }
