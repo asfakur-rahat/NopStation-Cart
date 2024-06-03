@@ -53,7 +53,7 @@
                     android:layout_height="28dp"
                     android:layout_marginEnd="24dp"
                     android:contentDescription="@string/checkout_button"
-                    android:src="@drawable/checkout"
+                    android:src="@drawable/ic_checkout"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
