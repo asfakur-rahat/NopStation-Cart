@@ -6,21 +6,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.test.nopstation_cart.db.dao.BannerDao
-import com.test.nopstation_cart.db.dao.CategoryDao
-import com.test.nopstation_cart.db.dao.FeaturedDao
-import com.test.nopstation_cart.db.dbmodel.Banner
-import com.test.nopstation_cart.db.dbmodel.Category
-import com.test.nopstation_cart.db.dbmodel.Featured
+import com.test.nopstation_cart.models.banner.Slider
 
 @Database(
-    entities = [Banner::class, Category::class, Featured::class],
+    entities = [Slider::class],
     version = 1, exportSchema = false
 )
 @TypeConverters()
 abstract class AppDatabase: RoomDatabase(){
     abstract fun bannerDao(): BannerDao
-    abstract fun categoryDao(): CategoryDao
-    abstract fun featuredDao(): FeaturedDao
+    //abstract fun categoryDao(): CategoryDao
+    //abstract fun featuredDao(): FeaturedDao
 
     companion object{
         operator fun invoke(context: Context) = buildDatabase(context)

@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.test.nopstation_cart.db.AppDatabase
 import com.test.nopstation_cart.models.CategoryItem
 import com.test.nopstation_cart.models.ProductItems
 import com.test.nopstation_cart.models.banner.Data
+import com.test.nopstation_cart.models.banner.Slider
 import com.test.nopstation_cart.models.category.CategoryResponse
 import com.test.nopstation_cart.network.ApiClient
 import com.test.nopstation_cart.network.api.BannerApi
@@ -21,6 +23,7 @@ import javax.inject.Inject
 class HomepageViewModel @Inject constructor(
     private val repository: BannerRepository,
     private val repository2: FeaturedProductRepository,
+    private val db: AppDatabase,
     private val isOnline: Boolean
 ): ViewModel() {
 
@@ -33,10 +36,10 @@ class HomepageViewModel @Inject constructor(
         _onlineStatus.value = isOnline
     }
 
-    private val _banner : MutableLiveData<Data> by lazy {
-        MutableLiveData<Data>()
+    private val _banner : MutableLiveData<List<Slider>> by lazy {
+        MutableLiveData<List<Slider>>()
     }
-    val banner : LiveData<Data>
+    val banner : LiveData<List<Slider>>
         get() = _banner
 
     private val _featuredProducts: MutableLiveData<List<ProductItems>> by lazy {
@@ -45,10 +48,15 @@ class HomepageViewModel @Inject constructor(
     val featuredProducts: LiveData<List<ProductItems>>
         get() = _featuredProducts
 
-    fun getBannerFromApi() = viewModelScope.launch{
-        val response = repository.getBanner()
-        if(response.isSuccessful){
-            _banner.value = response.body()?.data
+    fun getBanner() = viewModelScope.launch{
+        if(isOnline){
+            repository.getBanner().isSuccessful.let {
+                if (it) {
+                    _banner.value = repository.getBanner().body()?.data?.sliders
+                }
+            }
+        }else{
+            _banner.value = db.bannerDao().getBannerList()
         }
     }
 

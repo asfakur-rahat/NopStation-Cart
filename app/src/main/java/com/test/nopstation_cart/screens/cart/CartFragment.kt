@@ -42,6 +42,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         binding = FragmentCartBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
         binding.shimmerLayout.startShimmer()
+        viewModel.checkOnlineStatus()
         initObservers()
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -75,7 +76,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             initView(it)
         }
         viewModel.onlineStatus.observe(viewLifecycleOwner){
-            if(it){
+            if(it==true){
                 viewModel.fetchCart()
             }
         }

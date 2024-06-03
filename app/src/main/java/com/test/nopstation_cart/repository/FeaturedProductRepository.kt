@@ -14,7 +14,6 @@ class FeaturedProductRepository @Inject constructor(
     suspend fun getFeaturedProducts(): Response<FeaturedProductsResponse> = withContext(Dispatchers.IO){
         return@withContext api.getFeaturedProducts()
     }
-
     suspend fun getCategoryWithProducts(): Response<CategoryResponse> = withContext(Dispatchers.IO){
         return@withContext api.getCategoriesWithProducts()
     }

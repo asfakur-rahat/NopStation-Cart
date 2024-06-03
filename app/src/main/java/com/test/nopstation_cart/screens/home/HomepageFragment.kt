@@ -85,12 +85,9 @@ class HomepageFragment : Fragment() {
             onAddToCart = { addToCart(it) }
         )
         cartItemViewModel.updateItemCount()
-        viewModel.getBannerFromApi()
+        viewModel.getBanner()
         viewModel.getCategories()
         viewModel.getFeaturedProducts()
-
-
-
         binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvFeaturedProducts.adapter = featuredAdaptar
         binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -100,7 +97,7 @@ class HomepageFragment : Fragment() {
     private fun initObservers() {
         viewModel.onlineStatus.observe(viewLifecycleOwner){
             if(it == false){
-                return@observe
+                viewModel.getBanner()
             }
             else{
                 initView()
@@ -110,7 +107,7 @@ class HomepageFragment : Fragment() {
 
         viewModel.banner.observe(viewLifecycleOwner) { data ->
             binding.carouselBanner.registerLifecycle(viewLifecycleOwner)
-            val list = data.sliders.map { CarouselItem(imageUrl = it.imageUrl) }
+            val list = data.map { CarouselItem(imageUrl = it.imageUrl) }
             binding.carouselBanner.setData(list)
         }
 

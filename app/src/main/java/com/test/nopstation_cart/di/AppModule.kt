@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import com.test.nopstation_cart.db.AppDatabase
 import com.test.nopstation_cart.network.ApiClient
 import com.test.nopstation_cart.network.api.AuthenticationApi
 import com.test.nopstation_cart.network.api.BannerApi
@@ -25,7 +26,6 @@ import javax.inject.Singleton
 class AppModule {
 
     @Provides
-    @Singleton
     fun provideOnlineStatus(@ApplicationContext context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectivityManager.activeNetwork ?: return false
@@ -38,6 +38,11 @@ class AppModule {
         }
     }
 
+    @Provides
+    @Singleton
+    fun providesAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return AppDatabase(context)
+    }
     @Provides
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
