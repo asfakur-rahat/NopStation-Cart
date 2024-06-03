@@ -1,5 +1,6 @@
 package com.test.nopstation_cart.repository
 
+import com.test.nopstation_cart.db.AppDatabase
 import com.test.nopstation_cart.models.category.CategoryResponse
 import com.test.nopstation_cart.models.featured_product.FeaturedProductsResponse
 import com.test.nopstation_cart.network.api.FeaturedProductApi
@@ -9,12 +10,30 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class FeaturedProductRepository @Inject constructor(
-    private val api: FeaturedProductApi
+    private val api: FeaturedProductApi,
+    private val db: AppDatabase
 ){
-    suspend fun getFeaturedProducts(): Response<FeaturedProductsResponse> = withContext(Dispatchers.IO){
-        return@withContext api.getFeaturedProducts()
+    suspend fun getFeaturedProducts() = withContext(Dispatchers.IO){
+        val response =  api.getFeaturedProducts()
+        if (response.isSuccessful){
+            db.featuredDao().saveFeaturedProducts(response.body()?.data!!)
+        }
+        return@withContext response
     }
+
+    suspend fun getFeaturedProductsFromRoom() = withContext(Dispatchers.IO){
+        return@withContext db.featuredDao().getFeaturedProducts()
+    }
+
     suspend fun getCategoryWithProducts(): Response<CategoryResponse> = withContext(Dispatchers.IO){
-        return@withContext api.getCategoriesWithProducts()
+        val response = api.getCategoriesWithProducts()
+        if (response.isSuccessful){
+            db.categoryDao().insertCategory(response.body()!!.data)
+        }
+        return@withContext response
+    }
+
+    suspend fun getCategoriesFromRoom() = withContext(Dispatchers.IO){
+        return@withContext db.categoryDao().getCategory()
     }
 }

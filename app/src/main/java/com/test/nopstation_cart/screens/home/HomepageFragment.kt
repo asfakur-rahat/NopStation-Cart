@@ -67,12 +67,16 @@ class HomepageFragment : Fragment() {
         binding = FragmentHomepageBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
         viewModel.checkOnlineStatus()
-        initObservers()
         populateBestSale()
         populateWomenHeel()
         populateSalmon()
         populateFurnitureCollection()
-
+        featuredAdaptar = FeaturedProductAdapter(
+            onClick = { onItemClick(it) },
+            onAddToCart = { addToCart(it) }
+        )
+        initObservers()
+        initView()
         binding.ibCheckout.setOnClickListener {
             val action = HomepageFragmentDirections.actionHomepageFragmentToCartFragment()
             findNavController().navigate(action)
@@ -80,31 +84,21 @@ class HomepageFragment : Fragment() {
     }
 
     private fun initView(){
-        featuredAdaptar = FeaturedProductAdapter(
-            onClick = { onItemClick(it) },
-            onAddToCart = { addToCart(it) }
-        )
-        cartItemViewModel.updateItemCount()
-        viewModel.getBanner()
-        viewModel.getCategories()
-        viewModel.getFeaturedProducts()
         binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvFeaturedProducts.adapter = featuredAdaptar
         binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvCategoryList.adapter = ourcategoryadaptar
+        viewModel.getBanner()
+        viewModel.getCategories()
+        viewModel.getFeaturedProducts()
     }
 
     private fun initObservers() {
-        viewModel.onlineStatus.observe(viewLifecycleOwner){
-            if(it == false){
-                viewModel.getBanner()
+        viewModel.onlineStatus.observe(viewLifecycleOwner){status->
+            if(status == true){
+                cartItemViewModel.updateItemCount()
             }
-            else{
-                initView()
-            }
-        }
-
-
+        }  
         viewModel.banner.observe(viewLifecycleOwner) { data ->
             binding.carouselBanner.registerLifecycle(viewLifecycleOwner)
             val list = data.map { CarouselItem(imageUrl = it.imageUrl) }
@@ -116,7 +110,7 @@ class HomepageFragment : Fragment() {
         }
 
         viewModel.categories.observe(viewLifecycleOwner) {
-            ourcategoryadaptar.submitList(it.data)
+            ourcategoryadaptar.submitList(it)
         }
 
         viewModel2.cartProducts.observe(viewLifecycleOwner) {

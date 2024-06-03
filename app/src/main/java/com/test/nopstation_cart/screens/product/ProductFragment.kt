@@ -57,7 +57,6 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         binding.ivBanner.load(args.Product[0].pictureModels[0].imageUrl)
         super.onViewCreated(view, savedInstanceState)
         initproduct()
-        cartItemCountViewModel.updateItemCount()
         initObserver()
         binding.ibCheckout.setOnClickListener {
             goToCart()
@@ -71,7 +70,11 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         cartItemCountViewModel.itemCount.observe(viewLifecycleOwner) {
             binding.tvCartCount.text = it.toString()
         }
-
+        cartItemCountViewModel.onlineStatus.observe(viewLifecycleOwner){
+            if (it == true){
+                cartItemCountViewModel.updateItemCount()
+            }
+        }
     }
 
     private fun initproduct(){
