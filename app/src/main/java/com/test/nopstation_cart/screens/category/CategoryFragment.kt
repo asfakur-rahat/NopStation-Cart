@@ -12,10 +12,11 @@ import com.test.nopstation_cart.R
 import com.test.nopstation_cart.adapter.CategoryListAdapter
 import com.test.nopstation_cart.databinding.FragmentCategoryBinding
 import com.test.nopstation_cart.demodata.ProvideDemoData
-import com.test.nopstation_cart.models.OurCategoryItem
+import com.test.nopstation_cart.screens.home.HomepageFragmentDirections
+import com.test.nopstation_cart.models.category.Data as CategoryData
+import com.test.nopstation_cart.screens.home.HomepageViewModel
 import com.test.nopstation_cart.utils.CartItemCountViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -26,13 +27,20 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     private lateinit var adapter: CategoryListAdapter
 
     private val viewModel: CartItemCountViewModel by viewModels()
+    private val homepageViewModel: HomepageViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        adapter = CategoryListAdapter{
-               // onItemClick(it)
+        adapter = CategoryListAdapter{data, name ->
+               onItemClick(data, name)
         }
         demoData = ProvideDemoData()
+    }
+
+    private fun onItemClick(data: CategoryData, name: String) {
+        val categoryList = data.products.toTypedArray()
+        val action = CategoryFragmentDirections.actionCategoryFragmentToProductFragment(categoryList,name)
+        findNavController().navigate(action)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,10 +56,9 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     }
 
     private fun populateCategories() {
-        val category = demoData.getCategoryList()
+        homepageViewModel.getCategories()
         binding.rvCategory.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.rvCategory.adapter = adapter
-        adapter.submitList(category)
     }
 
     private fun initObserver(){
@@ -62,6 +69,9 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
             if(it == true){
                 viewModel.updateItemCount()
             }
+        }
+        homepageViewModel.categories.observe(viewLifecycleOwner){
+            adapter.submitList(it)
         }
     }
 }

@@ -5,21 +5,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.test.nopstation_cart.databinding.ItemCategoryBinding
-import com.test.nopstation_cart.models.OurCategoryItem
+import com.test.nopstation_cart.models.category.Data as OurCategoryItem
 
 class CategoryListAdapter(
-    private val onClick: (OurCategoryItem) -> Unit
+    private val onClick: (OurCategoryItem,String) -> Unit
 ): ListAdapter<OurCategoryItem, CategoryListAdapter.ViewHolder>(DIFF_CHECK) {
     class ViewHolder(
         private val binding: ItemCategoryBinding,
-        private val onClick: (OurCategoryItem) -> Unit
+        private val onClick: (OurCategoryItem,String) -> Unit
     ): RecyclerView.ViewHolder(binding.root) {
             fun bind(item: OurCategoryItem){
-                binding.ivCategoryItem.setImageResource(item.categoryImage)
-                binding.tvCategoryName.text = item.categoryName
+                binding.ivCategoryItem.load(item.products[0].pictureModels[0].imageUrl)
+                binding.tvCategoryName.text = item.name
                 binding.root.setOnClickListener {
-                    onClick(item)
+                    onClick(item, item.name)
                 }
             }
     }
