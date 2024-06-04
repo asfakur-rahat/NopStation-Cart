@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.test.nopstation_cart.databinding.CartItemBinding
-import com.test.nopstation_cart.models.CartItem
 import com.test.nopstation_cart.models.cart.Item
 
 class CartAdapter(

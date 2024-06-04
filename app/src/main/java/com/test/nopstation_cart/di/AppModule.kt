@@ -2,6 +2,9 @@ package com.test.nopstation_cart.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import com.test.nopstation_cart.db.AppDatabase
 import com.test.nopstation_cart.network.ApiClient
 import com.test.nopstation_cart.network.api.AuthenticationApi
 import com.test.nopstation_cart.network.api.BannerApi
@@ -9,8 +12,6 @@ import com.test.nopstation_cart.network.api.CartApi
 import com.test.nopstation_cart.network.api.FeaturedProductApi
 import com.test.nopstation_cart.network.api.ProductApi
 import com.test.nopstation_cart.repository.CartRepository
-import com.test.nopstation_cart.repository.ProductDetailsRepository
-import com.test.nopstation_cart.screens.productdetail.ProductDetailsViewModel
 import com.test.nopstation_cart.utils.CartItemCountViewModel
 import dagger.Module
 import dagger.Provides
@@ -24,6 +25,24 @@ import javax.inject.Singleton
 @Module
 class AppModule {
 
+    @Provides
+    fun provideOnlineStatus(@ApplicationContext context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return when{
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            else -> false
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun providesAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return AppDatabase(context)
+    }
     @Provides
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
@@ -77,7 +96,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideCartItemCountViewModel(repository: CartRepository): CartItemCountViewModel {
-        return CartItemCountViewModel(repository)
+    fun provideCartItemCountViewModel(repository: CartRepository, isOnline: Boolean): CartItemCountViewModel {
+        return CartItemCountViewModel(repository,isOnline)
     }
 }

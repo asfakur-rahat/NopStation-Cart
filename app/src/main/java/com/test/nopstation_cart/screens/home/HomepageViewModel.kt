@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.test.nopstation_cart.db.AppDatabase
 import com.test.nopstation_cart.models.CategoryItem
 import com.test.nopstation_cart.models.ProductItems
 import com.test.nopstation_cart.models.banner.Data
+import com.test.nopstation_cart.models.banner.Slider
 import com.test.nopstation_cart.models.category.CategoryResponse
 import com.test.nopstation_cart.network.ApiClient
 import com.test.nopstation_cart.network.api.BannerApi
@@ -20,13 +22,39 @@ import javax.inject.Inject
 @HiltViewModel
 class HomepageViewModel @Inject constructor(
     private val repository: BannerRepository,
-    private val repository2: FeaturedProductRepository
-): ViewModel() {
-    private val _banner : MutableLiveData<Data> by lazy {
-        MutableLiveData<Data>()
+    private val repository2: FeaturedProductRepository,
+    private val isOnline: Boolean
+) : ViewModel() {
+
+    private val _onlineStatus: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
     }
-    val banner : LiveData<Data>
+    val onlineStatus: LiveData<Boolean>
+        get() = _onlineStatus
+
+    fun checkOnlineStatus() {
+        _onlineStatus.value = isOnline
+    }
+
+    private val _banner: MutableLiveData<List<Slider>> by lazy {
+        MutableLiveData<List<Slider>>()
+    }
+    val banner: LiveData<List<Slider>>
         get() = _banner
+
+
+    fun getBanner() = viewModelScope.launch {
+        if (isOnline) {
+            repository.getBanner().isSuccessful.let {
+                if (it) {
+                    _banner.value = repository.getBanner().body()?.data?.sliders
+                }
+            }
+        } else {
+            _banner.value = repository.getBannerFromRoom()
+        }
+    }
+
 
     private val _featuredProducts: MutableLiveData<List<ProductItems>> by lazy {
         MutableLiveData<List<ProductItems>>()
@@ -34,33 +62,44 @@ class HomepageViewModel @Inject constructor(
     val featuredProducts: LiveData<List<ProductItems>>
         get() = _featuredProducts
 
-    fun getBannerFromApi() = viewModelScope.launch{
-        val response = repository.getBanner()
-        if(response.isSuccessful){
-            _banner.value = response.body()?.data
-        }
-    }
-
     fun getFeaturedProducts() = viewModelScope.launch {
-        val response = repository2.getFeaturedProducts()
-        if (response.isSuccessful) {
+        if (isOnline) {
+            val response = repository2.getFeaturedProducts()
             val data = response.body()?.data
-            var list = mutableListOf<ProductItems>()
-            for (item in data!!){
-                println(item)
+            val list = mutableListOf<ProductItems>()
+            data?.forEach {
                 list.add(
                     ProductItems(
-                        id = item.reviewOverviewModel.productId,
-                        productName = item.name,
-                        productImage = item.pictureModels[0].imageUrl,
-                        productPrice = item.productPrice.priceValue,
+                        id = it.id,
+                        productName = it.name,
+                        productImage = it.pictureModels[0].imageUrl,
+                        productPrice = it.productPrice.priceValue,
                         productRating =
-                            if(item.reviewOverviewModel.totalReviews == 0) {
-                                0.0f
-                            }
-                            else {
-                                item.reviewOverviewModel.ratingSum.toFloat() /item.reviewOverviewModel.totalReviews.toFloat()
-                            }
+                        if (it.reviewOverviewModel.totalReviews == 0) {
+                            0.0f
+                        } else {
+                            it.reviewOverviewModel.ratingSum.toFloat() / it.reviewOverviewModel.totalReviews.toFloat()
+                        }
+                    )
+                )
+            }
+            _featuredProducts.value = list
+        } else {
+            val data = repository2.getFeaturedProductsFromRoom()
+            val list = mutableListOf<ProductItems>()
+            data.forEach {
+                list.add(
+                    ProductItems(
+                        id = it.id,
+                        productName = it.name,
+                        productImage = it.pictureModels[0].imageUrl,
+                        productPrice = it.productPrice.priceValue,
+                        productRating =
+                        if (it.reviewOverviewModel.totalReviews == 0) {
+                            0.0f
+                        } else {
+                            it.reviewOverviewModel.ratingSum.toFloat() / it.reviewOverviewModel.totalReviews.toFloat()
+                        }
                     )
                 )
             }
@@ -68,16 +107,21 @@ class HomepageViewModel @Inject constructor(
         }
     }
 
-    private val _categories: MutableLiveData<CategoryResponse> by lazy {
-        MutableLiveData<CategoryResponse>()
+    private val _categories: MutableLiveData<List<com.test.nopstation_cart.models.category.Data>> by lazy {
+        MutableLiveData<List<com.test.nopstation_cart.models.category.Data>>()
     }
-    val categories: LiveData<CategoryResponse>
+    val categories: LiveData<List<com.test.nopstation_cart.models.category.Data>>
         get() = _categories
 
     fun getCategories() = viewModelScope.launch {
-        val response = repository2.getCategoryWithProducts()
-        if (response.isSuccessful) {
-            _categories.value = response.body()
+        if (isOnline) {
+            repository2.getCategoryWithProducts().isSuccessful.let {
+                if (it) {
+                    _categories.value = repository2.getCategoryWithProducts().body()?.data
+                }
+            }
+        } else {
+            _categories.value = repository2.getCategoriesFromRoom()
         }
     }
 

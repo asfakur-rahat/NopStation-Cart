@@ -1,5 +1,7 @@
 package com.test.nopstation_cart.screens.product
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -15,12 +17,21 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductViewModel @Inject constructor(
     private val viewModel: CartItemCountViewModel,
-    private val repository: CartRepository
+    private val repository: CartRepository,
+    private val isOnline: Boolean
 ) : ViewModel() {
 
+    private val _onlineStatus : MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+    val onlineStatus : LiveData<Boolean>
+        get() = _onlineStatus
+    fun checkOnlineStatus() {
+        _onlineStatus.value = isOnline
+    }
 
     fun addToCart(id: Int) =  viewModelScope.launch {
-        repository.AddToCart(id, AddToCartRequest(listOf(
+        repository.addToCart(id, AddToCartRequest(listOf(
             FormValue(
                 key = "addtocart_${id}.EnteredQuantity",
                 value = "1"
@@ -29,7 +40,6 @@ class ProductViewModel @Inject constructor(
             updateCartCount()
         }
     }
-
     private fun updateCartCount() = viewModelScope.launch {
         viewModel.updateItemCount()
     }

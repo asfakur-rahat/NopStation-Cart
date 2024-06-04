@@ -66,33 +66,42 @@ class HomepageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentHomepageBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
-
-        featuredAdaptar = FeaturedProductAdapter(
-            onClick = { onItemClick(it) },
-            onAddToCart = { addToCart(it) }
-        )
-
-        cartItemViewModel.updateItemCount()
-        initObservers()
-        viewModel.getBannerFromApi()
-        viewModel.getCategories()
-        viewModel.getFeaturedProducts()
-
-        binding.ibCheckout.setOnClickListener {
-            val action = HomepageFragmentDirections.actionHomepageFragmentToCartFragment()
-            findNavController().navigate(action)
-        }
-
+        viewModel.checkOnlineStatus()
         populateBestSale()
         populateWomenHeel()
         populateSalmon()
         populateFurnitureCollection()
+        featuredAdaptar = FeaturedProductAdapter(
+            onClick = { onItemClick(it) },
+            onAddToCart = { addToCart(it) }
+        )
+        initObservers()
+        initView()
+        binding.ibCheckout.setOnClickListener {
+            val action = HomepageFragmentDirections.actionHomepageFragmentToCartFragment()
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun initView(){
+        binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvFeaturedProducts.adapter = featuredAdaptar
+        binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvCategoryList.adapter = ourcategoryadaptar
+        viewModel.getBanner()
+        viewModel.getCategories()
+        viewModel.getFeaturedProducts()
     }
 
     private fun initObservers() {
+        viewModel.onlineStatus.observe(viewLifecycleOwner){status->
+            if(status == true){
+                cartItemViewModel.updateItemCount()
+            }
+        }  
         viewModel.banner.observe(viewLifecycleOwner) { data ->
             binding.carouselBanner.registerLifecycle(viewLifecycleOwner)
-            val list = data.sliders.map { CarouselItem(imageUrl = it.imageUrl) }
+            val list = data.map { CarouselItem(imageUrl = it.imageUrl) }
             binding.carouselBanner.setData(list)
         }
 
@@ -101,7 +110,7 @@ class HomepageFragment : Fragment() {
         }
 
         viewModel.categories.observe(viewLifecycleOwner) {
-            ourcategoryadaptar.submitList(it.data)
+            ourcategoryadaptar.submitList(it)
         }
 
         viewModel2.cartProducts.observe(viewLifecycleOwner) {
@@ -118,12 +127,6 @@ class HomepageFragment : Fragment() {
         cartItemViewModel.itemCount.observe(viewLifecycleOwner){
             binding.tvCartCount.text = it.toString()
         }
-
-        binding.rvFeaturedProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvFeaturedProducts.adapter = featuredAdaptar
-
-        binding.rvCategoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvCategoryList.adapter = ourcategoryadaptar
     }
 
     private fun addToCart(item: ProductItems) {
@@ -162,7 +165,6 @@ class HomepageFragment : Fragment() {
         val action = HomepageFragmentDirections.actionHomepageFragmentToProductDetailFragment(item.id)
         findNavController().navigate(action)
     }
-
     private fun onCategoryClick(data: Data, name: String) {
         val categoryList = data.products.toTypedArray()
         val action = HomepageFragmentDirections.actionHomepageFragmentToProductFragment(categoryList, name)

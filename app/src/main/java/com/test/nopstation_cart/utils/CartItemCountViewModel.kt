@@ -11,8 +11,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartItemCountViewModel @Inject constructor(
-    private val repository: CartRepository
+    private val repository: CartRepository,
+    private val isOnline: Boolean
 ): ViewModel(){
+
+    private val _onlineStatus : MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+    val onlineStatus : LiveData<Boolean>
+        get() = _onlineStatus
+    fun checkOnlineStatus() {
+        _onlineStatus.value = isOnline
+    }
+
 
     private val _itemCount : MutableLiveData<Int> by lazy {
         MutableLiveData<Int>()
@@ -22,7 +33,7 @@ class CartItemCountViewModel @Inject constructor(
             get() = _itemCount
 
     fun updateItemCount() = viewModelScope.launch {
-        val response = repository.FetchCartItems()
+        val response = repository.fetchCartItems()
         if(response.isSuccessful){
             _itemCount.value = response.body()?.data?.cart?.items?.size
         }

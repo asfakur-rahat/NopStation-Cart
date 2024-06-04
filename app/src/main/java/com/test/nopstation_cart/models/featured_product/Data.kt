@@ -1,13 +1,17 @@
 package com.test.nopstation_cart.models.featured_product
 
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "Featured")
 data class Data(
     @SerializedName("CustomProperties")
     val customProperties: CustomProperties,
     @SerializedName("FullDescription")
     val fullDescription: String,
+    @PrimaryKey
     @SerializedName("Id")
     val id: Int,
     @SerializedName("MarkAsNew")

@@ -15,8 +15,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val repository: CartRepository
+    private val repository: CartRepository,
+    private val isOnline: Boolean
 ): ViewModel() {
+    private val _onlineStatus : MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+    val onlineStatus : LiveData<Boolean>
+        get() = _onlineStatus
+    fun checkOnlineStatus() {
+        _onlineStatus.value = isOnline
+    }
+
     private val _cartList: MutableLiveData<FetchCartResponse> by lazy {
         MutableLiveData<FetchCartResponse>()
     }
@@ -24,7 +34,7 @@ class CartViewModel @Inject constructor(
         get() = _cartList
 
     fun fetchCart() =  viewModelScope.launch{
-        val response = repository.FetchCartItems()
+        val response = repository.fetchCartItems()
         if (response.isSuccessful) {
             _cartList.value = response.body()
         }

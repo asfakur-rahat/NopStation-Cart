@@ -12,7 +12,7 @@ import javax.inject.Inject
 class CartRepository @Inject constructor(
     private val api: CartApi
 ) {
-    suspend fun AddToCart(productID: Int, request: AddToCartRequest): Response<AddToCartResponse> = withContext(Dispatchers.IO){
+    suspend fun addToCart(productID: Int, request: AddToCartRequest): Response<AddToCartResponse> = withContext(Dispatchers.IO){
         return@withContext api.addProductToCart(productID, request)
     }
 
@@ -20,7 +20,7 @@ class CartRepository @Inject constructor(
         return@withContext api.updateCart(request)
     }
 
-    suspend fun FetchCartItems(): Response<FetchCartResponse> = withContext(Dispatchers.IO){
+    suspend fun fetchCartItems(): Response<FetchCartResponse> = withContext(Dispatchers.IO){
         return@withContext api.fetchCartItems()
     }
 }
