@@ -1,29 +1,26 @@
 package com.test.nopstation_cart.screens.home
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.test.nopstation_cart.db.AppDatabase
-import com.test.nopstation_cart.models.CategoryItem
 import com.test.nopstation_cart.models.ProductItems
-import com.test.nopstation_cart.models.banner.Data
 import com.test.nopstation_cart.models.banner.Slider
-import com.test.nopstation_cart.models.category.CategoryResponse
-import com.test.nopstation_cart.network.ApiClient
-import com.test.nopstation_cart.network.api.BannerApi
-import com.test.nopstation_cart.network.api.FeaturedProductApi
 import com.test.nopstation_cart.repository.BannerRepository
 import com.test.nopstation_cart.repository.FeaturedProductRepository
+import com.test.nopstation_cart.utils.InternetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import com.test.nopstation_cart.models.category.Data as CategoryData
 import javax.inject.Inject
 
 @HiltViewModel
 class HomepageViewModel @Inject constructor(
     private val repository: BannerRepository,
     private val repository2: FeaturedProductRepository,
-    private val isOnline: Boolean
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     private val _onlineStatus: MutableLiveData<Boolean> by lazy {
@@ -33,7 +30,7 @@ class HomepageViewModel @Inject constructor(
         get() = _onlineStatus
 
     fun checkOnlineStatus() {
-        _onlineStatus.value = isOnline
+        _onlineStatus.value = InternetStatus.isOnline(context.applicationContext)
     }
 
     private val _banner: MutableLiveData<List<Slider>> by lazy {
@@ -44,7 +41,7 @@ class HomepageViewModel @Inject constructor(
 
 
     fun getBanner() = viewModelScope.launch {
-        if (isOnline) {
+        if (InternetStatus.isOnline(context.applicationContext)) {
             repository.getBanner().isSuccessful.let {
                 if (it) {
                     _banner.value = repository.getBanner().body()?.data?.sliders
@@ -63,7 +60,7 @@ class HomepageViewModel @Inject constructor(
         get() = _featuredProducts
 
     fun getFeaturedProducts() = viewModelScope.launch {
-        if (isOnline) {
+        if (InternetStatus.isOnline(context.applicationContext)) {
             val response = repository2.getFeaturedProducts()
             val data = response.body()?.data
             val list = mutableListOf<ProductItems>()
@@ -107,17 +104,18 @@ class HomepageViewModel @Inject constructor(
         }
     }
 
-    private val _categories: MutableLiveData<List<com.test.nopstation_cart.models.category.Data>> by lazy {
-        MutableLiveData<List<com.test.nopstation_cart.models.category.Data>>()
+    private val _categories: MutableLiveData<List<CategoryData>> by lazy {
+        MutableLiveData<List<CategoryData>>()
     }
-    val categories: LiveData<List<com.test.nopstation_cart.models.category.Data>>
+    val categories: LiveData<List<CategoryData>>
         get() = _categories
 
     fun getCategories() = viewModelScope.launch {
-        if (isOnline) {
-            repository2.getCategoryWithProducts().isSuccessful.let {
+        if (InternetStatus.isOnline(context.applicationContext)) {
+            val response = repository2.getCategoryWithProducts()
+            response.isSuccessful.let {
                 if (it) {
-                    _categories.value = repository2.getCategoryWithProducts().body()?.data
+                    _categories.value = response.body()?.data
                 }
             }
         } else {

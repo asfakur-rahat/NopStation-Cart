@@ -9,8 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiClient {
     companion object {
         private fun buildClient(token: String): OkHttpClient {
-            println("This ONE")
-            println(token)
+            //println("This ONE")
+            //println(token)
             return OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().apply {
                     this.level = HttpLoggingInterceptor.Level.BODY

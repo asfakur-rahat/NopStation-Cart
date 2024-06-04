@@ -59,14 +59,14 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.loginFragment -> {
-                    println("Account")
+                    //println("Account")
                     binding.mainNavbar.visibility = View.GONE
 
                     if (token != null){
                         navController.navigate(R.id.accountFragment)
-                        return@addOnDestinationChangedListener
+                        binding.mainNavbar.visibility = View.VISIBLE
+                        binding.mainNavbar.selectedItemId = R.id.loginFragment
                     }
-
                 }
                 else -> binding.mainNavbar.visibility = View.VISIBLE
             }
