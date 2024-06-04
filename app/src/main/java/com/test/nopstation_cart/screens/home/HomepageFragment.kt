@@ -40,8 +40,8 @@ class HomepageFragment : Fragment() {
     private val viewModel: HomepageViewModel by viewModels()
     private val viewModel2: ProductDetailsViewModel by viewModels ()
 
-    @Inject
-    lateinit var cartItemViewModel: CartItemCountViewModel
+
+    private val cartItemViewModel: CartItemCountViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

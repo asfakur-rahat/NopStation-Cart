@@ -1,5 +1,6 @@
 package com.test.nopstation_cart.screens.productdetail
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +12,9 @@ import com.test.nopstation_cart.models.product_details.Data
 import com.test.nopstation_cart.repository.CartRepository
 import com.test.nopstation_cart.repository.ProductDetailsRepository
 import com.test.nopstation_cart.utils.Event
+import com.test.nopstation_cart.utils.InternetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,7 +22,7 @@ import javax.inject.Inject
 class ProductDetailsViewModel @Inject constructor(
     private val repository: ProductDetailsRepository,
     private val cartRepository: CartRepository,
-    private val isOnline: Boolean
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val _onlineStatus: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
@@ -28,7 +31,7 @@ class ProductDetailsViewModel @Inject constructor(
         get() = _onlineStatus
 
     fun checkOnlineStatus() {
-        _onlineStatus.value = isOnline
+        _onlineStatus.value = InternetStatus.isOnline(context.applicationContext)
     }
 
     private val _product: MutableLiveData<Data> by lazy {
@@ -38,10 +41,11 @@ class ProductDetailsViewModel @Inject constructor(
         get() = _product
 
     fun getProductDetails(productID: Int) = viewModelScope.launch {
-        val response = repository.getProductDetails(productID)
-
-        if (response.isSuccessful) {
-            _product.value = response.body()?.data
+        if (InternetStatus.isOnline(context.applicationContext)) {
+            val response = repository.getProductDetails(productID)
+            if (response.isSuccessful) {
+                _product.value = response.body()?.data
+            }
         }
     }
 
@@ -58,18 +62,20 @@ class ProductDetailsViewModel @Inject constructor(
         get() = _trigger
 
     fun addToCart(productID: Int, quantity: Int = 1) = viewModelScope.launch {
-        val request = AddToCartRequest(
-            listOf(
-                FormValue(
-                    key = "addtocart_${productID}.EnteredQuantity",
-                    value = "$quantity"
+        if (InternetStatus.isOnline(context.applicationContext)) {
+            val request = AddToCartRequest(
+                listOf(
+                    FormValue(
+                        key = "addtocart_${productID}.EnteredQuantity",
+                        value = "$quantity"
+                    )
                 )
             )
-        )
-        val response = cartRepository.addToCart(productID, request)
-        if (response.isSuccessful) {
-            _cartProducts.value = Event(response.body()!!)
-            _trigger.value = true
+            val response = cartRepository.addToCart(productID, request)
+            if (response.isSuccessful) {
+                _cartProducts.value = Event(response.body()!!)
+                _trigger.value = true
+            }
         }
     }
 }

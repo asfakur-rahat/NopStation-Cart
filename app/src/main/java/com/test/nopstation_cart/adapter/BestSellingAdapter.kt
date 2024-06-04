@@ -17,7 +17,7 @@ class BestSellingAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
             fun bind(item: ProductItem){
 
-                println(item.toString())
+                //println(item.toString())
                 binding.ivProductImage.setImageResource(item.productImage)
                 binding.tvProductName.text = item.productName
                 binding.rbProductRating.rating = item.productRating

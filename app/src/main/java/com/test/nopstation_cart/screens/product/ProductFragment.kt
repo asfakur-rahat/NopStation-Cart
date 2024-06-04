@@ -30,10 +30,6 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
     private lateinit var binding: FragmentProductBinding
     private lateinit var productListAdapter: ProductListAdapter
     private lateinit var demoData: ProvideDemoData
-
-    @Inject
-    lateinit var cartItemCountViewModel: CartItemCountViewModel
-
     private val viewModel: ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +52,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         binding.tvCategoryName.text = categoryName
         binding.ivBanner.load(args.Product[0].pictureModels[0].imageUrl)
         super.onViewCreated(view, savedInstanceState)
-        initproduct()
+        initProduct()
         initObserver()
         binding.ibCheckout.setOnClickListener {
             goToCart()
@@ -67,17 +63,17 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
     }
 
     private fun initObserver() {
-        cartItemCountViewModel.itemCount.observe(viewLifecycleOwner) {
+        viewModel.itemCount.observe(viewLifecycleOwner) {
             binding.tvCartCount.text = it.toString()
         }
-        cartItemCountViewModel.onlineStatus.observe(viewLifecycleOwner){
+        viewModel.onlineStatus.observe(viewLifecycleOwner){
             if (it == true){
-                cartItemCountViewModel.updateItemCount()
+                viewModel.updateItemCount()
             }
         }
     }
 
-    private fun initproduct(){
+    private fun initProduct(){
         //var productList = demoData.getDemoProducts(categoryName)
         binding.rvProductList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvProductList.adapter = productListAdapter

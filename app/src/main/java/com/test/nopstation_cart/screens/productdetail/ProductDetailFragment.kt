@@ -26,9 +26,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
     private lateinit var binding: FragmentProductDetailBinding
     private lateinit var sharedPreferences: SharedPreferences
     private val viewModel: ProductDetailsViewModel by viewModels ()
-
-    @Inject
-    lateinit var cartCountViewModel: CartItemCountViewModel
+    private val cartCountViewModel: CartItemCountViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
@@ -74,7 +72,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
     //@SuppressLint("ResourceAsColor")
     private fun initObserver() {
         viewModel.product.observe(viewLifecycleOwner) {
-            println(it)
+            //println(it)
             var sub = it.shortDescription
             var des = it.fullDescription
 

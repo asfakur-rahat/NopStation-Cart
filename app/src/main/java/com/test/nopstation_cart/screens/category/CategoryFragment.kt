@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.test.nopstation_cart.R
@@ -24,8 +25,7 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     private lateinit var demoData: ProvideDemoData
     private lateinit var adapter: CategoryListAdapter
 
-    @Inject
-    lateinit var viewModel: CartItemCountViewModel
+    private val viewModel: CartItemCountViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
