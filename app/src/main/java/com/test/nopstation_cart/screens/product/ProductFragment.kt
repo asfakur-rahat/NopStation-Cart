@@ -30,6 +30,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
     private lateinit var binding: FragmentProductBinding
     private lateinit var productListAdapter: ProductListAdapter
     private lateinit var demoData: ProvideDemoData
+
     private val viewModel: ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +54,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
         binding.ivBanner.load(args.Product[0].pictureModels[0].imageUrl)
         super.onViewCreated(view, savedInstanceState)
         initProduct()
+        viewModel.checkOnlineStatus()
         initObserver()
         binding.ibCheckout.setOnClickListener {
             goToCart()

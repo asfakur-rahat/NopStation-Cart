@@ -47,6 +47,10 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+
+        binding.bottomButton.setOnClickListener {
+            findNavController().navigate(R.id.checkOutFragment)
+        }
     }
 
     private fun onCancleClick(item: Item){

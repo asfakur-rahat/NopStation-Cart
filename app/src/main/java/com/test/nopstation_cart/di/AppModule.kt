@@ -2,8 +2,6 @@ package com.test.nopstation_cart.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import com.test.nopstation_cart.db.AppDatabase
 import com.test.nopstation_cart.network.ApiClient
 import com.test.nopstation_cart.network.api.AuthenticationApi
@@ -11,8 +9,6 @@ import com.test.nopstation_cart.network.api.BannerApi
 import com.test.nopstation_cart.network.api.CartApi
 import com.test.nopstation_cart.network.api.FeaturedProductApi
 import com.test.nopstation_cart.network.api.ProductApi
-import com.test.nopstation_cart.repository.CartRepository
-import com.test.nopstation_cart.utils.CartItemCountViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,6 +26,7 @@ class AppModule {
     fun providesAppDatabase(@ApplicationContext context: Context): AppDatabase {
         return AppDatabase(context)
     }
+
     @Provides
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
@@ -38,17 +35,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideToken(sharedPreferences: SharedPreferences): String? {
-        return sharedPreferences.getString("token", null)
-    }
-
-    @Provides
-    @Singleton
-    fun provideApiWithToken(token: String?): Retrofit {
-        if (token == null) {
-            return ApiClient.getClient2()
-        }
-        return ApiClient.getClient(token)
+    fun provideApi(sharedPreferences: SharedPreferences): Retrofit {
+        return ApiClient.getClient(sharedPreferences)
     }
 
     @Provides
@@ -59,13 +47,13 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideBannersApi(retrofit: Retrofit): BannerApi{
+    fun provideBannersApi(retrofit: Retrofit): BannerApi {
         return retrofit.create(BannerApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideFeaturedProductsApi(retrofit: Retrofit): FeaturedProductApi{
+    fun provideFeaturedProductsApi(retrofit: Retrofit): FeaturedProductApi {
         return retrofit.create(FeaturedProductApi::class.java)
     }
 

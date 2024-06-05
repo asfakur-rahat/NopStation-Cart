@@ -1,5 +1,6 @@
 package com.test.nopstation_cart.network
 
+import android.content.SharedPreferences
 import com.test.nopstation_cart.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -8,15 +9,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiClient {
     companion object {
-        private fun buildClient(token: String): OkHttpClient {
-            //println("This ONE")
-            //println(token)
+        private fun buildClient(sharedPreferences: SharedPreferences): OkHttpClient {
             return OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().apply {
                     this.level = HttpLoggingInterceptor.Level.BODY
                 }).addInterceptor { chain ->
-                    val newRequest = chain.request().newBuilder()
-                        .addHeader("Token", token)
+
+                    val builder = chain.request().newBuilder()
+                    val token = sharedPreferences.getString("Token", null)
+                    if(token != null){
+                        println("API With Token")
+                        builder.addHeader("Token", token)
+                    }else{
+                        println("API Without Token")
+                    }
+                    val newRequest = builder
                         .addHeader("Content-Type", Constants.CONTENT_TYPE)
                         .addHeader("DeviceId", Constants.DEVICE_ID)
                         .addHeader("NST", Constants.NST)
@@ -24,38 +31,11 @@ class ApiClient {
                         .build()
                     chain.proceed(newRequest)
                 }.build()
-
-
         }
-
-        private fun buildClient2(): OkHttpClient {
-            return OkHttpClient.Builder()
-                .addInterceptor(HttpLoggingInterceptor().apply {
-                    this.level = HttpLoggingInterceptor.Level.BODY
-                }).addInterceptor { chain ->
-                    val newRequest = chain.request().newBuilder()
-                        .addHeader("Content-Type", Constants.CONTENT_TYPE)
-                        .addHeader("DeviceId", Constants.DEVICE_ID)
-                        .addHeader("NST", Constants.NST)
-                        .addHeader("User-Agent", Constants.USER_AGENT)
-                        .build()
-
-                    chain.proceed(newRequest)
-                }.build()
-
-        }
-
-        fun getClient(token: String): Retrofit {
+        fun getClient(sharedPreferences: SharedPreferences): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
-                .client(buildClient(token))
-                .addConverterFactory(GsonConverterFactory.create()).build()
-        }
-
-        fun getClient2(): Retrofit {
-            return Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .client(buildClient2())
+                .client(buildClient(sharedPreferences))
                 .addConverterFactory(GsonConverterFactory.create()).build()
         }
 

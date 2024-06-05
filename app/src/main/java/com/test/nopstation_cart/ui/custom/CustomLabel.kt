@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.test.nopstation_cart.R
+import com.test.nopstation_cart.R.*
 
 @Composable
 fun CustomLabel(text: String) {
@@ -32,7 +32,7 @@ fun CustomLabel(text: String) {
                 .fillMaxWidth()
                 .padding(16.dp),
             text = text,
-            color = colorResource(id = R.color.white)
+            color = colorResource(id = color.white)
         )
     }
 }
@@ -41,9 +41,9 @@ fun CustomLabel(text: String) {
 fun gradientColor(): Brush {
     return Brush.linearGradient(
         colors = listOf(
-            colorResource(id = R.color.start_color),
-            colorResource(id = R.color.middle_color),
-            colorResource(id = R.color.end_color)
+            colorResource(id = color.start_color),
+            colorResource(id = color.middle_color),
+            colorResource(id = color.end_color)
         )
     )
 }

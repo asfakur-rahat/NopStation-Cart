@@ -44,6 +44,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.fragment.findNavController
 import com.test.nopstation_cart.R.*
 import com.test.nopstation_cart.ui.custom.CustomBadge
 import com.test.nopstation_cart.ui.custom.CustomLabel
@@ -89,7 +90,7 @@ class CheckOutFragment : Fragment(layout.fragment_check_out) {
                         brush = gradientColor()
                     ),
                     navigationIcon = {
-                        IconButton(onClick = { /*TODO*/ }) {
+                        IconButton(onClick = { findNavController().popBackStack() }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back",

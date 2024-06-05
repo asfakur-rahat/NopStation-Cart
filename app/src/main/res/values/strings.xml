@@ -64,4 +64,5 @@
     <string name="place_order">PROCEED TO CHECKOUT</string>
     <string name="cancle_order">cancle order</string>
     <string name="shopping_cart_2">Shopping Cart</string>
+    <string name="logout">LOGOUT</string>
 </resources>

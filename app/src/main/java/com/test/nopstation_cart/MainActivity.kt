@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
-        val token: String? = sharedPreferences.getString("Token", null)
         //println("TOKEN " + token)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
@@ -57,18 +56,21 @@ class MainActivity : AppCompatActivity() {
         binding.mainNavbar.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            val token: String? = sharedPreferences.getString("Token", null)
             when (destination.id) {
                 R.id.loginFragment -> {
-                    //println("Account")
                     binding.mainNavbar.visibility = View.GONE
-
+                    //binding.mainNavbar.menu.findItem(destination.id).isChecked = true
                     if (token != null){
                         navController.navigate(R.id.accountFragment)
                         binding.mainNavbar.visibility = View.VISIBLE
                         binding.mainNavbar.selectedItemId = R.id.loginFragment
                     }
                 }
-                else -> binding.mainNavbar.visibility = View.VISIBLE
+                else -> {
+                    binding.mainNavbar.visibility = View.VISIBLE
+                    //binding.mainNavbar.menu.findItem(destination.id).isChecked = true
+                }
             }
         }
 

@@ -15,18 +15,18 @@ import com.test.nopstation_cart.models.category.Data as Category
 import com.test.nopstation_cart.models.featured_product.Data as Featured
 
 @Database(
-    entities = [Slider::class, Category::class,Featured::class],
+    entities = [Slider::class, Category::class, Featured::class],
     version = 1, exportSchema = false
 )
 @TypeConverters(Converter::class, FeaturedProductConverter::class)
-abstract class AppDatabase: RoomDatabase(){
+abstract class AppDatabase : RoomDatabase() {
     abstract fun bannerDao(): BannerDao
     abstract fun categoryDao(): CategoryDao
     abstract fun featuredDao(): FeaturedDao
 
-    companion object{
+    companion object {
         operator fun invoke(context: Context) = buildDatabase(context)
-        private fun buildDatabase(context: Context) : AppDatabase {
+        private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
