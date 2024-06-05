@@ -7,6 +7,7 @@
     tools:context=".screens.account.AccountFragment">
 
     <TextView
+        android:id="@+id/tv_logged_in_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LOGGED IN USER"
@@ -16,5 +17,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_logout"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nop_bg"
+        android:text="@string/logout"
+        android:fontFamily="@font/lato_bold"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_logged_in_user"
+        app:layout_constraintStart_toStartOf="@id/tv_logged_in_user"
+        app:layout_constraintEnd_toEndOf="@id/tv_logged_in_user"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

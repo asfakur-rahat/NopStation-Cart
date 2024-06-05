@@ -30,7 +30,6 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
     private val homepageViewModel: HomepageViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         adapter = CategoryListAdapter{data, name ->
                onItemClick(data, name)
         }

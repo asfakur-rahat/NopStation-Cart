@@ -1,8 +1,10 @@
 package com.test.nopstation_cart.repository
 
+import android.content.SharedPreferences
 import com.test.nopstation_cart.db.AppDatabase
 import com.test.nopstation_cart.models.category.CategoryResponse
 import com.test.nopstation_cart.models.featured_product.FeaturedProductsResponse
+import com.test.nopstation_cart.network.ApiClient
 import com.test.nopstation_cart.network.api.FeaturedProductApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

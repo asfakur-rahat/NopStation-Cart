@@ -21,7 +21,7 @@
             android:icon="@drawable/ic_account"
             android:enabled="true"/>
         <item
-            android:id="@+id/checkOutFragment"
+            android:id="@+id/more"
             android:title="@string/more"
             android:icon="@drawable/ic_more"
             android:enabled="true"/>

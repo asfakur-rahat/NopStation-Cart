@@ -1,6 +1,8 @@
 package com.test.nopstation_cart.repository
 
+import android.content.SharedPreferences
 import com.test.nopstation_cart.db.AppDatabase
+import com.test.nopstation_cart.network.ApiClient
 import com.test.nopstation_cart.network.api.BannerApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -10,6 +12,7 @@ class BannerRepository @Inject constructor(
     private val bannerApi: BannerApi,
     private val db: AppDatabase
 ) {
+
     suspend fun getBanner() = withContext(Dispatchers.IO){
         val bannerResponse = bannerApi.getBanner()
 

@@ -80,5 +80,9 @@
         android:id="@+id/accountFragment"
         android:name="com.test.nopstation_cart.screens.account.AccountFragment"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_homepageFragment"
+            app:destination="@id/homepageFragment" />
+    </fragment>
 </navigation>
