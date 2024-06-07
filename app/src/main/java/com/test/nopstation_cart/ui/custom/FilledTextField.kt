@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -19,9 +21,13 @@ import androidx.compose.ui.unit.sp
 import com.test.nopstation_cart.R.*
 
 
-
 @Composable
-fun FilledTextField(hint: String, size: String = "Default") {
+fun FilledTextField(
+    hint: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    size: String = "Default"
+) {
     var padding = 0.dp
     var textSize = 0.sp
     when (size) {
@@ -37,8 +43,8 @@ fun FilledTextField(hint: String, size: String = "Default") {
     }
 
     TextField(
-        value = "",
-        onValueChange = { },
+        value = value,
+        onValueChange = onValueChange,
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = padding, start = 16.dp, end = 16.dp, bottom = padding)
@@ -59,9 +65,12 @@ fun FilledTextField(hint: String, size: String = "Default") {
             focusedLabelColor = colorResource(id = color.category_color)
         ),
         trailingIcon = {
-                if(size == "Default"){
-                    Icon(imageVector = ImageVector.vectorResource(id = drawable.ic_drop), contentDescription = "ok")
-                }
+            if (size == "Default") {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = drawable.ic_drop),
+                    contentDescription = "ok"
+                )
+            }
         }
     )
 }
@@ -69,5 +78,8 @@ fun FilledTextField(hint: String, size: String = "Default") {
 @Preview
 @Composable
 private fun UiPreview() {
-    FilledTextField(hint = "Hint", size = "small")
+    val lol = remember {
+        mutableStateOf("")
+    }
+    FilledTextField(hint = "Hint",lol.value, {lol.value = it}, size = "small")
 }
