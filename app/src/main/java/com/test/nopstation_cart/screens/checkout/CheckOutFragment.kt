@@ -63,6 +63,7 @@ import com.test.nopstation_cart.ui.custom.FinalAmountBox
 import com.test.nopstation_cart.ui.custom.PaymentMethod
 import com.test.nopstation_cart.ui.custom.Titles
 import com.test.nopstation_cart.ui.custom.getCheckBox
+import com.test.nopstation_cart.utils.CartItemCountViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -71,6 +72,7 @@ import kotlinx.coroutines.launch
 class CheckOutFragment : Fragment(layout.fragment_check_out) {
 
     private val viewModel: CheckOutViewModel by viewModels()
+    private val viewModel2: CartItemCountViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -78,6 +80,7 @@ class CheckOutFragment : Fragment(layout.fragment_check_out) {
     override fun onResume() {
         super.onResume()
         viewModel.fetchCart()
+        viewModel2.updateItemCount()
         initObserver()
     }
 
@@ -115,6 +118,7 @@ class CheckOutFragment : Fragment(layout.fragment_check_out) {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun CheckOutScreen() {
+        val cartCount by viewModel2.itemCount.observeAsState(0)
         Scaffold(
             modifier = Modifier
                 .fillMaxSize(),
@@ -149,7 +153,7 @@ class CheckOutFragment : Fragment(layout.fragment_check_out) {
 
                                 ) {
                                     Text(
-                                        text = "9",
+                                        text = "$cartCount",
                                         fontSize = 12.sp,
                                         color = colorResource(id = color.black)
                                     )

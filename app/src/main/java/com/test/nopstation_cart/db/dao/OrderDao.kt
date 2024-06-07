@@ -12,6 +12,6 @@ interface OrderDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveOrder(order: OrderEntity)
 
-    @Query("SELECT * FROM orders")
-    suspend fun getAllOrders(): List<OrderEntity>
+    @Query("SELECT * FROM orders WHERE token = :token")
+    suspend fun getAllOrders(token: String): List<OrderEntity>
 }
