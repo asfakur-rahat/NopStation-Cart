@@ -1,6 +1,7 @@
 package com.test.nopstation_cart.ui.custom
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,9 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.test.nopstation_cart.R
+import com.test.nopstation_cart.models.cart.OrderTotals
 
 @Composable
-fun FinalAmountBox() {
+fun FinalAmountBox(
+    orders: OrderTotals,
+    onClickListener: () -> Unit
+) {
     OutlinedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -38,22 +43,26 @@ fun FinalAmountBox() {
         shape = RoundedCornerShape(4.dp),
     ) {
         Spacer(modifier = Modifier.height(10.dp))
-        TextField(title = "Sub-Total:", amount = "$5,355.00")
-        TextField(title = "Shipping:", amount = "$0.00")
-        TextField(title = "Tax:", amount = "$0.00")
-        TextField(title = "Total:", amount = "$5,355.00", mode = "bold")
-        TextField(title = "You Will Earn :", amount = "50 Points", mode = "small&faded")
-        Box(modifier = Modifier
-            .width(320.dp)
-            .height(40.dp)
-            .align(Alignment.CenterHorizontally)
-            .background(gradientColor(), shape = RoundedCornerShape(4.dp))){
-            TextButton(
-                onClick = { /*TODO*/ },
-                modifier = Modifier.align(Alignment.Center)
-            ) {
-                Text(text = "Confirm", color = colorResource(id = R.color.white))
-            }
+        TextField(title = "Sub-Total:", amount = orders.subTotal)
+        TextField(title = "Shipping:", amount = orders.shipping)
+        TextField(title = "Tax:", amount = orders.tax)
+        TextField(title = "Total:", amount = orders.orderTotal, mode = "bold")
+        TextField(
+            title = "You Will Earn :",
+            amount = "${orders.willEarnRewardPoints} Points",
+            mode = "small&faded"
+        )
+        Box(
+            modifier = Modifier
+                .width(320.dp)
+                .height(40.dp)
+                .align(Alignment.CenterHorizontally)
+                .background(gradientColor(), shape = RoundedCornerShape(4.dp))
+                .clickable { onClickListener() },
+            contentAlignment = Alignment.Center
+        )
+        {
+            Text(text = "Confirm", color = colorResource(id = R.color.white))
         }
     }
 }
@@ -113,6 +122,6 @@ fun TextField(title: String, amount: String, mode: String = "default") {
 @Composable
 private fun Dekhi() {
     Surface {
-        FinalAmountBox()
+        //FinalAmountBox(orders = OrderTotal)
     }
 }

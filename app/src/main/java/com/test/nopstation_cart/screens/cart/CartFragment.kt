@@ -47,9 +47,12 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-
         binding.bottomButton.setOnClickListener {
-            findNavController().navigate(R.id.checkOutFragment)
+            if(sharedPreferences.getString("Token",null) == null){
+                findNavController().navigate(R.id.loginFragment)
+            }else {
+                findNavController().navigate(R.id.checkOutFragment)
+            }
         }
     }
 

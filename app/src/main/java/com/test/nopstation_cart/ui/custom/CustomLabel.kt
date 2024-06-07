@@ -21,11 +21,11 @@ fun CustomLabel(text: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .background(gradientColor(), shape = RoundedCornerShape(8.dp)),
+            .background(gradientColor(), shape = RoundedCornerShape(4.dp)),
         colors = CardDefaults.outlinedCardColors(
             containerColor = Color.Transparent
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(4.dp)
     ) {
         Text(
             modifier = Modifier
