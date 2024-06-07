@@ -90,4 +90,9 @@
             android:id="@+id/action_accountFragment_to_homepageFragment"
             app:destination="@id/homepageFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/orderListFragment"
+        android:name="com.test.nopstation_cart.screens.orderlist.OrderListFragment"
+        android:label="fragment_order_list"
+        tools:layout="@layout/fragment_order_list" />
 </navigation>

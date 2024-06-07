@@ -1,6 +1,7 @@
 package com.test.nopstation_cart.screens.checkout
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class CheckOutViewModel @Inject constructor(
     private val repository: CartRepository,
     @ApplicationContext private val context: Context,
+    private val sharedPreferences: SharedPreferences,
     private val db: AppDatabase
 ) : ViewModel() {
     private val _cart: MutableLiveData<FetchCartResponse> by lazy {
@@ -132,14 +134,23 @@ class CheckOutViewModel @Inject constructor(
                             count++
                         }
                     }
-                    if (count == size){
-                       savePlacedOrderInRoom(
-                           OrderEntity(
-                               id = 1,
-                               orderId = orderId!!,
-                               item = orderItems
-                           )
-                       )
+                    if (count == size) {
+                        var token = sharedPreferences.getString("Token", null)
+                        var total = response.body()?.data?.orderTotals?.orderTotal
+                        if(token == null){
+                            token = ""
+                        }
+                        if(total == null){
+                            total = "$0.00"
+                        }
+                        savePlacedOrderInRoom(
+                            OrderEntity(
+                                orderId = orderId!!,
+                                token = token,
+                                item = orderItems,
+                                totalPrice = total
+                            )
+                        )
                     }
                 }
             }
