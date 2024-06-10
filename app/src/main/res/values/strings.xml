@@ -65,4 +65,5 @@
     <string name="cancle_order">cancle order</string>
     <string name="shopping_cart_2">Shopping Cart</string>
     <string name="logout">LOGOUT</string>
+    <string name="logged_in_user">LOGGED IN USER</string>
 </resources>

@@ -6,11 +6,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".screens.account.AccountFragment">
 
+    <ImageView
+        android:id="@+id/iv_profile_pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_account"
+        app:tint="@color/cyan"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_logged_in_user"
+        app:layout_constraintStart_toStartOf="@id/tv_logged_in_user"
+        app:layout_constraintEnd_toEndOf="@id/tv_logged_in_user"/>
+
     <TextView
         android:id="@+id/tv_logged_in_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LOGGED IN USER"
+        android:text="@string/logged_in_user"
         android:textColor="@color/cyan"
         android:textSize="36sp"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,13 +31,14 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_logout"
-        android:layout_width="150dp"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/nop_bg"
+        android:background="@drawable/round_button"
         android:text="@string/logout"
         android:fontFamily="@font/lato_bold"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/tv_logged_in_user"
         app:layout_constraintStart_toStartOf="@id/tv_logged_in_user"
         app:layout_constraintEnd_toEndOf="@id/tv_logged_in_user"/>

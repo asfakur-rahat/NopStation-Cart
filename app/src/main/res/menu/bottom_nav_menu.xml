@@ -16,7 +16,7 @@
             android:icon="@drawable/ic_search"
             android:enabled="true"/>
         <item
-            android:id="@+id/loginFragment"
+            android:id="@+id/accountFragment"
             android:title="@string/account"
             android:icon="@drawable/ic_account"
             android:enabled="true"/>

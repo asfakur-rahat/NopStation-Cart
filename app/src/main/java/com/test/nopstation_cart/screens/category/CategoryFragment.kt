@@ -72,5 +72,6 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         homepageViewModel.categories.observe(viewLifecycleOwner){
             adapter.submitList(it)
         }
+        homepageViewModel
     }
 }

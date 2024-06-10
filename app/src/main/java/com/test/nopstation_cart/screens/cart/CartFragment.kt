@@ -42,7 +42,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentCartBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
-        binding.shimmerLayout.startShimmer()
+        initShimmer()
         viewModel.checkOnlineStatus()
         initObservers()
         binding.toolbar.setNavigationOnClickListener {
@@ -93,6 +93,14 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             }
         }
     }
+
+    private fun initShimmer(){
+        binding.second.visibility = View.INVISIBLE
+        binding.nestedScroll.visibility = View.INVISIBLE
+        binding.shimmerLayout.visibility = View.VISIBLE
+        binding.shimmerLayout.startShimmer()
+    }
+
 
     private fun initView(it: FetchCartResponse){
         item = it.data.cart.items.size

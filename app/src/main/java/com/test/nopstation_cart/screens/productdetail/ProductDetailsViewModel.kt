@@ -24,15 +24,11 @@ class ProductDetailsViewModel @Inject constructor(
     private val cartRepository: CartRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
-    private val _onlineStatus: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>()
+    private val _showMessage: MutableLiveData<Event<String>> by lazy {
+        MutableLiveData<Event<String>>()
     }
-    val onlineStatus: LiveData<Boolean>
-        get() = _onlineStatus
-
-    fun checkOnlineStatus() {
-        _onlineStatus.value = InternetStatus.isOnline(context.applicationContext)
-    }
+    val showMessage: LiveData<Event<String>>
+        get() = _showMessage
 
     private val _product: MutableLiveData<Data> by lazy {
         MutableLiveData<Data>()
@@ -46,6 +42,8 @@ class ProductDetailsViewModel @Inject constructor(
             if (response.isSuccessful) {
                 _product.value = response.body()?.data
             }
+        } else {
+            _showMessage.value = Event<String>("No Internet Connection")
         }
     }
 
@@ -75,7 +73,15 @@ class ProductDetailsViewModel @Inject constructor(
             if (response.isSuccessful) {
                 _cartProducts.value = Event(response.body()!!)
                 _trigger.value = true
+            } else {
+                if (response.code() == 400) {
+                    _showMessage.value = Event("This product can't be added to cart")
+                } else {
+                    _showMessage.value = Event("Something went wrong")
+                }
             }
+        } else {
+            _showMessage.value = Event("No Internet Connection")
         }
     }
 }

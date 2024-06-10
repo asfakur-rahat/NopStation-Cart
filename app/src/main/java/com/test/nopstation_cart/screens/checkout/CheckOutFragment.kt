@@ -35,10 +35,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -65,6 +67,7 @@ import com.test.nopstation_cart.ui.custom.Titles
 import com.test.nopstation_cart.ui.custom.getCheckBox
 import com.test.nopstation_cart.utils.CartItemCountViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -97,7 +100,7 @@ class CheckOutFragment : Fragment(layout.fragment_check_out) {
         }
         viewModel.navigateBack.observe(this){
             if (it){
-                findNavController().navigate(CheckOutFragmentDirections.actionCheckOutFragmentToHomepageFragment())
+                findNavController().popBackStack(R.id.homepageFragment,false)
             }
         }
     }
@@ -299,10 +302,13 @@ class CheckOutFragment : Fragment(layout.fragment_check_out) {
         CustomLabel(text = "Payment Information")
         Spacer(modifier = Modifier.height(16.dp))
         Titles(text = "Order Totals")
+        val loader by viewModel.loader.observeAsState()
+
+
         if(order == null){
             CircularProgressIndicator(modifier = Modifier.fillMaxWidth())
         }else{
-            FinalAmountBox(order!!.data.orderTotals) {
+            FinalAmountBox(order!!.data.orderTotals,loader!!) {
                 viewModel.isValid(
                     firstName = firstName.value,
                     lastName = lastName.value,

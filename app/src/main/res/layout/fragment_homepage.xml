@@ -82,7 +82,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/container"
-                app:imageScaleType="centerCrop"
+                app:imageScaleType="fitXY"
                 app:imagePlaceholder="@drawable/example_item"
                 app:showNavigationButtons="false"
                 app:showTopShadow="false"
@@ -136,7 +136,8 @@
                 android:paddingHorizontal="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/our_category">
+                app:layout_constraintTop_toBottomOf="@+id/our_category"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_best_selling"
@@ -189,7 +190,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_featured_products"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/tv_featured_product"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -205,7 +206,8 @@
                 android:paddingHorizontal="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/featured_product">
+                app:layout_constraintTop_toBottomOf="@+id/featured_product"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_womens_heel"
@@ -240,7 +242,8 @@
                 android:paddingHorizontal="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/womens_heel">
+                app:layout_constraintTop_toBottomOf="@+id/womens_heel"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_salmon_fish"
@@ -275,7 +278,8 @@
                 android:paddingHorizontal="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/salmon_fish">
+                app:layout_constraintTop_toBottomOf="@+id/salmon_fish"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_furniture_collection"

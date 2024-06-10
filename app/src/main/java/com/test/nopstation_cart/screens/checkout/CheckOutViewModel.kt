@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.test.nopstation_cart.db.AppDatabase
 import com.test.nopstation_cart.db.dbmodel.OrderEntity
 import com.test.nopstation_cart.models.cart.AddToCartRequest
 import com.test.nopstation_cart.models.cart.FetchCartResponse
@@ -93,14 +92,14 @@ class CheckOutViewModel @Inject constructor(
     private var orderId: String? = null
     private fun placeOrder() = viewModelScope.launch {
         if (InternetStatus.isOnline(context.applicationContext)) {
+            _loader.value = true
             val response = getApi().placeOrder()
             if (response.isSuccessful) {
                 _orderPlaced.value = true
-                _showMessage.value =
-                    response.body()?.message + ", OrderID: " + response.body()?.orderId
                 orderId = response.body()?.orderId
             }
         } else {
+            _loader.value = false
             _showMessage.value = "No internet connection"
         }
     }
@@ -159,12 +158,19 @@ class CheckOutViewModel @Inject constructor(
                 }
             }
         } else {
+            _loader.value = false
             _showMessage.value = "No internet connection"
         }
     }
 
+    private val _loader: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>(false)
+    }
+    val loader: LiveData<Boolean> get() = _loader
     private fun savePlacedOrderInRoom(order: OrderEntity) = viewModelScope.launch {
         repository.saveOrderInRoom(order)
+        _showMessage.value = "Order placed successfully & Order id is " + order.orderId
+        _loader.value = false
         _navigateBack.value = true
     }
 
