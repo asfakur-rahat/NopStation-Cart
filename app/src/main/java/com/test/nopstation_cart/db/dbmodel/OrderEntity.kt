@@ -9,6 +9,7 @@ data class OrderEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val token: String = "",
+    val email: String,
     val orderId: String,
     val item: List<Item>,
     val totalPrice: String = "$0.00"

@@ -24,6 +24,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     private lateinit var adapter: CartAdapter
     private lateinit var sharedPreferences: SharedPreferences
     private val viewModel: CartViewModel by viewModels ()
+    private var item: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         sharedPreferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
         super.onCreate(savedInstanceState)
@@ -51,7 +52,11 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             if(sharedPreferences.getString("Token",null) == null){
                 findNavController().navigate(R.id.loginFragment)
             }else {
-                findNavController().navigate(R.id.checkOutFragment)
+                if(item <= 0){
+                    Toast.makeText(requireContext(), "Cart is empty", Toast.LENGTH_SHORT).show()
+                }else{
+                    findNavController().navigate(R.id.checkOutFragment)
+                }
             }
         }
     }
@@ -90,11 +95,12 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
     }
 
     private fun initView(it: FetchCartResponse){
+        item = it.data.cart.items.size
         binding.totalItems.text = "${it.data.cart.items.size} ITEM" +(if(it.data.cart.items.size>1) "(S)" else "")
         binding.tvCartCount.text = "${it.data.cart.items.size}"
-        binding.tvSubtotalAmount.text = it.data.orderTotals.subTotal
-        binding.tvShippingAmount.text = it.data.orderTotals.shipping
-        binding.tvTotalAmount.text = it.data.orderTotals.orderTotal
+        binding.tvSubtotalAmount.text = it.data.orderTotals.subTotal ?: "$0.00"
+        binding.tvShippingAmount.text = it.data.orderTotals.shipping ?: "$0.00"
+        binding.tvTotalAmount.text = it.data.orderTotals.orderTotal ?: "$0.00"
         binding.shimmerLayout.stopShimmer()
         binding.second.visibility = View.VISIBLE
         binding.nestedScroll.visibility = View.VISIBLE

@@ -26,8 +26,7 @@ import javax.inject.Inject
 class CheckOutViewModel @Inject constructor(
     private val repository: CartRepository,
     @ApplicationContext private val context: Context,
-    private val sharedPreferences: SharedPreferences,
-    private val db: AppDatabase
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
     private val _cart: MutableLiveData<FetchCartResponse> by lazy {
         MutableLiveData<FetchCartResponse>()
@@ -137,16 +136,21 @@ class CheckOutViewModel @Inject constructor(
                     if (count == size) {
                         var token = sharedPreferences.getString("Token", null)
                         var total = response.body()?.data?.orderTotals?.orderTotal
+                        var email = sharedPreferences.getString("email", null)
                         if(token == null){
                             token = ""
                         }
                         if(total == null){
                             total = "$0.00"
                         }
+                        if(email == null){
+                            email = ""
+                        }
                         savePlacedOrderInRoom(
                             OrderEntity(
                                 orderId = orderId!!,
                                 token = token,
+                                email = email,
                                 item = orderItems,
                                 totalPrice = total
                             )
@@ -160,7 +164,7 @@ class CheckOutViewModel @Inject constructor(
     }
 
     private fun savePlacedOrderInRoom(order: OrderEntity) = viewModelScope.launch {
-        db.orderDao().saveOrder(order)
+        repository.saveOrderInRoom(order)
         _navigateBack.value = true
     }
 

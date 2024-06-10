@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.test.nopstation_cart.db.AppDatabase
 import com.test.nopstation_cart.db.dbmodel.OrderEntity
 import com.test.nopstation_cart.repository.CartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class OrderListViewModel @Inject constructor(
-    private val db : AppDatabase,
     private val repository: CartRepository,
     private val sharedPreferences: SharedPreferences
 ): ViewModel() {
@@ -25,11 +23,11 @@ class OrderListViewModel @Inject constructor(
         get() = _orders
 
     fun getOrders() = viewModelScope.launch {
-        var token = sharedPreferences.getString("Token", null)
-        if(token == null) {
-            token = ""
+        var email = sharedPreferences.getString("email", null)
+        if(email == null) {
+            email = ""
         }
-        _orders.value = db.orderDao().getAllOrders(token)
+        _orders.value = repository.getOrdersFromRoom(email)
     }
     private val _cartItemCount: MutableLiveData<Int> = MutableLiveData()
     val cartItemCount: LiveData<Int>

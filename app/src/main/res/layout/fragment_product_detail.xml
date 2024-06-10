@@ -80,6 +80,7 @@
         android:id="@+id/shimmer_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/appbar"
         app:layout_constraintBottom_toTopOf="@id/bottom_buttons"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +92,7 @@
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintTop_toBottomOf="@id/appbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -246,31 +247,31 @@
                 android:id="@+id/tv_quantity_minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="8dp"
                 android:background="@drawable/quantity_plus"
                 android:contentDescription="@string/quantity_minus"
                 android:elevation="4dp"
-                android:layout_gravity="center"
                 android:paddingStart="7dp"
                 android:text=""
                 app:drawableStartCompat="@drawable/ic_minus"
                 app:layout_constraintBottom_toBottomOf="@id/tv_quantity"
                 app:layout_constraintStart_toEndOf="@+id/tv_quantity"
                 app:layout_constraintTop_toTopOf="@id/tv_quantity"
+                app:layout_constraintVertical_bias="0.0"
                 tools:ignore="RtlSymmetry" />
 
             <TextView
                 android:id="@+id/tv_quantity_plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
+                android:layout_marginHorizontal="8dp"
                 android:background="@drawable/quantity_plus"
                 android:contentDescription="@string/quantity_plus"
                 android:elevation="4dp"
                 android:paddingStart="8dp"
                 app:drawableStartCompat="@drawable/ic_plus"
                 app:layout_constraintBottom_toBottomOf="@id/tv_quantity_minus"
-                app:layout_constraintEnd_toStartOf="@+id/gl_vertical2"
                 app:layout_constraintStart_toEndOf="@+id/tv_quantity_minus"
                 app:layout_constraintTop_toTopOf="@id/tv_quantity_minus"
                 tools:ignore="RtlSymmetry" />
@@ -295,9 +296,9 @@
                 android:textColor="@color/black"
                 android:textFontWeight="700"
                 android:textSize="24sp"
-                app:layout_constraintTop_toBottomOf="@+id/two"
-                app:layout_constraintEnd_toStartOf="@+id/gl_vertical2"
-                app:layout_constraintStart_toEndOf="@id/gl_vertical" />
+                app:layout_constraintTop_toBottomOf="@id/two"
+                app:layout_constraintStart_toEndOf="@id/gl_vertical"
+                app:layout_constraintEnd_toStartOf="@id/gl_vertical2"/>
 
 
             <TextView
@@ -322,14 +323,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="16dp"/>
+                app:layout_constraintGuide_percent="0.0254154545"/>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gl_vertical2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_begin="395dp" />
+                app:layout_constraintGuide_percent="0.965489" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
     <LinearLayout

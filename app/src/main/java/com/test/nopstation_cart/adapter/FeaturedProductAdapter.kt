@@ -25,7 +25,7 @@ class FeaturedProductAdapter(
             binding.tvProductName.text = item.productName
             binding.ivProductImage.load(item.productImage)
             binding.rbProductRating.rating = item.productRating
-            binding.tvProductPrice.text = "$${item.productPrice}"
+            binding.tvProductPrice.text = "$%.2f".format(item.productPrice)
 
             binding.root.setOnClickListener {
                 onClick(item)
