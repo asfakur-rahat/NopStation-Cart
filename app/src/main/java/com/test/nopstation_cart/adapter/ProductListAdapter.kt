@@ -24,7 +24,7 @@ class ProductListAdapter(
             binding.ivProductImage.load(product.pictureModels[0].imageUrl)
             binding.rbProductRating.rating =
                 if (product.reviewOverviewModel.totalReviews == 0) 0f else (product.reviewOverviewModel.ratingSum / product.reviewOverviewModel.totalReviews).toFloat()
-            binding.tvProductPrice.text = product.productPrice.price
+            binding.tvProductPrice.text = product.productPrice.price ?: "$0.00"
 
             binding.root.setOnClickListener {
                 onClick(product)

@@ -198,7 +198,7 @@ class OrderListFragment : Fragment(layout.fragment_order_list) {
             Text(
                 text = "Order Total: ${order.totalPrice}",
                 modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp, end = 16.dp),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 color = colorResource(id = color.product_price)
             )
         }

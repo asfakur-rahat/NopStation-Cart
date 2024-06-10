@@ -1,6 +1,7 @@
 package com.test.nopstation_cart.screens.auth
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val repository: LoginRepository,
+    private val sharedPreferences: SharedPreferences,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
     private val _response: MutableLiveData<LoginResponse> by lazy {
@@ -45,7 +47,6 @@ class LoginViewModel @Inject constructor(
     }
 
     fun postLogin(email: String, password: String) = viewModelScope.launch {
-
         if (!isValid(email, password)) {
             return@launch
         }
@@ -59,6 +60,7 @@ class LoginViewModel @Inject constructor(
                 )
             )
             if (response.isSuccessful) {
+                sharedPreferences.edit().putString("email",email).apply()
                 _response.value = response.body()
             }
         }

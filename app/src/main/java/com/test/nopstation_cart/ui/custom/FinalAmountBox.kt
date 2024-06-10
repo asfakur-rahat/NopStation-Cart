@@ -43,10 +43,10 @@ fun FinalAmountBox(
         shape = RoundedCornerShape(4.dp),
     ) {
         Spacer(modifier = Modifier.height(10.dp))
-        TextField(title = "Sub-Total:", amount = orders.subTotal)
-        TextField(title = "Shipping:", amount = orders.shipping)
-        TextField(title = "Tax:", amount = orders.tax)
-        TextField(title = "Total:", amount = orders.orderTotal, mode = "bold")
+        TextField(title = "Sub-Total:", amount = orders.subTotal ?: "$0.00")
+        TextField(title = "Shipping:", amount = orders.shipping ?: "$0.00")
+        TextField(title = "Tax:", amount = orders.tax ?: "$0.00")
+        TextField(title = "Total:", amount = orders.orderTotal ?: "$0.00", mode = "bold")
         TextField(
             title = "You Will Earn :",
             amount = "${orders.willEarnRewardPoints} Points",
