@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.test.nopstation_cart.R
 import com.test.nopstation_cart.R.*
 import com.test.nopstation_cart.db.dbmodel.OrderEntity
 import com.test.nopstation_cart.ui.custom.CustomBadge
@@ -156,7 +157,7 @@ class OrderListFragment : Fragment(layout.fragment_order_list) {
         val message by viewmodel.orders.observeAsState()
         if (message.isNullOrEmpty()) {
             Box(modifier = Modifier.fillMaxSize()) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center),color = colorResource(id = color.middle_color))
             }
         } else {
             LazyColumn(
@@ -186,7 +187,7 @@ class OrderListFragment : Fragment(layout.fragment_order_list) {
             Text(
                 text = "OrderID: ${order.orderId}",
                 modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp, end = 16.dp),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 color = colorResource(id = color.black)
             )
             Text(
@@ -198,7 +199,7 @@ class OrderListFragment : Fragment(layout.fragment_order_list) {
             Text(
                 text = "Order Total: ${order.totalPrice}",
                 modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp, end = 16.dp),
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 color = colorResource(id = color.product_price)
             )
         }

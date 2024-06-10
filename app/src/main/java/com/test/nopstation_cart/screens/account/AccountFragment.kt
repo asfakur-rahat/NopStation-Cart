@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.test.nopstation_cart.R
 import com.test.nopstation_cart.databinding.FragmentAccountBinding
@@ -21,7 +22,13 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
     private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedPreferences = requireActivity().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
+        sharedPreferences =
+            requireActivity().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("Token", null)
+        if (token == null) {
+            Toast.makeText(requireContext(), "You have to Logged in first", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(AccountFragmentDirections.actionAccountFragmentToLoginFragment())
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,7 +36,7 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnLogout.setOnClickListener {
             sharedPreferences.edit().clear().apply()
-            findNavController().popBackStack()
+            findNavController().popBackStack(R.id.homepageFragment, false)
         }
     }
 

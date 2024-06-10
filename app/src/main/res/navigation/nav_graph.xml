@@ -41,12 +41,7 @@
         android:id="@+id/checkOutFragment"
         android:name="com.test.nopstation_cart.screens.checkout.CheckOutFragment"
         android:label="fragment_check_out"
-        tools:layout="@layout/fragment_check_out" >
-        <action
-            android:id="@+id/action_checkOutFragment_to_homepageFragment"
-            app:destination="@id/homepageFragment"
-            app:popUpTo="@id/homepageFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_check_out" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.test.nopstation_cart.screens.auth.LoginFragment"
@@ -87,8 +82,9 @@
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" >
         <action
-            android:id="@+id/action_accountFragment_to_homepageFragment"
-            app:destination="@id/homepageFragment" />
+            android:id="@+id/action_accountFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderListFragment"

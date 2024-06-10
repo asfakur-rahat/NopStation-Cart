@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     override fun onAnimationRepeat(animation: Animation?) {
-                       // TODO("Not yet implemented")
+
                     }
                 })
             }
@@ -49,27 +49,30 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreferences = getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
-        //println("TOKEN " + token)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
         binding.mainNavbar.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val token: String? = sharedPreferences.getString("Token", null)
             when (destination.id) {
                 R.id.loginFragment -> {
                     binding.mainNavbar.visibility = View.GONE
-                    //binding.mainNavbar.menu.findItem(destination.id).isChecked = true
-                    if (token != null){
-                        navController.navigate(R.id.accountFragment)
-                        binding.mainNavbar.visibility = View.VISIBLE
-                        binding.mainNavbar.selectedItemId = R.id.loginFragment
-                    }
+                }
+                R.id.productFragment -> {
+                    binding.mainNavbar.visibility = View.GONE
+                }
+                R.id.productDetailFragment -> {
+                    binding.mainNavbar.visibility = View.GONE
+                }
+                R.id.cartFragment -> {
+                    binding.mainNavbar.visibility = View.GONE
+                }
+                R.id.checkOutFragment -> {
+                    binding.mainNavbar.visibility = View.GONE
                 }
                 else -> {
                     binding.mainNavbar.visibility = View.VISIBLE
-                    //binding.mainNavbar.menu.findItem(destination.id).isChecked = true
                 }
             }
         }

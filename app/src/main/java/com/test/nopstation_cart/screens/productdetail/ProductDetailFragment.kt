@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.test.nopstation_cart.R
 import com.test.nopstation_cart.databinding.FragmentProductDetailBinding
+import com.test.nopstation_cart.models.product_details.Data
 import com.test.nopstation_cart.utils.CartItemCountViewModel
 import com.test.nopstation_cart.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +26,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
     private val args: ProductDetailFragmentArgs by navArgs()
     private lateinit var binding: FragmentProductDetailBinding
     private lateinit var sharedPreferences: SharedPreferences
-    private val viewModel: ProductDetailsViewModel by viewModels ()
+    private val viewModel: ProductDetailsViewModel by viewModels()
     private val cartCountViewModel: CartItemCountViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +39,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
         binding = FragmentProductDetailBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
 
-        binding.nestedScrollView.visibility = View.INVISIBLE
-        binding.shimmerLayout.startShimmer()
-
+        initShimmer()
         viewModel.getProductDetails(args.productID)
         cartCountViewModel.updateItemCount()
         initObserver()
@@ -68,49 +67,62 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
         }
     }
 
+    private fun initShimmer() {
+        binding.nestedScrollView.visibility = View.INVISIBLE
+        binding.shimmerLayout.visibility = View.VISIBLE
+        binding.shimmerLayout.startShimmer()
+    }
 
-    //@SuppressLint("ResourceAsColor")
+
     private fun initObserver() {
-        viewModel.product.observe(viewLifecycleOwner) {
-            //println(it)
-            var sub = it.shortDescription
-            var des = it.fullDescription
-
-            if (it.shortDescription.isNullOrEmpty()) {
-                sub = Constants.subtitle
-            }
-            if (it.fullDescription.isNullOrEmpty()) {
-                des = Constants.title
-            }
-
-            binding.ivProductImage.load(it.pictureModels[0].imageUrl)
-            binding.navLogo.text = it.name
-            binding.tvProductName.text = it.name
-            binding.tvProductSubtitle.text = Html.fromHtml(sub, Html.FROM_HTML_MODE_LEGACY)
-            binding.tvProductDiscountedPrice.text =
-                "$%.2f".format(it.productPrice.basePricePAngVValue)
-            binding.tvProductActualPrice.text = it.productPrice.price
-            binding.tvProductActualPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            binding.tvStockStatus.text = it.stockAvailability
-            binding.tvQuantity.text = "1"
-            binding.tvProductDescription.text = Html.fromHtml(des, Html.FROM_HTML_MODE_LEGACY)
-            binding.shimmerLayout.stopShimmer()
-            binding.nestedScrollView.visibility = View.VISIBLE
-            binding.shimmerLayout.visibility = View.GONE
-        }
-        viewModel.cartProducts.observe(viewLifecycleOwner) {
+        viewModel.showMessage.observe(viewLifecycleOwner) {
             val item = it.getContentIfNotHandled()
-            item?.message?.let {message ->
+            item?.let { message ->
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             }
         }
-        viewModel.trigger.observe(viewLifecycleOwner){
-            if(it){
+        viewModel.product.observe(viewLifecycleOwner) {
+            initProductDetail(it)
+        }
+        viewModel.cartProducts.observe(viewLifecycleOwner) {
+            val item = it.getContentIfNotHandled()
+            item?.message?.let { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.trigger.observe(viewLifecycleOwner) {
+            if (it) {
                 cartCountViewModel.updateItemCount()
             }
         }
-        cartCountViewModel.itemCount.observe(viewLifecycleOwner){
+        cartCountViewModel.itemCount.observe(viewLifecycleOwner) {
             binding.tvCartCount.text = it.toString()
         }
+    }
+
+    private fun initProductDetail(it: Data) {
+        var sub = it.shortDescription
+        var des = it.fullDescription
+
+        if (it.shortDescription.isNullOrEmpty()) {
+            sub = Constants.subtitle
+        }
+        if (it.fullDescription.isNullOrEmpty()) {
+            des = Constants.title
+        }
+        binding.ivProductImage.load(it.pictureModels[0].imageUrl)
+        binding.navLogo.text = it.name
+        binding.tvProductName.text = it.name
+        binding.tvProductSubtitle.text = Html.fromHtml(sub, Html.FROM_HTML_MODE_LEGACY)
+        binding.tvProductDiscountedPrice.text =
+            "$%.2f".format(it.productPrice.basePricePAngVValue)
+        binding.tvProductActualPrice.text = it.productPrice.price
+        binding.tvProductActualPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+        binding.tvStockStatus.text = it.stockAvailability
+        binding.tvQuantity.text = "1"
+        binding.tvProductDescription.text = Html.fromHtml(des, Html.FROM_HTML_MODE_LEGACY)
+        binding.shimmerLayout.stopShimmer()
+        binding.nestedScrollView.visibility = View.VISIBLE
+        binding.shimmerLayout.visibility = View.GONE
     }
 }

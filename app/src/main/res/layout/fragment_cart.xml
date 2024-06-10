@@ -73,6 +73,7 @@
         android:id="@+id/shimmer_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/appbar"
         app:layout_constraintStart_toStartOf="@id/main"
         app:layout_constraintEnd_toEndOf="@id/main"
@@ -94,8 +95,7 @@
         android:background="@color/Product_bg"
         app:layout_constraintTop_toBottomOf="@id/appbar"
         app:layout_constraintStart_toStartOf="@id/main"
-        app:layout_constraintEnd_toEndOf="@id/main"
-        android:visibility="gone">
+        app:layout_constraintEnd_toEndOf="@id/main">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -119,6 +119,7 @@
             android:textSize="11sp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="@id/second"
             app:layout_constraintTop_toTopOf="@id/second"
             app:layout_constraintBottom_toBottomOf="@id/second"/>
@@ -131,8 +132,7 @@
         app:layout_constraintTop_toBottomOf="@id/second"
         app:layout_constraintStart_toStartOf="@id/second"
         app:layout_constraintEnd_toEndOf="@id/second"
-        app:layout_constraintBottom_toTopOf="@id/bottom_button"
-        android:visibility="gone">
+        app:layout_constraintBottom_toTopOf="@id/bottom_button">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/third"
@@ -140,16 +140,11 @@
             android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cart_items"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:paddingVertical="8dp"
-                android:clipToPadding="false"
-                tools:listitem="@layout/cart_item"
-                tools:itemCount="3"
-                app:layout_constraintTop_toTopOf="@id/third"
-                app:layout_constraintStart_toStartOf="@id/third"
-                app:layout_constraintEnd_toEndOf="@id/third"/>
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/third"/>
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/dv_one"
                 android:layout_width="wrap_content"

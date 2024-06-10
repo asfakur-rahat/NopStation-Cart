@@ -39,8 +39,6 @@ class HomepageFragment : Fragment() {
 
     private val viewModel: HomepageViewModel by viewModels()
     private val viewModel2: ProductDetailsViewModel by viewModels ()
-
-
     private val cartItemViewModel: CartItemCountViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,7 +96,13 @@ class HomepageFragment : Fragment() {
             if(status == true){
                 cartItemViewModel.updateItemCount()
             }
-        }  
+        }
+        viewModel2.showMessage.observe(viewLifecycleOwner){
+            val item = it.getContentIfNotHandled()
+            item?.let { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
+        }
         viewModel.banner.observe(viewLifecycleOwner) { data ->
             binding.carouselBanner.registerLifecycle(viewLifecycleOwner)
             val list = data.map { CarouselItem(imageUrl = it.imageUrl) }

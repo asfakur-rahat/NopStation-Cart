@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="16dp">
+    android:layout_margin="16dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_category_item"
@@ -30,14 +28,15 @@
 
     <TextView
         android:id="@+id/tv_category_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         tools:text="Category"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:textFontWeight="700"
         android:fontFamily="@font/lato"
+        android:textAlignment="center"
         android:textColor="@color/category_item"
         app:layout_constraintTop_toBottomOf="@+id/cv_category_item"
         app:layout_constraintStart_toStartOf="@+id/cv_category_item"

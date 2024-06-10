@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.test.nopstation_cart.R
@@ -36,6 +38,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         initListener()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callBack: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack(R.id.homepageFragment, false)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callBack)
+    }
+
     private fun initListener(){
         binding.btnLogin.setOnClickListener{
             val email = binding.etEmail.text.toString().trimMargin()
@@ -47,7 +59,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun initObserver(){
         viewModel.response.observe(this){ loginResponse ->
             sharedPreferences.edit().putString("Token", loginResponse?.data?.token).apply()
-            findNavController().popBackStack()
+            findNavController().popBackStack(R.id.homepageFragment, false)
         }
         viewModel.showMessage.observe(this){message ->
             if (message != "")

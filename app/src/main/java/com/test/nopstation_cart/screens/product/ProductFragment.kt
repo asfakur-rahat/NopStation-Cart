@@ -2,10 +2,8 @@ package com.test.nopstation_cart.screens.product
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -15,11 +13,8 @@ import com.test.nopstation_cart.R
 import com.test.nopstation_cart.adapter.ProductListAdapter
 import com.test.nopstation_cart.databinding.FragmentProductBinding
 import com.test.nopstation_cart.demodata.ProvideDemoData
-import com.test.nopstation_cart.models.ProductItem
 import com.test.nopstation_cart.models.category.Product
-import com.test.nopstation_cart.utils.CartItemCountViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -65,7 +60,7 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
     }
 
     private fun initObserver() {
-        viewModel.itemCount.observe(viewLifecycleOwner) {
+        viewModel.itemCount.observe(viewLifecycleOwner){
             binding.tvCartCount.text = it.toString()
         }
         viewModel.onlineStatus.observe(viewLifecycleOwner){
@@ -73,10 +68,15 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
                 viewModel.updateItemCount()
             }
         }
+        viewModel.showMessage.observe(viewLifecycleOwner){
+            val item = it.getContentIfNotHandled()
+            item?.let { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun initProduct(){
-        //var productList = demoData.getDemoProducts(categoryName)
         binding.rvProductList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvProductList.adapter = productListAdapter
         binding.rvProductList.setHasFixedSize(true)
