@@ -11,6 +11,8 @@ data class OrderEntity(
     val token: String = "",
     val email: String,
     val orderId: String,
+    val date: String,
+    val status: String,
     val item: List<Item>,
     val totalPrice: String = "$0.00"
 )

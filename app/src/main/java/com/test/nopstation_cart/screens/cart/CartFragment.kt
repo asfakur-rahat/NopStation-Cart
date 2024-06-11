@@ -36,6 +36,9 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             },
             onUpdate = { item, newQuantity ->
                 onUpdateClick(item,newQuantity)
+            },
+            onZeroAlert = {
+                Toast.makeText(requireContext(), "You can't decrease the quantity of this item anymore", Toast.LENGTH_SHORT).show()
             }
         )
 

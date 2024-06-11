@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="380dp"
-    android:layout_height="175dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:padding = "4dp">
 
     <androidx.cardview.widget.CardView
@@ -21,8 +21,8 @@
             android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/iv_product_image"
-                android:layout_width="180dp"
-                android:layout_height="match_parent"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:contentDescription="@string/product_image"
                 tools:src="@drawable/salmon_fish_0"
                 android:scaleType="fitXY"
