@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".screens.account.AccountFragment">
-
+    tools:context=".screens.search.SearchFragment">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="0dp"
@@ -22,13 +21,12 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <TextView
                     android:id="@+id/nav_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/navbar_logo"
-                    android:text="@string/account"
+                    android:text="@string/search"
                     android:textColor="@color/white"
                     android:fontFamily="@font/lato_bold"
                     android:textFontWeight="700"
@@ -38,56 +36,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintHorizontal_bias="0.025"/>
-
-                <ImageView
-                    android:id="@+id/btn_logout"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_marginEnd="24dp"
-                    android:contentDescription="@string/checkout_button"
-                    android:src="@drawable/ic_logout"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ImageView
-        android:id="@+id/iv_profile_pic"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_account"
-        app:tint="@color/cyan"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@id/tv_logged_in_user"
-        app:layout_constraintStart_toStartOf="@id/tv_logged_in_user"
-        app:layout_constraintEnd_toEndOf="@id/tv_logged_in_user"/>
-
-    <TextView
-        android:id="@+id/tv_logged_in_user"
-        android:layout_width="wrap_content"
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/logged_in_user"
-        android:textColor="@color/cyan"
-        android:textSize="36sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="@color/category_bg_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias=".3"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="@color/end_color"
-        android:fontFamily="@font/lato_bold"
-        android:text="More Account Details Comming Soon"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@id/tv_logged_in_user"
-        app:layout_constraintEnd_toEndOf="@id/tv_logged_in_user"
-        app:layout_constraintTop_toBottomOf="@id/tv_logged_in_user"/>
+        app:layout_constraintTop_toBottomOf="@id/appbar"
+        android:hint="@string/search_function_is_coming_soon"
+        app:hintTextColor="@color/hint_color"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

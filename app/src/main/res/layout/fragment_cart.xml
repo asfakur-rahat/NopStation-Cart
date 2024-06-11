@@ -124,7 +124,6 @@
             app:layout_constraintTop_toTopOf="@id/second"
             app:layout_constraintBottom_toBottomOf="@id/second"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll"
         android:layout_width="match_parent"
@@ -138,6 +137,7 @@
             android:id="@+id/third"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cart_items"
                 android:layout_width="wrap_content"
@@ -145,6 +145,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/third"/>
+
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/dv_one"
                 android:layout_width="wrap_content"
@@ -269,8 +270,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_button"
         android:layout_width="match_parent"
@@ -295,5 +294,31 @@
             app:layout_constraintTop_toTopOf="@id/bottom_button"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="@id/main"
+        app:layout_constraintStart_toStartOf="@id/main"
+        app:layout_constraintEnd_toEndOf="@id/main"
+        app:layout_constraintBottom_toBottomOf="@id/main"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
+        android:background="#850BF7EB"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/end_color"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textSize="18sp"
+            android:fontFamily="@font/lato_bold"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

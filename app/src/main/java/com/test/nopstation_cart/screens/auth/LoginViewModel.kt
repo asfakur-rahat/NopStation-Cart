@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.test.nopstation_cart.models.Auth.Data
 import com.test.nopstation_cart.models.Auth.DataX
 import com.test.nopstation_cart.models.Auth.Login
@@ -61,7 +62,17 @@ class LoginViewModel @Inject constructor(
             )
             if (response.isSuccessful) {
                 sharedPreferences.edit().putString("email",email).apply()
+                _showMessage.value = "Login Successful"
                 _response.value = response.body()
+            }else{
+                if(response.code() == 400){
+                    val errorResponse = response.errorBody()?.string()?.let{
+                        Gson().fromJson(it, LoginResponse::class.java)
+                    }
+                    println(errorResponse)
+                    _showMessage.value = errorResponse?.errorList?.get(0)?.toString()
+                }else
+                    _showMessage.value = "Something went wrong"
             }
         }
     }

@@ -66,4 +66,6 @@
     <string name="shopping_cart_2">Shopping Cart</string>
     <string name="logout">LOGOUT</string>
     <string name="logged_in_user">LOGGED IN USER</string>
+    <string name="loading">Please wait...</string>
+    <string name="search_function_is_coming_soon">Search Function is Coming soon</string>
 </resources>

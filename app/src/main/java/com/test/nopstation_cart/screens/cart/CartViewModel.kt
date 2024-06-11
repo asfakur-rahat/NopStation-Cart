@@ -37,6 +37,13 @@ class CartViewModel @Inject constructor(
     val cartList: LiveData<FetchCartResponse>
         get() = _cartList
 
+
+    private val _loader: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>(false)
+    }
+    val loader: LiveData<Boolean>
+        get() = _loader
+
     fun fetchCart() = viewModelScope.launch {
         if (InternetStatus.isOnline(context.applicationContext)) {
             val response = repository.fetchCartItems()
@@ -54,6 +61,7 @@ class CartViewModel @Inject constructor(
 
     fun removeItem(item: Item) = viewModelScope.launch {
         if (InternetStatus.isOnline(context.applicationContext)) {
+            _loader.value = true
             val response = repository.updateCart(
                 AddToCartRequest(
                     listOf(
@@ -65,6 +73,7 @@ class CartViewModel @Inject constructor(
                 )
             )
             if (response.isSuccessful) {
+                _loader.value = false
                 _isCancle.value = response.body()
             }
         }
@@ -78,6 +87,7 @@ class CartViewModel @Inject constructor(
 
     fun updateQuantity(item: Item, quantity: Int) = viewModelScope.launch {
         if (InternetStatus.isOnline(context.applicationContext)) {
+            _loader.value = true
             val response = repository.updateCart(
                 AddToCartRequest(
                     listOf(
@@ -89,6 +99,7 @@ class CartViewModel @Inject constructor(
                 )
             )
             if (response.isSuccessful) {
+                _loader.value = false
                 _quantityUpdated.value = response.body()
             }
         }

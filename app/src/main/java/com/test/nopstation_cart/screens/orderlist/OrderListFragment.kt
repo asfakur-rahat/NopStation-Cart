@@ -104,46 +104,12 @@ class OrderListFragment : Fragment(layout.fragment_order_list) {
                     modifier = Modifier.background(
                         brush = gradientColor()
                     ),
-                    navigationIcon = {
-                        IconButton(onClick = { findNavController().popBackStack() }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back",
-                                tint = colorResource(id = color.white)
-                            )
-                        }
-                    },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Color.Transparent,
                         titleContentColor = colorResource(id = color.white)
                     ),
                     title = {
                         Text(text = "Placed Order List")
-                    },
-                    actions = {
-                        BadgedBox(
-                            modifier = Modifier.padding(end = 16.dp),
-                            badge = {
-                                CustomBadge(
-                                    containerColor = colorResource(id = color.category_bg_color),
-                                    borderColor = colorResource(id = color.badge_stroke)
-
-                                ) {
-                                    Text(
-                                        text = "$cartItemCount",
-                                        fontSize = 12.sp,
-                                        color = colorResource(id = color.black)
-                                    )
-                                }
-                            }
-                        ) {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(drawable.ic_checkout),
-                                contentDescription = "Go to Cart",
-                                tint = colorResource(id = color.white),
-                                modifier = Modifier.size(28.dp)
-                            )
-                        }
                     }
                 )
             }
