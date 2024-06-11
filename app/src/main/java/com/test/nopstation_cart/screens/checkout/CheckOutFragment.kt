@@ -219,21 +219,21 @@ class CheckOutFragment : Fragment(layout.fragment_check_out) {
         val order by viewModel.cart.observeAsState()
         CustomLabel(text = "Billing Address")
         Titles(text = "Address")
-        FilledTextField(
-            hint = "Existing Address",
-            value = existingAddress.value,
-            onValueChange = { existingAddress.value = it })
-        Row(
-            modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
-        ) {
-            getCheckBox()
-            Text("Ship to the same address", Modifier.padding(start = 10.dp, top = 1.dp))
-        }
-        Titles(text = "Select A Billing Address")
-        FilledTextField(
-            hint = "New",
-            value = newAddress.value,
-            onValueChange = { newAddress.value = it })
+//        FilledTextField(
+//            hint = "Existing Address",
+//            value = existingAddress.value,
+//            onValueChange = { existingAddress.value = it })
+//        Row(
+//            modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
+//        ) {
+//            getCheckBox()
+//            Text("Ship to the same address", Modifier.padding(start = 10.dp, top = 1.dp))
+//        }
+//        Titles(text = "Select A Billing Address")
+//        FilledTextField(
+//            hint = "New",
+//            value = newAddress.value,
+//            onValueChange = { newAddress.value = it })
         FilledTextField(
             hint = "First Name :",
             value = firstName.value,
@@ -298,7 +298,7 @@ class CheckOutFragment : Fragment(layout.fragment_check_out) {
         CustomLabel(text = "Payment Method")
         PaymentMethod()
         Spacer(modifier = Modifier.height(16.dp))
-        Spacer(modifier = Modifier.height(16.dp))
+        //Spacer(modifier = Modifier.height(16.dp))
         CustomLabel(text = "Payment Information")
         Spacer(modifier = Modifier.height(16.dp))
         Titles(text = "Order Totals")

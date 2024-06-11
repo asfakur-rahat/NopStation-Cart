@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.test.nopstation_cart.db.AppDatabase
 import com.test.nopstation_cart.network.ApiClient
+import com.test.nopstation_cart.network.api.AccountApi
 import com.test.nopstation_cart.network.api.AuthenticationApi
 import com.test.nopstation_cart.network.api.BannerApi
 import com.test.nopstation_cart.network.api.CartApi
@@ -67,5 +68,11 @@ class AppModule {
     @Singleton
     fun provideCartApi(retrofit: Retrofit): CartApi {
         return retrofit.create(CartApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAccountApi(retrofit: Retrofit): AccountApi {
+        return retrofit.create(AccountApi::class.java)
     }
 }

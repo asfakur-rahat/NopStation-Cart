@@ -9,7 +9,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -43,7 +45,10 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.viewModels
@@ -53,6 +58,7 @@ import com.test.nopstation_cart.R.*
 import com.test.nopstation_cart.db.dbmodel.OrderEntity
 import com.test.nopstation_cart.ui.custom.CustomBadge
 import dagger.hilt.android.AndroidEntryPoint
+import org.w3c.dom.Text
 
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
@@ -69,6 +75,7 @@ class OrderListFragment : Fragment(layout.fragment_order_list) {
         viewmodel.getOrders()
         viewmodel.updateCartItemCount()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -123,13 +130,20 @@ class OrderListFragment : Fragment(layout.fragment_order_list) {
         val message by viewmodel.orders.observeAsState()
         if (message.isNullOrEmpty()) {
             Box(modifier = Modifier.fillMaxSize()) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center),color = colorResource(id = color.middle_color))
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = colorResource(id = color.middle_color)
+                )
             }
         } else {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(it),
+                    .padding(
+                        top = it.calculateTopPadding(),
+                        start = it.calculateStartPadding(LayoutDirection.Ltr),
+                        end = it.calculateStartPadding(LayoutDirection.Ltr)
+                    ),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
@@ -143,30 +157,64 @@ class OrderListFragment : Fragment(layout.fragment_order_list) {
     @Composable
     fun OrderCard(order: OrderEntity) {
         OutlinedCard(
-            onClick = { /*TODO*/ },
             modifier = Modifier
-                .height(180.dp)
-                .padding(16.dp)
+                .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
                 .fillMaxWidth()
 
         ) {
             Text(
-                text = "OrderID: ${order.orderId}",
-                modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp, end = 16.dp),
-                fontSize = 18.sp,
-                color = colorResource(id = color.black)
+                text = "Order Details", modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = colorResource(
+                            id = color.order_tag
+                        )
+                    )
+                    .padding(start = 12.dp, end = 16.dp, top = 16.dp, bottom = 16.dp),
+                fontSize = 18.sp
             )
-            Text(
-                text = "Total Ordered Item: ${order.item.size}",
-                modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp, end = 16.dp),
-                fontSize = 16.sp,
-                color = colorResource(id = color.black)
+            TextField(
+                label = "Order Number :",
+                text = "${order.id}",
+                labelColor = colorResource(id = color.black),
+                textColor = colorResource(id = color.black)
             )
+            TextField(
+                label = "Order Status :",
+                text = order.status,
+                labelColor = colorResource(
+                    id = color.category_color
+                ),
+                textColor = colorResource(id = color.category_color)
+            )
+            TextField(
+                label = "Order Date :",
+                text = order.date,
+                labelColor = colorResource(id = color.black),
+                textColor = colorResource(
+                    id = color.black
+                )
+            )
+            TextField(
+                label = "Order Total :",
+                text = order.totalPrice,
+                labelColor = colorResource(id = color.product_price),
+                textColor = colorResource(id = color.product_price)
+            )
+        }
+    }
+
+    @Composable
+    fun TextField(label: String, text: String, labelColor: Color, textColor: Color) {
+        Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(text = label, fontWeight = FontWeight.Bold, color = labelColor, fontSize = 19.sp)
+            Spacer(modifier = Modifier.width(4.dp))
             Text(
-                text = "Order Total: ${order.totalPrice}",
-                modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 4.dp, end = 16.dp),
-                fontSize = 16.sp,
-                color = colorResource(id = color.product_price)
+                text = text,
+                color = textColor,
+                fontSize = 17.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
@@ -175,7 +223,18 @@ class OrderListFragment : Fragment(layout.fragment_order_list) {
     @Composable
     private fun OrderListPreview() {
         Surface {
-            OrderListPage()
+            OrderCard(
+                order = OrderEntity(
+                    id = 1,
+                    token = "asdasguagduas",
+                    email = "2021-03-02",
+                    orderId = "ashdgasydaudasdaaadadasadaydgasu",
+                    date = "2021-03-02",
+                    status = "Complete",
+                    item = emptyList(),
+                    totalPrice = "$10000"
+                )
+            )
         }
     }
 }

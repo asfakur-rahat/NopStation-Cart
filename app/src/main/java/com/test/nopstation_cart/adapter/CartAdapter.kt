@@ -11,12 +11,14 @@ import com.test.nopstation_cart.models.cart.Item
 
 class CartAdapter(
     private val onClick: (Item) -> Unit,
-    private val onUpdate: (Item, quantity: Int) -> Unit
+    private val onUpdate: (Item, quantity: Int) -> Unit,
+    private val onZeroAlert: () -> Unit
 ): ListAdapter<Item, CartAdapter.ViewHolder>(DIFF_CALLBACK){
     class ViewHolder(
         private val binding: CartItemBinding,
         private val onClick: (Item) -> Unit,
-        private val onUpdate: (Item, quantity: Int) -> Unit
+        private val onUpdate: (Item, quantity: Int) -> Unit,
+        private val onZeroAlert: () -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
             binding.ivProductImage.load(item.picture.imageUrl)
@@ -30,15 +32,13 @@ class CartAdapter(
 
             binding.tvQuantityPlus.setOnClickListener {
                 binding.tvProductQuantity.text = (binding.tvProductQuantity.text.toString().toInt() + 1).toString()
-
                 onUpdate(item, binding.tvProductQuantity.text.toString().toInt())
             }
             binding.tvQuantityMinus.setOnClickListener {
-                binding.tvProductQuantity.text = (binding.tvProductQuantity.text.toString().toInt() - 1).toString()
-
-                if(binding.tvProductQuantity.text.toString().toInt() == 0){
-                    onClick(item)
+                if(binding.tvProductQuantity.text.toString().toInt() == 1){
+                    onZeroAlert()
                 }else{
+                    binding.tvProductQuantity.text = (binding.tvProductQuantity.text.toString().toInt() - 1).toString()
                     onUpdate(item, binding.tvProductQuantity.text.toString().toInt())
                 }
 
@@ -52,7 +52,7 @@ class CartAdapter(
     ): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = CartItemBinding.inflate(layoutInflater,parent,false)
-        return ViewHolder(binding, onClick, onUpdate)
+        return ViewHolder(binding, onClick, onUpdate, onZeroAlert)
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)

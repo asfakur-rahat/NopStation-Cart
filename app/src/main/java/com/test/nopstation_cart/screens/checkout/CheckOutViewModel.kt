@@ -19,6 +19,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -150,6 +152,8 @@ class CheckOutViewModel @Inject constructor(
                                 orderId = orderId!!,
                                 token = token,
                                 email = email,
+                                date = getCurrentFormattedDate(),
+                                status = "Completed",
                                 item = orderItems,
                                 totalPrice = total
                             )
@@ -161,6 +165,12 @@ class CheckOutViewModel @Inject constructor(
             _loader.value = false
             _showMessage.value = "No internet connection"
         }
+    }
+
+    private fun getCurrentFormattedDate(): String {
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        return currentDate.format(formatter)
     }
 
     private val _loader: MutableLiveData<Boolean> by lazy {
