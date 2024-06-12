@@ -14,27 +14,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.test.nopstation_cart.R
 import com.test.nopstation_cart.adapter.*
 import com.test.nopstation_cart.databinding.FragmentHomepageBinding
-import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.ProductItems
 import com.test.nopstation_cart.models.category.Data
 import com.test.nopstation_cart.screens.productdetail.ProductDetailsViewModel
 import com.test.nopstation_cart.utils.CartItemCountViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class HomepageFragment : Fragment() {
 
     private lateinit var binding: FragmentHomepageBinding
-    private lateinit var bestsellAdaptar: BestSellingAdapter
     private lateinit var ourcategoryadaptar: OurCategoryAdapter
     private lateinit var featuredAdaptar: FeaturedProductAdapter
-    private lateinit var womenHeelAdapter: WomenHeelAdaptar
-    private lateinit var salmonAdapter: SalmonAdapter
-    private lateinit var furnitureCollectionAdapter: FurnitureCollectionAdapter
-    private lateinit var dataProvider: ProvideDemoData
     private lateinit var sharedPreferences: SharedPreferences
 
     private val viewModel: HomepageViewModel by viewModels()
@@ -44,14 +37,9 @@ class HomepageFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPreferences = requireContext().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
-        bestsellAdaptar = BestSellingAdapter{}
         ourcategoryadaptar = OurCategoryAdapter{ data, name ->
             onCategoryClick(data, name)
         }
-        womenHeelAdapter = WomenHeelAdaptar{}
-        salmonAdapter = SalmonAdapter{}
-        furnitureCollectionAdapter = FurnitureCollectionAdapter{}
-        dataProvider = ProvideDemoData()
     }
 
     override fun onCreateView(
@@ -65,10 +53,6 @@ class HomepageFragment : Fragment() {
         binding = FragmentHomepageBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
         viewModel.checkOnlineStatus()
-        populateBestSale()
-        populateWomenHeel()
-        populateSalmon()
-        populateFurnitureCollection()
         featuredAdaptar = FeaturedProductAdapter(
             onClick = { onItemClick(it) },
             onAddToCart = { addToCart(it) }
@@ -135,34 +119,6 @@ class HomepageFragment : Fragment() {
 
     private fun addToCart(item: ProductItems) {
         viewModel2.addToCart(item.id)
-    }
-
-    private fun populateBestSale() {
-        val productList = dataProvider.provideBestSellingItems()
-        binding.rvBestSellingProduct.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvBestSellingProduct.adapter = bestsellAdaptar
-        bestsellAdaptar.submitList(productList)
-    }
-
-    private fun populateWomenHeel() {
-        val productList = dataProvider.provideWomenHeel()
-        binding.rvWomensHeelProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvWomensHeelProducts.adapter = womenHeelAdapter
-        womenHeelAdapter.submitList(productList)
-    }
-
-    private fun populateSalmon() {
-        val productList = dataProvider.provideSalmon()
-        binding.rvSalmonFishProducts.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvSalmonFishProducts.adapter = salmonAdapter
-        salmonAdapter.submitList(productList)
-    }
-
-    private fun populateFurnitureCollection() {
-        val productList = dataProvider.provideFurnitureCollection()
-        binding.rvFurnitureCollection.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvFurnitureCollection.adapter = furnitureCollectionAdapter
-        furnitureCollectionAdapter.submitList(productList)
     }
 
     private fun onItemClick(item: ProductItems) {
