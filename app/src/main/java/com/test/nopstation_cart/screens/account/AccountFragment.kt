@@ -33,14 +33,8 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        initView()
-        initObserver()
-    }
-
     private fun initObserver() {
-        viewModel.userinfo.observe(this){
+        viewModel.userinfo.observe(viewLifecycleOwner){
             binding.tvLoggedInUser.text = buildString {
                 append(it.data.firstName)
                 append(" ")
@@ -48,18 +42,53 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
             }
             binding.tvEmail.text = it.data.email
         }
-        viewModel.showMassage.observe(this){
+        viewModel.showMassage.observe(viewLifecycleOwner){
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
+        viewModel.orders.observe(viewLifecycleOwner){
+            binding.tvOrderCount.text = it.size.toString()
+            stopShimmer()
         }
     }
 
-    private fun initView() {
+    private fun stopShimmer(){
+        binding.shimmerLayout.stopShimmer()
+        binding.shimmerLayout.visibility = View.GONE
+
+        //Icons
+        binding.iconProfile.visibility = View.VISIBLE
+        binding.iconEmail.visibility = View.VISIBLE
+        binding.icOrder.visibility = View.VISIBLE
+        //Tag
+        binding.ivProfilePic.visibility = View.VISIBLE
+        binding.tvLoggedInUser.visibility = View.VISIBLE
+        binding.tvEmail.visibility = View.VISIBLE
+        binding.tvOrderNumber.visibility = View.VISIBLE
+        binding.tvOrderCount.visibility = View.VISIBLE
+    }
+
+    private fun initView(){
+        binding.shimmerLayout.visibility = View.VISIBLE
+        //Icons
+        binding.iconProfile.visibility = View.INVISIBLE
+        binding.iconEmail.visibility = View.INVISIBLE
+        binding.icOrder.visibility = View.INVISIBLE
+        //Tag
+        binding.ivProfilePic.visibility = View.INVISIBLE
+        binding.tvLoggedInUser.visibility = View.INVISIBLE
+        binding.tvEmail.visibility = View.INVISIBLE
+        binding.tvOrderNumber.visibility = View.INVISIBLE
+        binding.tvOrderCount.visibility = View.INVISIBLE
+
+        binding.shimmerLayout.startShimmer()
         viewModel.getUserInfo()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentAccountBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
+        initView()
+        initObserver()
         binding.btnLogout.setOnClickListener {
             sharedPreferences.edit().clear().apply()
             findNavController().popBackStack(R.id.homepageFragment, false)
