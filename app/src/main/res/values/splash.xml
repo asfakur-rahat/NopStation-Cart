@@ -3,7 +3,7 @@
     <style name = "Theme.NopStation.SplashScreen" parent = "Theme.SplashScreen">
         <item name ="android:windowSplashScreenBackground">@color/cyan</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/avd_nopstation</item>
-        <item name="windowSplashScreenAnimationDuration">1000</item>
-        <item name = "postSplashScreenTheme">@style/Theme.NopStationCart</item>
+        <item name="windowSplashScreenAnimationDuration">900</item>
+        <item name ="postSplashScreenTheme">@style/Theme.NopStationCart</item>
     </style>
 </resources>

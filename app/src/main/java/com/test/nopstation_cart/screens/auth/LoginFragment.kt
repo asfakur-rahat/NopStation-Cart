@@ -1,24 +1,69 @@
 package com.test.nopstation_cart.screens.auth
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.test.nopstation_cart.R
+import com.test.nopstation_cart.databinding.FragmentLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class LoginFragment : Fragment() {
+@AndroidEntryPoint
+class LoginFragment : Fragment(R.layout.fragment_login) {
+
+    private lateinit var binding: FragmentLoginBinding
+    private val viewModel: LoginViewModel by viewModels()
+    private lateinit var sharedPreferences: SharedPreferences
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        sharedPreferences = requireActivity().getSharedPreferences("AuthPrefs", Context.MODE_PRIVATE)
+        initObserver()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = FragmentLoginBinding.bind(view)
+        super.onViewCreated(view, savedInstanceState)
+        initListener()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callBack: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack(R.id.homepageFragment, false)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callBack)
+    }
+
+    private fun initListener(){
+        binding.btnLogin.setOnClickListener{
+            val email = binding.etEmail.text.toString().trimMargin()
+            val password = binding.etPassword.text.toString().trimMargin()
+            viewModel.postLogin(email, password)
+        }
+    }
+
+    private fun initObserver(){
+        viewModel.response.observe(this){ loginResponse ->
+            sharedPreferences.edit().putString("Token", loginResponse?.data?.token).apply()
+            findNavController().popBackStack(R.id.homepageFragment, false)
+        }
+        viewModel.showMessage.observe(this){message ->
+            if (message != "")
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+    }
 }

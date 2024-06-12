@@ -5,25 +5,29 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.test.nopstation_cart.databinding.ItemCategoryBinding
-import com.test.nopstation_cart.models.OurCategoryItem
+import com.test.nopstation_cart.models.category.Data
 
 class OurCategoryAdapter(
-    private val onClick: (OurCategoryItem) -> Unit
-): ListAdapter<OurCategoryItem, OurCategoryAdapter.ViewHolder>(DIFF_CALLBACK) {
+    private val onClick: (Data, String) -> Unit
+): ListAdapter<Data, OurCategoryAdapter.ViewHolder>(DIFF_CALLBACK) {
     class ViewHolder(
         private val binding: ItemCategoryBinding,
-        private val onClick: (OurCategoryItem) -> Unit
+        private val onClick: (Data,String) -> Unit
     ): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: OurCategoryItem){
-            binding.ivCategoryItem.setImageResource(item.categoryImage)
-            binding.tvCategoryName.text = item.categoryName
+        fun bind(item: Data){
+            binding.ivCategoryItem.load(item.products[0].pictureModels[0].imageUrl)
+            binding.tvCategoryName.text = item.name
+            binding.root.setOnClickListener {
+                onClick(item,item.name)
+            }
         }
 
         companion object{
             fun from(
                 parent: ViewGroup,
-                onClick: (OurCategoryItem) -> Unit
+                onClick: (Data,String) -> Unit
             ): ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ItemCategoryBinding.inflate(layoutInflater, parent, false)
@@ -44,17 +48,17 @@ class OurCategoryAdapter(
     }
 
     companion object{
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<OurCategoryItem>(){
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Data>(){
             override fun areItemsTheSame(
-                oldItem: OurCategoryItem,
-                newItem: OurCategoryItem
+                oldItem: Data,
+                newItem: Data
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: OurCategoryItem,
-                newItem: OurCategoryItem
+                oldItem: Data,
+                newItem: Data
             ): Boolean {
                 return oldItem == newItem
             }
