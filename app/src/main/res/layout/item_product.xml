@@ -20,7 +20,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/product_image"
             android:scaleType="fitXY"
-            android:src="@drawable/furniture_collection_1"
+            android:src="@drawable/example_item"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintEnd_toEndOf="parent"

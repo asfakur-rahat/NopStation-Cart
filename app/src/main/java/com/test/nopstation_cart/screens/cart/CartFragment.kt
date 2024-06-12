@@ -88,8 +88,10 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
             initView(it)
         }
         viewModel.quantityUpdated.observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(), "Quantity updated", Toast.LENGTH_SHORT).show()
             initView(it)
+        }
+        viewModel.showMessage.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
         viewModel.onlineStatus.observe(viewLifecycleOwner){
             if(it==true){

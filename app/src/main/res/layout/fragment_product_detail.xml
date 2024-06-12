@@ -111,7 +111,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/main"
                 app:layout_constraintStart_toStartOf="@+id/main"
                 app:layout_constraintTop_toTopOf="@id/main"
-                tools:src="@drawable/item_sample"/>
+                tools:src="@drawable/example_item"/>
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/image_guideline"

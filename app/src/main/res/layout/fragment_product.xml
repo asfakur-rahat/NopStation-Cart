@@ -81,14 +81,14 @@
             android:id="@+id/iv_banner"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="@id/cl_banner"
             app:layout_constraintEnd_toEndOf="@id/cl_banner"
             app:layout_constraintHeight_percent=".25"
             app:layout_constraintStart_toStartOf="@id/cl_banner"
             app:layout_constraintTop_toTopOf="@id/cl_banner"
             app:layout_constraintVertical_bias="0"
-            tools:src="@drawable/food" />
+            tools:src="@drawable/fashion" />
 
         <TextView
             android:id="@+id/tv_category_name"

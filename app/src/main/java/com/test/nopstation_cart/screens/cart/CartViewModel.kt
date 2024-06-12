@@ -13,6 +13,7 @@ import com.test.nopstation_cart.repository.CartRepository
 import com.test.nopstation_cart.utils.InternetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -44,7 +45,7 @@ class CartViewModel @Inject constructor(
     val loader: LiveData<Boolean>
         get() = _loader
 
-    fun fetchCart() = viewModelScope.launch {
+    fun fetchCart() = viewModelScope.launch(coroutineExceptionHandler) {
         if (InternetStatus.isOnline(context.applicationContext)) {
             val response = repository.fetchCartItems()
             if (response.isSuccessful) {
@@ -59,7 +60,7 @@ class CartViewModel @Inject constructor(
     val isCancle: LiveData<FetchCartResponse>
         get() = _isCancle
 
-    fun removeItem(item: Item) = viewModelScope.launch {
+    fun removeItem(item: Item) = viewModelScope.launch(coroutineExceptionHandler) {
         if (InternetStatus.isOnline(context.applicationContext)) {
             _loader.value = true
             val response = repository.updateCart(
@@ -85,7 +86,13 @@ class CartViewModel @Inject constructor(
     val quantityUpdated: LiveData<FetchCartResponse>
         get() = _quantityUpdated
 
-    fun updateQuantity(item: Item, quantity: Int) = viewModelScope.launch {
+    private val _showMessage: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+    val showMessage: LiveData<String>
+        get() = _showMessage
+
+    fun updateQuantity(item: Item, quantity: Int) = viewModelScope.launch(coroutineExceptionHandler) {
         if (InternetStatus.isOnline(context.applicationContext)) {
             _loader.value = true
             val response = repository.updateCart(
@@ -100,9 +107,15 @@ class CartViewModel @Inject constructor(
             )
             if (response.isSuccessful) {
                 _loader.value = false
+                _showMessage.value = "Quantity Updated"
                 _quantityUpdated.value = response.body()
             }
         }
+    }
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
+        _loader.value = false
+        _showMessage.value = "Check your internet connection!!"
     }
 
 }

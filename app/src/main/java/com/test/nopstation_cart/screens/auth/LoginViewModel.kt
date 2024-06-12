@@ -17,6 +17,7 @@ import com.test.nopstation_cart.repository.LoginRepository
 import com.test.nopstation_cart.utils.InternetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -47,7 +48,7 @@ class LoginViewModel @Inject constructor(
         return true
     }
 
-    fun postLogin(email: String, password: String) = viewModelScope.launch {
+    fun postLogin(email: String, password: String) = viewModelScope.launch(coroutineExceptionHandler) {
         if (!isValid(email, password)) {
             return@launch
         }
@@ -75,5 +76,8 @@ class LoginViewModel @Inject constructor(
                     _showMessage.value = "Something went wrong"
             }
         }
+    }
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
+        _showMessage.value = "Check your internet connection!!"
     }
 }

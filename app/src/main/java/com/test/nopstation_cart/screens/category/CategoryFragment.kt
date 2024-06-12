@@ -2,17 +2,13 @@ package com.test.nopstation_cart.screens.category
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.test.nopstation_cart.R
 import com.test.nopstation_cart.adapter.CategoryListAdapter
 import com.test.nopstation_cart.databinding.FragmentCategoryBinding
-import com.test.nopstation_cart.demodata.ProvideDemoData
-import com.test.nopstation_cart.screens.home.HomepageFragmentDirections
 import com.test.nopstation_cart.models.category.Data as CategoryData
 import com.test.nopstation_cart.screens.home.HomepageViewModel
 import com.test.nopstation_cart.utils.CartItemCountViewModel
@@ -23,7 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class CategoryFragment : Fragment(R.layout.fragment_category) {
 
     private lateinit var binding : FragmentCategoryBinding
-    private lateinit var demoData: ProvideDemoData
     private lateinit var adapter: CategoryListAdapter
 
     private val viewModel: CartItemCountViewModel by viewModels()
@@ -33,7 +28,6 @@ class CategoryFragment : Fragment(R.layout.fragment_category) {
         adapter = CategoryListAdapter{data, name ->
                onItemClick(data, name)
         }
-        demoData = ProvideDemoData()
     }
 
     private fun onItemClick(data: CategoryData, name: String) {

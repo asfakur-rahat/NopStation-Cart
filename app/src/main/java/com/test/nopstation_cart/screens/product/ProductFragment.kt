@@ -12,7 +12,6 @@ import coil.load
 import com.test.nopstation_cart.R
 import com.test.nopstation_cart.adapter.ProductListAdapter
 import com.test.nopstation_cart.databinding.FragmentProductBinding
-import com.test.nopstation_cart.demodata.ProvideDemoData
 import com.test.nopstation_cart.models.category.Product
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,13 +23,11 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
     private lateinit var categoryName: String
     private lateinit var binding: FragmentProductBinding
     private lateinit var productListAdapter: ProductListAdapter
-    private lateinit var demoData: ProvideDemoData
 
     private val viewModel: ProductViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        demoData = ProvideDemoData()
         categoryName = args.CategoryName
         productListAdapter = ProductListAdapter(
             {
@@ -79,7 +76,6 @@ class ProductFragment : Fragment(R.layout.fragment_product) {
     private fun initProduct(){
         binding.rvProductList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvProductList.adapter = productListAdapter
-        binding.rvProductList.setHasFixedSize(true)
         productListAdapter.submitList(args.Product.toMutableList())
     }
 
