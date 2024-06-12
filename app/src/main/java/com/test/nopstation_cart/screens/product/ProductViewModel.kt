@@ -14,6 +14,7 @@ import com.test.nopstation_cart.utils.Event
 import com.test.nopstation_cart.utils.InternetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,7 +41,7 @@ class ProductViewModel @Inject constructor(
         get() = _showMessage
 
 
-    fun addToCart(id: Int) = viewModelScope.launch {
+    fun addToCart(id: Int) = viewModelScope.launch(coroutineExceptionHandler) {
         if (InternetStatus.isOnline(context.applicationContext)) {
             val response = repository.addToCart(
                 id, AddToCartRequest(
@@ -73,13 +74,17 @@ class ProductViewModel @Inject constructor(
     val itemCount: LiveData<Int>
         get() = _itemCount
 
-    fun updateItemCount() = viewModelScope.launch {
+    fun updateItemCount() = viewModelScope.launch(coroutineExceptionHandler) {
         if (InternetStatus.isOnline(context.applicationContext)) {
             val response = repository.fetchCartItems()
             if (response.isSuccessful) {
                 _itemCount.value = response.body()?.data?.cart?.items?.size
             }
         }
+    }
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
+        _showMessage.value = Event("Check your internet connection!!")
     }
 
 }

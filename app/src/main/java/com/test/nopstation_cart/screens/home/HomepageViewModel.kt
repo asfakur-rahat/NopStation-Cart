@@ -12,6 +12,7 @@ import com.test.nopstation_cart.repository.FeaturedProductRepository
 import com.test.nopstation_cart.utils.InternetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import com.test.nopstation_cart.models.category.Data as CategoryData
 import javax.inject.Inject
@@ -40,7 +41,7 @@ class HomepageViewModel @Inject constructor(
         get() = _banner
 
 
-    fun getBanner() = viewModelScope.launch {
+    fun getBanner() = viewModelScope.launch(coroutineExceptionHandler) {
         if (InternetStatus.isOnline(context.applicationContext)) {
             repository.getBanner().isSuccessful.let {
                 if (it) {
@@ -59,7 +60,7 @@ class HomepageViewModel @Inject constructor(
     val featuredProducts: LiveData<List<ProductItems>>
         get() = _featuredProducts
 
-    fun getFeaturedProducts() = viewModelScope.launch {
+    fun getFeaturedProducts() = viewModelScope.launch(coroutineExceptionHandler) {
         if (InternetStatus.isOnline(context.applicationContext)) {
             val response = repository2.getFeaturedProducts()
             val data = response.body()?.data
@@ -110,7 +111,7 @@ class HomepageViewModel @Inject constructor(
     val categories: LiveData<List<CategoryData>>
         get() = _categories
 
-    fun getCategories() = viewModelScope.launch {
+    fun getCategories() = viewModelScope.launch(coroutineExceptionHandler) {
         if (InternetStatus.isOnline(context.applicationContext)) {
             val response = repository2.getCategoryWithProducts()
             response.isSuccessful.let {
@@ -121,6 +122,16 @@ class HomepageViewModel @Inject constructor(
         } else {
             _categories.value = repository2.getCategoriesFromRoom()
         }
+    }
+
+    private val _showMessage: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+    val showMessage: LiveData<String>
+        get() = _showMessage
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
+        _showMessage.value = "Check your internet connection!!"
     }
 
 }

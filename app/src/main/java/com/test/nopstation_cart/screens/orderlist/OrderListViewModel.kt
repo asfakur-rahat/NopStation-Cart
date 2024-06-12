@@ -11,6 +11,7 @@ import com.test.nopstation_cart.repository.CartRepository
 import com.test.nopstation_cart.utils.InternetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,12 +38,15 @@ class OrderListViewModel @Inject constructor(
     val cartItemCount: LiveData<Int>
         get() = _cartItemCount
 
-    fun updateCartItemCount() = viewModelScope.launch {
+    fun updateCartItemCount() = viewModelScope.launch(coroutineExceptionHandler) {
         if (InternetStatus.isOnline(context.applicationContext)){
             val response = repository.fetchCartItems()
             if (response.isSuccessful){
                 _cartItemCount.value = response.body()?.data?.cart?.items?.size
             }
         }
+    }
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
+       //TODO handle error
     }
 }

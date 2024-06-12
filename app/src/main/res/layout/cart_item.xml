@@ -24,7 +24,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:contentDescription="@string/product_image"
-                tools:src="@drawable/salmon_fish_0"
+                tools:src="@drawable/example_item"
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="@id/first"
                 app:layout_constraintTop_toTopOf="@id/first"

@@ -10,6 +10,7 @@ import com.test.nopstation_cart.repository.AccountRepository
 import com.test.nopstation_cart.utils.InternetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,7 +31,7 @@ class AccountViewModel @Inject constructor(
     val showMassage: LiveData<String>
         get() = _showMassage
 
-    fun getUserInfo() = viewModelScope.launch {
+    fun getUserInfo() = viewModelScope.launch(coroutineExceptionHandler){
         if(InternetStatus.isOnline(context.applicationContext)){
             val response = repository.getProfile()
             if (response.isSuccessful){
@@ -39,6 +40,10 @@ class AccountViewModel @Inject constructor(
         }else{
             _showMassage.value = "No Internet Connection"
         }
+    }
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
+        _showMassage.value = "Check your internet connection!!"
     }
 
 }

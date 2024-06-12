@@ -87,6 +87,10 @@ class HomepageFragment : Fragment() {
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             }
         }
+        viewModel.showMessage.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        }
+
         viewModel.banner.observe(viewLifecycleOwner) { data ->
             binding.carouselBanner.registerLifecycle(viewLifecycleOwner)
             val list = data.map { CarouselItem(imageUrl = it.imageUrl) }

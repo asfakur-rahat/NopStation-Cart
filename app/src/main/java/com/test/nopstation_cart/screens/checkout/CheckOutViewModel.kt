@@ -16,6 +16,7 @@ import com.test.nopstation_cart.utils.Constants
 import com.test.nopstation_cart.utils.InternetStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -92,7 +93,7 @@ class CheckOutViewModel @Inject constructor(
     }
     val orderPlaced: LiveData<Boolean> get() = _orderPlaced
     private var orderId: String? = null
-    private fun placeOrder() = viewModelScope.launch {
+    private fun placeOrder() = viewModelScope.launch(coroutineExceptionHandler) {
         if (InternetStatus.isOnline(context.applicationContext)) {
             _loader.value = true
             val response = getApi().placeOrder()
@@ -111,7 +112,7 @@ class CheckOutViewModel @Inject constructor(
     }
     val navigateBack: LiveData<Boolean> get() = _navigateBack
 
-    suspend fun removeAllOrders() = viewModelScope.launch {
+    suspend fun removeAllOrders() = viewModelScope.launch(coroutineExceptionHandler) {
         if (InternetStatus.isOnline(context.applicationContext)) {
             val response = repository.fetchCartItems()
             if (response.isSuccessful) {
@@ -183,6 +184,8 @@ class CheckOutViewModel @Inject constructor(
         _loader.value = false
         _navigateBack.value = true
     }
-
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
+        _showMessage.value = "Check your internet connection!!"
+    }
 
 }
